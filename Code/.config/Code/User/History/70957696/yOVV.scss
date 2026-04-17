@@ -1,0 +1,29 @@
+.bar_class {
+  background-color: #282a36;
+  color: #f8f8f2;
+  font-family: "CaskaydiaCove Nerd Font";
+  font-size: 16px;
+  padding: 4px 15px;
+}
+
+.clock, .battery_normal, .battery_critical {
+  background-color: #24273a;
+  border-radius: 10px;
+  margin: 4px 0;
+  /* 15-ről 10-re vettem a paddingot */
+  padding: 0 10px;
+}
+
+.clock {
+  color: #f8f8f2;
+  /* Kisebb fix szélesség az órának */
+  min-width: 60px;
+}
+
+.battery_normal, .battery_critical {
+  /* Csökkentett szélesség, hogy ne legyen messze az órától */
+  min-width: 75px; 
+}
+
+.battery_normal { color: #cad3f5; }
+.battery_critical { color: #ed8796; }

@@ -1,0 +1,68 @@
+/* ~/.config/wlogout/style.css */
+
+window {
+    background-color: rgba(0, 34, 255, 0.8); /* Macchiato Base áttetszően */
+}
+
+button {
+    background-color: #363a4f; /* Surface0 */
+    color: #cad3f5;           /* Text */
+    border: 3px solid #8aadf4; /* Blue */
+    border-radius: 20px;
+    font-family: "CaskaydiaCove Nerd Font";
+    font-size: 60px;
+    margin: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #8aadf4; /* Blue */
+    color: #24273a;           /* Base */
+    border-color: #c6a0f6;     /* Mauve */
+}
+
+/* Külön kiemelt szín a leállítás gombnak, ha ráviszed az egeret */
+#shutdown:hover {
+    background-color: #ed8796; /* Red */
+    border-color: #ed8796;
+}
+
+/* Külön kiemelt szín az újraindításnak */
+#reboot:hover {
+    background-color: #8bd5ca; /* Teal */
+    border-color: #8bd5ca;
+}
+/* ~/.config/wlogout/style.css */
+
+window {
+    background-color: rgba(36, 39, 58, 0.8); /* Macchiato Base áttetszően */
+}
+
+button {
+    background-color: #363a4f; /* Surface0 */
+    color: #cad3f5;           /* Text */
+    border: 3px solid #8aadf4; /* Blue */
+    border-radius: 20px;
+    font-family: "CaskaydiaCove Nerd Font";
+    font-size: 60px;
+    margin: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #8aadf4; /* Blue */
+    color: #24273a;           /* Base */
+    border-color: #c6a0f6;     /* Mauve */
+}
+
+/* Külön kiemelt szín a leállítás gombnak, ha ráviszed az egeret */
+#shutdown:hover {
+    background-color: #ed8796; /* Red */
+    border-color: #ed8796;
+}
+
+/* Külön kiemelt szín az újraindításnak */
+#reboot:hover {
+    background-color: #8bd5ca; /* Teal */
+    border-color: #8bd5ca;
+}

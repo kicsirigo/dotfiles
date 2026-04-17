@@ -1,0 +1,6 @@
+2026-04-14 12:12:50.207 [info] Started local extension host with pid 35530.
+2026-04-14 12:12:52.095 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2026-04-14 12:12:53.842 [info] [perf] Render performance baseline is 62ms
+2026-04-14 13:12:55.443 [info] [lifecycle]: Shutdown was prevented by final veto (id: veto.backups)
+2026-04-14 16:31:24.948 [info] [lifecycle]: Shutdown was prevented by final veto (id: veto.backups)
+2026-04-14 16:31:29.214 [warning] [backup tracker] suspended, ignoring dirty change event file:///home/mate/.config/swaync/style.css 

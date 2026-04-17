@@ -1,0 +1,23 @@
+;; Változók lekérése (idő és akksi)
+(defpoll time :interval "1s" `date +%H:%M:%S`)
+(defpoll battery :interval "10s" `scripts/battery.sh`)
+
+;; A fő sáv (Window) definíciója
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "10px"
+                      :width "90%"
+                      :height "30px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "40px")
+  (bar_layout))
+
+;; Elrendezés (Widgetek csoportosítása)
+(defwidget bar_layout []
+  (box :class "bar_class" :orientation "h"
+    (box :halign "start" "💻 Linux")
+    (box :halign "center" time)
+    (box :halign "end" (label :text {battery}))
+  ))

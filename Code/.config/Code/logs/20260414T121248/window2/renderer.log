@@ -1,0 +1,7 @@
+2026-04-14 12:14:25.544 [info] Started local extension host with pid 35832.
+2026-04-14 12:14:27.723 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2026-04-14 12:14:29.411 [info] [perf] Render performance baseline is 56ms
+2026-04-14 13:04:15.813 [warning] Creation of workbench contribution 'workbench.contrib.configurationDefaultOverridesContribution' took 30ms.
+2026-04-14 13:04:17.776 [info] Started local extension host with pid 37042.
+2026-04-14 13:04:26.604 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2026-04-14 13:04:31.826 [info] [perf] Render performance baseline is 178ms

@@ -1,0 +1,6 @@
+2026-04-16 12:40:04.528 [info] Getting Manifest... eww-yuck.yuck
+2026-04-16 12:40:04.579 [info] Installing extension: eww-yuck.yuck {"isMachineScoped":false,"installPreReleaseVersion":false,"pinned":false,"profileLocation":{"$mid":1,"external":"vscode-userdata:/home/mate/.vscode/extensions/extensions.json","path":"/home/mate/.vscode/extensions/extensions.json","scheme":"vscode-userdata"},"isApplicationScoped":false,"productVersion":{"version":"1.114.0","date":"2026-04-01T09:27:11Z"}}
+2026-04-16 12:40:05.759 [info] Extension signature verification result for eww-yuck.yuck: Success. Internal Code: 0. Executed: true. Duration: 481ms.
+2026-04-16 12:40:05.803 [info] Extracted extension to file:///home/mate/.vscode/extensions/eww-yuck.yuck-0.0.3: eww-yuck.yuck
+2026-04-16 12:40:05.807 [info] Renamed to /home/mate/.vscode/extensions/eww-yuck.yuck-0.0.3
+2026-04-16 12:40:05.816 [info] Extension installed successfully: eww-yuck.yuck vscode-userdata:/home/mate/.vscode/extensions/extensions.json

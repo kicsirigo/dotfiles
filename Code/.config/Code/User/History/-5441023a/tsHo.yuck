@@ -1,0 +1,63 @@
+;; --- VÁLTOZÓK ÉS POLLOK ---
+(defvar time_rev false)
+(defvar bat_rev false)
+
+(defpoll clock_time :interval "1s" "date '+%H:%M'")
+(defpoll clock_date :interval "1h" "date '+%Y-%m-%d'")
+
+;; Akkumulátor adatok (1s-re állítva, ahogy kérted)
+(defpoll battery_data :interval "1s" "/home/mate/.config/eww/scripts/battery_percentage.sh")
+(defpoll battery_time :interval "1s" "/home/mate/.config/eww/scripts/battery_percentage.sh time")
+(defpoll bat_percent :interval "1s" "cat /sys/class/power_supply/BAT0/capacity")
+
+;; --- ABLAK DEFINÍCIÓ ---
+(defwindow bar
+  :monitor 0
+  :exclusive true
+  :stacking "fg"
+  :windowtype "dock"
+  :geometry (geometry :x "0%" :y "0px" :width "100%" :height "30px" :anchor "top center")
+  (bar_layout))
+
+;; --- WIDGETEK ---
+
+;; Kattintós Akkumulátor Widget
+(defwidget battery_widget []
+  (eventbox :onclick "eww update bat_rev=${!bat_rev}"
+    (box :class {bat_percent < 15 ? "battery_critical" : "battery_normal"}
+         :spacing 5 :space-evenly false
+      
+      ;; Százalék és ikon
+      (revealer :transition "slideleft" :reveal {!bat_rev} :duration "350ms"
+        (label :text battery_data))
+      
+      ;; Hátralévő idő (kattintásra) - Kivettem a felesleges szóközöket
+      (revealer :transition "slideright" :reveal bat_rev :duration "350ms"
+        (label :text "   ${battery_time}"))
+    )))
+
+;; Kattintós Óra Widget
+(defwidget clock_widget []
+  (eventbox :onclick "eww update time_rev=${!time_rev}"
+    (box :class "clock" :halign "end" :spacing 5 :space-evenly false
+      (revealer :transition "slideleft" :reveal {!time_rev} :duration "350ms"
+        (label :text clock_time))
+      (revealer :transition "slideright" :reveal time_rev :duration "350ms"
+        (label :text clock_date))
+    )))
+
+;; A sáv végső elrendezése
+(defwidget bar_layout []
+  (box :class "bar_class" :orientation "h" :space-evenly false
+    ;; Bal oldal
+    (box :halign "start" 
+      (label :text "  Linux"))
+    
+    ;; Közép (kitöltő)
+    (box :hexpand true)
+    
+    ;; Jobb oldal - Lecsökkentve 5-ös távolságra
+    (box :halign "end" :spacing 5 :space-evenly false
+      (battery_widget)
+      (clock_widget))
+  ))

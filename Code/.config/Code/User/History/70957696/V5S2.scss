@@ -1,0 +1,52 @@
+.bar_class {
+  background-color: #282a36;
+  color: #f8f8f2;
+  font-family: "CaskaydiaCove Nerd Font";
+  font-size: 15px;
+  padding: 2px 5px;
+}
+
+.backlight {
+    padding: 0 12px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 2px 5px;
+    color: #f9e2af;
+}
+
+/* A fényerő csúszka stílusa */
+.brightness_bar scale contents trough {
+  background-color: #45475a;
+  border-radius: 5px;
+  min-height: 8px;
+  min-width: 80px; /* Itt állíthatod, milyen hosszú legyen a sáv */
+  margin: 0 5px;
+}
+
+.brightness_bar scale contents trough highlight {
+  background-color: #f9e2af;
+  border-radius: 5px;
+}
+
+/* Eltünteti a csúszka bumszliját a modernebb kinézetért */
+.brightness_bar scale contents trough slider {
+  all: unset;
+}
+
+.clock {
+  background-color: #24273a;
+  color: #cdd6f4;
+  border-radius: 10px;
+  margin: 2px 0;
+  padding: 0 10px;
+}
+
+.battery_normal, .battery_critical {
+  background-color: #24273a;
+  border-radius: 10px;
+  margin: 2px 0;
+  padding: 0 17px;
+}
+
+.battery_normal { color: #a6e3a1; }
+.battery_critical { color: #f38ba8; }

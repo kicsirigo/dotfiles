@@ -1,0 +1,124 @@
+{
+    "telemetry.sqmId": "",
+    "telemetry.machineId": "2f0ac64abbf2f48050e56384f2e2f9a883454cdf3486f6d5fe25b98135c23aab",
+    "telemetry.devDeviceId": "53c2722f-3e8c-4bae-9f2f-9734d4a78d1b",
+    "backupWorkspaces": {
+        "workspaces": [],
+        "folders": [
+            {
+                "folderUri": "file:///home/mate/.config"
+            },
+            {
+                "folderUri": "file:///home/mate/.config/eww"
+            }
+        ],
+        "emptyWindows": []
+    },
+    "windowControlHeight": 35,
+    "profileAssociations": {
+        "workspaces": {
+            "file:///home/mate/.config": "__default__profile__",
+            "file:///home/mate/.config/waybar": "__default__profile__",
+            "file:///home/mate": "__default__profile__",
+            "file:///home/mate/.config/hypr": "__default__profile__",
+            "file:///home/mate/.config/wlogout": "__default__profile__",
+            "file:///usr/share/wlogout/icons": "__default__profile__",
+            "file:///waybar": "__default__profile__",
+            "file:///home/mate/.config/swaync": "__default__profile__",
+            "file:///home/mate/.config/eww": "__default__profile__"
+        },
+        "emptyWindows": {}
+    },
+    "theme": "vs-dark",
+    "themeBackground": "#24273a",
+    "windowSplash": {
+        "zoomLevel": 0,
+        "baseTheme": "vs-dark",
+        "colorInfo": {
+            "foreground": "#cad3f5",
+            "background": "#24273a",
+            "editorBackground": "#24273a",
+            "titleBarBackground": "#181926",
+            "titleBarBorder": "rgba(0, 0, 0, 0)",
+            "activityBarBackground": "#181926",
+            "activityBarBorder": "rgba(0, 0, 0, 0)",
+            "sideBarBackground": "#1e2030",
+            "sideBarBorder": "rgba(0, 0, 0, 0)",
+            "statusBarBackground": "#181926",
+            "statusBarBorder": "rgba(0, 0, 0, 0)",
+            "statusBarNoFolderBackground": "#181926"
+        },
+        "layoutInfo": {
+            "sideBarSide": "left",
+            "editorPartMinWidth": 220,
+            "titleBarHeight": 35,
+            "activityBarWidth": 48,
+            "sideBarWidth": 261,
+            "auxiliaryBarWidth": 0,
+            "statusBarHeight": 22,
+            "windowBorder": false
+        }
+    },
+    "windowsState": {
+        "lastActiveWindow": {
+            "folder": "file:///home/mate/.config/eww",
+            "backupPath": "/home/mate/.config/Code/Backups/64756fd367204678524c2d2954c7e606",
+            "uiState": {
+                "mode": 0,
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            }
+        },
+        "openedWindows": []
+    },
+    "windowSplashWorkspaceOverride": {
+        "layoutInfo": {
+            "sideBarWidth": 261,
+            "auxiliaryBarWidth": 260,
+            "workspaces": {
+                "be03e40cfc7110c3ab7467c976304e24": {
+                    "sideBarVisible": false,
+                    "auxiliaryBarVisible": false
+                },
+                "1093a647428106c85e4601dfcee423d8": {
+                    "sideBarVisible": false,
+                    "auxiliaryBarVisible": false
+                },
+                "0a10ed66809602bd31ab434e1c280e27": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "0c9ee7994f2188e6b11b186be7c31f86": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "936dc1d35c2721790855fc166fea16a9": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "2cec63a4dbbb56044ada0c812d3251d8": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "ca04e80061bbfb29d7ce760652e2a88e": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "1e71d15a390a94d3461ce8d882898b60": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "6206a82942407c904359bcc775d7410d": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "d0de747e6b4b954b1084b8bc0cf830b9": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,229 @@
+.bar_class {
+  background-color: transparent;
+  color: #f8f8f2;
+  font-family: "CaskaydiaCove Nerd Font";
+  font-size: 15px;
+  padding: 0 8px;
+}
+
+.backlight {
+    padding: 0 10px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 4px 2px;
+    color: #cdd6f4;
+}
+
+.volume {
+    padding: 0 10px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 4px 2px;
+    color: #cdd6f4;
+}
+
+.network {
+    padding: 0 8px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 4px 2px;
+    color: #91d7e3;
+}
+
+.network.disconnected {
+    color: #ed8796;
+}
+
+.power-launcher {
+    margin: 4px 4px;
+}
+
+.custom-power {
+    padding: 0 10px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.power-actions {
+    margin: 0;
+}
+
+.power-action {
+    padding: 0 10px;
+    background-color: #24273a;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.arch-icon { color: #89b4fa; }
+.power-action.poweroff { color: #f38ba8; }
+.power-action.hibernate { color: #f9e2af; }
+.power-action.sleep { color: #fab387; }
+.power-action.restart { color: #a6e3a1; }
+
+.workspaces {
+    margin: 4px 2px;
+    padding: 0;
+}
+
+.workspace-icon {
+    color: #cad3f5;
+    font-size: 26px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.workspace-icon.active {
+    color: #cad3f5;
+}
+
+.power-icon {
+    font-size: 18px;
+}
+
+.power-profile {
+    padding: 0 8px;
+    background-color: #24273a;
+    border-radius: 10px;
+    margin: 4px 2px;
+    font-size: 18px;
+}
+
+.power-profile.performance { color: #ed8796; }
+.power-profile.balanced { color: #8aadf4; }
+.power-profile.power-saver { color: #a6da95; }
+
+.br-icon { color: #f9e2af; font-size: 18px; }
+.br-text { color: #cdd6f4; }
+.net-icon {
+    font-size: 18px;
+    margin-right: 1em;
+}
+.net-text { color: inherit; }
+.vol-icon { color: #89b4fa; font-size: 18px; }
+.vol-text { color: #cdd6f4; }
+
+.network-menu {
+  background-color: #24273a;
+  border-radius: 12px;
+  padding: 12px;
+  color: #cdd6f4;
+}
+
+.wifi-title { font-size: 16px; color: #cdd6f4; }
+
+.wifi-close {
+  font-size: 18px;
+  padding: 0 10px;
+  color: #f38ba8;
+}
+
+.wifi-toggle {
+  background-color: #1e2030;
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-weight: bold;
+}
+.wifi-toggle.on { color: #a6e3a1; }
+.wifi-toggle.off { color: #f38ba8; }
+
+.wifi-unavailable {
+  color: #f38ba8;
+  padding: 6px 2px;
+}
+
+.wifi-list-container {
+  min-height: 300px;
+}
+
+.wifi-list-scroll {
+  min-height: 300px;
+}
+
+.wifi-item {
+  background-color: #1e2030;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+.wifi-item.active { background-color: #363a4f; }
+.wifi-prefix { margin-right: 8px; color: #a6e3a1; }
+.wifi-lock { margin-right: 8px; color: #f9e2af; }
+.wifi-ssid { color: #cdd6f4; }
+.wifi-dbm { color: #91d7e3; }
+.wifi-empty { color: #cdd6f4; padding: 6px 2px; }
+.wifi-connect-panel {
+  background-color: #1e2030;
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.wifi-connect-target {
+  color: #cdd6f4;
+}
+.wifi-password-status { color: #cdd6f4; }
+.wifi-password-btn {
+  background-color: #363a4f;
+  color: #cdd6f4;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.wifi-connect-btn {
+  background-color: #8aadf4;
+  color: #1e2030;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+.wifi-connect-feedback {
+  color: #a6e3a1;
+  font-size: 13px;
+}
+
+scale.bribar trough {
+    background-color: #45475a;
+    border-radius: 5px;
+    min-height: 8px;
+    min-width: 80px;
+}
+
+scale.bribar highlight {
+    background-color: #89b4fa;
+    border-radius: 5px;
+}
+
+scale.bribar slider {
+    all: unset;
+}
+
+scale.volbar trough {
+    background-color: #45475a;
+    border-radius: 5px;
+    min-height: 8px;
+    min-width: 80px;
+}
+
+scale.volbar highlight {
+    background-color: #89b4fa;
+    border-radius: 5px;
+}
+
+scale.volbar slider {
+    all: unset;
+}
+
+
+.clock, .battery_normal, .battery_critical {
+  background-color: #24273a;
+  border-radius: 10px;
+  margin: 4px 2px;
+  padding: 0 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.battery_normal, .battery_critical {
+  padding: 0 10px;
+}
+
+.clock { color: #cdd6f4; }
+.battery_normal { color: #a6e3a1; }
+.battery_critical { color: #f38ba8; }

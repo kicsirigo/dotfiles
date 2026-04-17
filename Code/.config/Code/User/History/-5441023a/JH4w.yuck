@@ -1,0 +1,38 @@
+;; Változó a hangerő lekérdezéséhez (pamixer kell hozzá!)
+(defpoll current_volume :interval "1s" "pamixer --get-volume")
+
+(defwindow sound-menu
+  :monitor 0
+  :stacking "fg"
+  :windowtype "normal"
+  :wm-ignore true
+  :geometry (geometry :x "15px" 
+                      :y "50px" 
+                      :anchor "top right" 
+                      :width "250px")
+  (sound_layout))
+
+(defwidget sound_layout []
+  (eventbox :onhoverlost "eww close sound-menu"
+    (box :class "menu-container"
+         :orientation "v"
+         :space-evenly false
+         :spacing 15
+      
+      ;; Hangerő szabályzó rész
+      (box :orientation "v" :space-evenly false :spacing 5
+        (label :class "vol-label" :halign "start" :text "Hangerő: ${current_volume}%")
+        (scale :class "vol-slider"
+               :value current_volume
+               :orientation "h"
+               :max 101
+               :min 0
+               :onchange "pamixer --set-volume {}"))
+
+      ;; Elválasztó vonal (opcionális)
+      (box :class "separator")
+
+      ;; Haladó beállítások gomb
+      (button :class "adv-settings-btn"
+              :onclick "pavucontrol & eww close sound-menu"
+        "   Advanced sound settings"))))

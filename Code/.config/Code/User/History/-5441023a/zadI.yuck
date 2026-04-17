@@ -1,0 +1,43 @@
+;; --- VÁLTOZÓK ÉS POLLOK ---
+(defvar time_rev false)
+(defpoll clock_time :interval "1s" "date '+%H:%M'")
+;; Frissített dátum formátum: 2026-04-16
+(defpoll clock_date :interval "1h" "date '+%Y-%m-%d'")
+(defpoll battery :interval "10s" "scripts/battery.sh")
+
+;; --- ABLAK DEFINÍCIÓ ---
+(defwindow bar
+  :monitor 0
+  :exclusive true
+  :stacking "fg"
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0px"
+                      :width "100%"
+                      :height "30px"
+                      :anchor "top center")
+  (bar_layout))
+
+;; --- WIDGETEK ---
+
+;; Az új, kattintós óra widget
+(defwidget clock_widget []
+  (eventbox :onclick "eww update time_rev=${!time_rev}"
+    (box :class "clock" :halign "end"
+      (label :text {time_rev ? clock_date : clock_time}))))
+
+;; A sáv elrendezése
+(defwidget bar_layout []
+  (box :class "bar_class" :orientation "h" :space-evenly false
+    ;; Bal oldal
+    (box :halign "start" 
+      (label :text "  Linux"))
+    
+    ;; Közép - Ez a box tölti ki az üres teret, így tolja jobbra a többit
+    (box :hexpand true)
+    
+    ;; Jobb oldal (Akksi + az új Óra)
+    (box :halign "end" :spacing 15 :space-evenly false
+      (label :text "   ${battery}")
+      (clock_widget))
+  ))
