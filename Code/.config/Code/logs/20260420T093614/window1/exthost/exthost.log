@@ -1,0 +1,21 @@
+2026-04-20 09:36:20.139 [info] Extension host with pid 69367 started
+2026-04-20 09:36:20.139 [info] Skipping acquiring lock for /home/mate/.config/Code/User/workspaceStorage/58b97ef723a395e06c84fe942664d066.
+2026-04-20 09:36:20.478 [info] ExtensionService#_doActivateExtension vscode.github-authentication, startup: false, activationEvent: 'onAuthenticationRequest:github'
+2026-04-20 09:36:20.566 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2026-04-20 09:36:20.622 [info] ExtensionService#_doActivateExtension vscode.css-language-features, startup: false, activationEvent: 'onLanguage:scss'
+2026-04-20 09:36:20.858 [info] ExtensionService#_doActivateExtension Anthropic.claude-code, startup: false, activationEvent: 'onWebviewPanel:claudeVSCodePanel'
+2026-04-20 09:36:21.920 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: vscode.git
+2026-04-20 09:36:21.936 [info] ExtensionService#_doActivateExtension eww-yuck.yuck, startup: false, activationEvent: 'onLanguage:yuck'
+2026-04-20 09:36:22.562 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*'
+2026-04-20 09:36:22.696 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2026-04-20 09:36:23.127 [info] Eager extensions activated
+2026-04-20 09:36:23.235 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2026-04-20 09:36:23.240 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2026-04-20 09:36:23.287 [info] ExtensionService#_doActivateExtension Catppuccin.catppuccin-vsc, startup: false, activationEvent: 'onStartupFinished'
+2026-04-20 09:36:23.300 [info] ExtensionService#_doActivateExtension Catppuccin.catppuccin-vsc-icons, startup: false, activationEvent: 'onStartupFinished'
+2026-04-20 09:36:23.657 [info] ExtensionService#_doActivateExtension formulahendry.code-runner, startup: false, activationEvent: 'onStartupFinished'
+2026-04-20 09:36:23.923 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:jsonc'
+2026-04-20 09:36:23.943 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:jsonc'
+2026-04-20 09:36:24.127 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:jsonc'
+2026-04-20 09:56:49.073 [info] Extension host terminating: received terminate message from renderer
+2026-04-20 09:56:49.122 [info] Extension host with pid 69367 exiting with code 0

@@ -1,0 +1,29 @@
+2026-04-20 09:34:54.307 [info] [main] Log level: Info
+2026-04-20 09:34:54.307 [info] [main] Validating found git in: "git"
+2026-04-20 09:34:54.307 [info] [main] Using git "2.53.0" from "git"
+2026-04-20 09:34:54.307 [info] [Model][doInitialScan] Initial repository scan started
+2026-04-20 09:34:54.307 [info] > git rev-parse --show-toplevel [23ms]
+2026-04-20 09:34:54.307 [info] > git rev-parse --path-format=relative --show-toplevel [8ms]
+2026-04-20 09:34:54.307 [info] > git rev-parse --show-toplevel [4ms]
+2026-04-20 09:34:54.307 [info] > git rev-parse --path-format=relative --show-toplevel [4ms]
+2026-04-20 09:34:54.307 [info] > git rev-parse --show-toplevel [5ms]
+2026-04-20 09:34:54.307 [info] > git rev-parse --path-format=relative --show-toplevel [4ms]
+2026-04-20 09:34:54.307 [info] [Model][doInitialScan] Initial repository scan completed - repositories (0), closed repositories (0), parent repositories (1), unsafe repositories (0)
+2026-04-20 09:34:54.849 [info] > git rev-parse --show-toplevel [2ms]
+2026-04-20 09:34:54.857 [info] > git rev-parse --path-format=relative --show-toplevel [3ms]
+2026-04-20 09:34:55.575 [info] > git rev-parse --show-toplevel [3ms]
+2026-04-20 09:34:55.589 [info] > git rev-parse --path-format=relative --show-toplevel [5ms]
+2026-04-20 09:34:56.131 [info] > git rev-parse --show-toplevel [22ms]
+2026-04-20 09:34:56.143 [info] > git rev-parse --path-format=relative --show-toplevel [4ms]
+2026-04-20 09:34:56.358 [info] > git rev-parse --show-toplevel [18ms]
+2026-04-20 09:34:56.370 [info] > git rev-parse --path-format=relative --show-toplevel [3ms]
+2026-04-20 09:34:56.581 [info] > git rev-parse --show-toplevel [2ms]
+2026-04-20 09:34:56.589 [info] > git rev-parse --path-format=relative --show-toplevel [2ms]
+2026-04-20 09:35:07.250 [info] > git rev-parse --show-toplevel [3ms]
+2026-04-20 09:35:07.262 [info] > git rev-parse --path-format=relative --show-toplevel [4ms]
+2026-04-20 09:35:41.280 [info] > git rev-parse --show-toplevel [3ms]
+2026-04-20 09:35:41.290 [info] > git rev-parse --path-format=relative --show-toplevel [2ms]
+2026-04-20 09:35:51.747 [info] > git rev-parse --show-toplevel [4ms]
+2026-04-20 09:35:51.760 [info] > git rev-parse --path-format=relative --show-toplevel [3ms]
+2026-04-20 09:35:53.016 [info] > git rev-parse --show-toplevel [3ms]
+2026-04-20 09:35:53.028 [info] > git rev-parse --path-format=relative --show-toplevel [3ms]

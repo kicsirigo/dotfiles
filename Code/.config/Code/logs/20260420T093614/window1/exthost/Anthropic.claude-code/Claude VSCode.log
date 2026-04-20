@@ -1,0 +1,365 @@
+2026-04-20 09:36:21.961 [info] AuthManager initialized
+2026-04-20 09:36:21.961 [info] Claude code extension is now active?
+2026-04-20 09:36:21.961 [info] MCP Server running on port 58118 (localhost only)
+2026-04-20 09:36:22.070 [info] Getting authentication status
+2026-04-20 09:36:22.070 [info] No authentication found
+2026-04-20 09:36:22.070 [info] AuthManager initialized
+2026-04-20 09:36:24.807 [info] Received message from webview: {"type":"request","requestId":"jewm1fybo4","request":{"type":"init"}}
+2026-04-20 09:36:24.825 [info] Getting authentication status
+2026-04-20 09:36:24.825 [info] No authentication found
+2026-04-20 09:36:24.839 [info] Getting authentication status
+2026-04-20 09:36:24.839 [info] No authentication found
+2026-04-20 09:36:24.969 [info] Received message from webview: {"type":"request","requestId":"rysz6t08l3l","request":{"type":"get_claude_state"}}
+2026-04-20 09:36:24.970 [info] Received message from webview: {"type":"request","requestId":"nmdhstqn4ph","request":{"type":"get_current_selection"}}
+2026-04-20 09:36:24.972 [info] Received message from webview: {"type":"request","requestId":"axkd4ctni5f","request":{"type":"get_asset_uris"}}
+2026-04-20 09:36:24.975 [info] Received message from webview: {"type":"request","requestId":"nnd343wokkr","request":{"type":"list_sessions_request"}}
+2026-04-20 09:36:24.977 [info] Received message from webview: {"type":"request","requestId":"uhr2nviglg","request":{"type":"rename_tab","title":"Claude Code","hasPendingPermissions":false,"hasUnseenCompletion":false}}
+2026-04-20 09:36:25.012 [info] Received message from webview: {"type":"request","requestId":"l55jdoyvz0h","request":{"type":"rename_tab","title":"Claude Code","hasPendingPermissions":false,"hasUnseenCompletion":false}}
+2026-04-20 09:36:25.014 [info] Received message from webview: {"type":"launch_claude","channelId":"4l6dj32i3je","cwd":"/home/mate/dotfiles/eww/.config/eww","permissionMode":"default","thinkingLevel":"default_on"}
+2026-04-20 09:36:25.120 [info] Launching Claude on channel: 4l6dj32i3je
+2026-04-20 09:36:25.120 [info] resolveShellPath: /usr/sbin/bash -> 9 entries
+2026-04-20 09:36:25.143 [info] Spawning Claude with SDK query function - cwd: /home/mate/dotfiles/eww/.config/eww, permission mode: default, version: 2.1.114, /home/mate/.vscode/extensions/anthropic.claude-code-2.1.114-linux-x64/resources/native-binary/claude, resume: undefined
+2026-04-20 09:36:25.899 [info] From claude: 2026-04-20T07:36:25.898Z [DEBUG] MDM settings load completed in 2ms
+
+2026-04-20 09:36:25.903 [info] From claude: 2026-04-20T07:36:25.902Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/.claude/settings.json
+
+2026-04-20 09:36:25.904 [info] From claude: 2026-04-20T07:36:25.904Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.json
+
+2026-04-20 09:36:25.905 [info] From claude: 2026-04-20T07:36:25.904Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.local.json
+2026-04-20T07:36:25.905Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+
+2026-04-20 09:36:25.906 [info] From claude: 2026-04-20T07:36:25.906Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+
+2026-04-20 09:36:25.909 [info] From claude: 2026-04-20T07:36:25.909Z [DEBUG] [init] configureGlobalMTLS starting
+
+2026-04-20 09:36:25.910 [info] From claude: 2026-04-20T07:36:25.909Z [DEBUG] [init] configureGlobalMTLS complete
+2026-04-20T07:36:25.909Z [DEBUG] [init] configureGlobalAgents starting
+
+2026-04-20 09:36:25.910 [info] From claude: 2026-04-20T07:36:25.909Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+
+2026-04-20 09:36:25.912 [info] From claude: 2026-04-20T07:36:25.912Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+
+2026-04-20 09:36:25.922 [info] From claude: 2026-04-20T07:36:25.921Z [DEBUG] CA certs: system store returned empty
+
+2026-04-20 09:36:25.922 [info] From claude: 2026-04-20T07:36:25.922Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+
+2026-04-20 09:36:25.922 [info] From claude: 2026-04-20T07:36:25.922Z [DEBUG] [init] configureGlobalAgents complete
+
+2026-04-20 09:36:25.929 [info] From claude: 2026-04-20T07:36:25.928Z [DEBUG] Error log sink initialized
+
+2026-04-20 09:36:25.940 [info] From claude: 2026-04-20T07:36:25.940Z [DEBUG] [claudeai-mcp] No access token
+
+2026-04-20 09:36:25.943 [info] From claude: 2026-04-20T07:36:25.943Z [DEBUG] [STARTUP] Loading MCP configs...
+
+2026-04-20 09:36:26.066 [info] From claude: 2026-04-20T07:36:25.983Z [DEBUG] [STARTUP] Running setup()...
+2026-04-20T07:36:25.992Z [DEBUG] Loading skills from: managed=/etc/claude-code/.claude/skills, user=/home/mate/.claude/skills, project=[]
+2026-04-20T07:36:25.997Z [DEBUG] Error log sink initialized
+2026-04-20T07:36:26.005Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-04-20T07:36:26.006Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2026-04-20T07:36:26.006Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+2026-04-20T07:36:26.006Z [DEBUG] Registered 0 hooks from 0 plugins
+2026-04-20T07:36:26.006Z [DEBUG] Total plugin skills loaded: 0
+2026-04-20T07:36:26.006Z [DEBUG] Total plugin commands loaded: 0
+2026-04-20T07:36:26.007Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/commands: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/commands'
+2026-04-20T07:36:26.007Z [DEBUG] Failed to stat directory /home/mate/.claude/commands: ENOENT: no such file or directory, statx '/home/mate/.claude/commands'
+2026-04-20T07:36:26.008Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-04-20T07:36:26.008Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 10 bundled skills, 0 builtin plugin skills
+2026-04-20T07:36:26.013Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/agents: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/agents'
+2026-04-20T07:36:26.013Z [DEBUG] Failed to stat directory /home/mate/.claude/agents: ENOENT: no such file or directory, statx '/home/mate/.claude/agents'
+2026-04-20T07:36:26.014Z [DEBUG] Total plugin agents loaded: 0
+2026-04-20T07:36:26.034Z [DEBUG] [STARTUP] setup() completed in 51ms
+2026-04-20T07:36:26.034Z [DEBUG] Cleared CA certificates cache
+2026-04-20T07:36:26.034Z [DEBUG] Cleared mTLS configuration cache
+2026-04-20T07:36:26.034Z [DEBUG] Cleared proxy agent cache
+2026-04-20T07:36:26.035Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-04-20T07:36:26.035Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+2026-04-20T07:36:26.035Z [DEBUG] CA certs: system store returned empty
+2026-04-20T07:36:26.035Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-04-20T07:36:26.064Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-04-20T07:36:26.066Z [DEBUG] [ToolSearch:optimistic] mode=tst, ENABLE_TOOL_SEARCH=undefined, result=true
+
+2026-04-20 09:36:26.069 [info] From claude: 2026-04-20T07:36:26.068Z [DEBUG] [STARTUP] Commands and agents loaded in 4ms
+
+2026-04-20 09:36:26.071 [info] From claude: 2026-04-20T07:36:26.069Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-04-20T07:36:26.069Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-04-20T07:36:26.069Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-04-20T07:36:26.069Z [DEBUG] Starting background startup prefetches
+2026-04-20T07:36:26.070Z [DEBUG] [Bootstrap] Skipped: no usable OAuth or API key
+2026-04-20T07:36:26.070Z [DEBUG] [STARTUP] MCP configs resolved in 63ms (awaited at +127ms)
+
+2026-04-20 09:36:26.078 [info] From claude: 2026-04-20T07:36:26.075Z [DEBUG] Total LSP servers loaded: 0
+2026-04-20T07:36:26.075Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-04-20T07:36:26.075Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-04-20T07:36:26.075Z [DEBUG] LSP manager initialized with 0 servers
+2026-04-20T07:36:26.076Z [DEBUG] Cleared CA certificates cache
+2026-04-20T07:36:26.076Z [DEBUG] Cleared mTLS configuration cache
+2026-04-20T07:36:26.076Z [DEBUG] Cleared proxy agent cache
+2026-04-20T07:36:26.076Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-04-20T07:36:26.076Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+2026-04-20T07:36:26.076Z [DEBUG] CA certs: system store returned empty
+2026-04-20T07:36:26.076Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+
+2026-04-20 09:36:26.081 [info] From claude: 2026-04-20T07:36:26.077Z [DEBUG] LSP server manager initialized successfully
+2026-04-20T07:36:26.078Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+
+2026-04-20 09:36:26.089 [info] From claude: 2026-04-20T07:36:26.088Z [DEBUG] Fast mode unavailable: Fast mode has been disabled by your organization
+
+2026-04-20 09:36:26.090 [info] From claude: 2026-04-20T07:36:26.089Z [DEBUG] [MCP] --mcp-config servers running fully async (MCP_CONNECTION_NONBLOCKING)
+
+2026-04-20 09:36:26.091 [info] From claude: 2026-04-20T07:36:26.090Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-04-20T07:36:26.090Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+
+2026-04-20 09:36:26.098 [info] From claude: 2026-04-20T07:36:26.097Z [DEBUG] [MCP] claude.ai connectors running fully async (MCP_CONNECTION_NONBLOCKING)
+
+2026-04-20 09:36:26.143 [info] From claude: 2026-04-20T07:36:26.142Z [DEBUG] [auto-mode] hasAutoModeOptIn=false skipAutoPermissionPrompt: user=undefined local=undefined flag=undefined policy=undefined
+2026-04-20T07:36:26.142Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=opt-in disabledBySettings=false model=claude-sonnet-4-6 modelSupported=true disableFastModeBreakerFires=false carouselAvailable=false canEnterAuto=true
+
+2026-04-20 09:36:26.166 [info] From claude: 2026-04-20T07:36:26.165Z [DEBUG] [auto-mode] verifyAutoModeGateAccess setAvailable: true -> false
+
+2026-04-20 09:36:26.194 [info] From claude: 2026-04-20T07:36:26.193Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+
+2026-04-20 09:36:26.206 [info] From claude: 2026-04-20T07:36:26.206Z [DEBUG] installPluginsForHeadless: starting
+
+2026-04-20 09:36:26.207 [info] From claude: 2026-04-20T07:36:26.206Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+
+2026-04-20 09:36:26.229 [info] From claude: 2026-04-20T07:36:26.228Z [DEBUG] Git remote URL: git@github.com:kicsirigo/dotfiles.git
+
+2026-04-20 09:36:26.238 [info] From claude: 2026-04-20T07:36:26.228Z [DEBUG] Parsed repository: github.com/kicsirigo/dotfiles from URL: git@github.com:kicsirigo/dotfiles.git
+
+2026-04-20 09:36:26.300 [info] From claude: 2026-04-20T07:36:26.299Z [DEBUG] Ripgrep first use test: PASSED (mode=embedded, path=/home/mate/.vscode/extensions/anthropic.claude-code-2.1.114-linux-x64/resources/native-binary/claude)
+
+2026-04-20 09:36:26.305 [info] From claude: 2026-04-20T07:36:26.304Z [DEBUG] "rg error (signal=undefined, code=2, stderr: rg: /home/mate/.claude/plugins/cache: IO error for operation on /home/mate/.claude/plugins/cache: No such file or directory (os error 2)\n), 0 results"
+
+2026-04-20 09:36:26.306 [info] From claude: 2026-04-20T07:36:26.305Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/output-styles: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/output-styles'
+2026-04-20T07:36:26.305Z [DEBUG] Failed to stat directory /home/mate/.claude/output-styles: ENOENT: no such file or directory, statx '/home/mate/.claude/output-styles'
+
+2026-04-20 09:36:26.307 [info] From claude: 2026-04-20T07:36:26.306Z [DEBUG] Total plugin output styles loaded: 0
+
+2026-04-20 09:36:26.310 [info] From claude: 2026-04-20T07:36:26.308Z [DEBUG] Fast mode unavailable: Fast mode has been disabled by your organization
+
+2026-04-20 09:36:26.323 [info] Getting authentication status
+2026-04-20 09:36:26.323 [info] No authentication found
+2026-04-20 09:36:26.323 [info] Getting authentication status
+2026-04-20 09:36:26.323 [info] No authentication found
+2026-04-20 09:36:26.323 [info] Getting authentication status
+2026-04-20 09:36:26.323 [info] No authentication found
+2026-04-20 09:36:26.323 [info] Getting authentication status
+2026-04-20 09:36:26.323 [info] No authentication found
+2026-04-20 09:36:26.329 [info] From claude: 2026-04-20T07:36:26.328Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/.claude/settings.json
+2026-04-20T07:36:26.329Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.json
+
+2026-04-20 09:36:26.329 [info] From claude: 2026-04-20T07:36:26.329Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.local.json
+2026-04-20T07:36:26.329Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+
+2026-04-20 09:36:26.332 [info] Getting authentication status
+2026-04-20 09:36:26.332 [info] No authentication found
+2026-04-20 09:36:26.332 [info] Getting authentication status
+2026-04-20 09:36:26.332 [info] No authentication found
+2026-04-20 09:36:26.743 [info] From claude: 2026-04-20T07:36:26.742Z [DEBUG] [mcp-registry] Loaded 197 official MCP URLs (legacy)
+
+2026-04-20 09:36:32.221 [info] Closing Claude on channel: 4l6dj32i3je
+2026-04-20 09:36:32.222 [info] Closing Claude on channel: 4l6dj32i3je
+2026-04-20 09:36:32.231 [info] From claude: 2026-04-20T07:36:32.230Z [DEBUG] LSP server manager shut down successfully
+
+2026-04-20 09:36:32.235 [info] From claude: 2026-04-20T07:36:32.235Z [DEBUG] Failed to check metrics opt-out status: Auth error: No API key available
+
+2026-04-20 09:36:32.235 [info] From claude: 2026-04-20T07:36:32.235Z [ERROR] "Error: Error: Auth error: No API key available\n    at DE9 (/$bunfs/root/src/entrypoints/cli.js:2691:34176)\n    at wa (/$bunfs/root/src/entrypoints/cli.js:421:3606)\n    at jE9 (/$bunfs/root/src/entrypoints/cli.js:2691:34445)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:131:17667)\n    at bmK (/$bunfs/root/src/entrypoints/cli.js:2691:34736)\n    at xmK (/$bunfs/root/src/entrypoints/cli.js:2691:35150)\n    at doExport (/$bunfs/root/src/entrypoints/cli.js:2691:35868)\n    at export (/$bunfs/root/src/entrypoints/cli.js:2691:35576)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:421:109618)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:421:109558)"
+
+2026-04-20 09:36:32.236 [info] From claude: 2026-04-20T07:36:32.235Z [DEBUG] Metrics export disabled by organization setting
+
+2026-04-20 09:36:32.236 [info] From claude: 2026-04-20T07:36:32.236Z [DEBUG] BigQuery metrics exporter flush complete
+2026-04-20T07:36:32.236Z [DEBUG] BigQuery metrics exporter flush complete
+
+2026-04-20 09:36:32.236 [info] From claude: 2026-04-20T07:36:32.236Z [DEBUG] BigQuery metrics exporter shutdown complete
+
+2026-04-20 09:42:21.624 [info] Getting authentication status
+2026-04-20 09:42:21.625 [info] No authentication found
+2026-04-20 09:42:21.625 [info] AuthManager initialized
+2026-04-20 09:42:22.418 [info] Received message from webview: {"type":"request","requestId":"wbolgu4bxq","request":{"type":"init"}}
+2026-04-20 09:42:22.426 [info] Getting authentication status
+2026-04-20 09:42:22.429 [info] No authentication found
+2026-04-20 09:42:22.432 [info] Getting authentication status
+2026-04-20 09:42:22.432 [info] No authentication found
+2026-04-20 09:42:22.454 [info] Received message from webview: {"type":"request","requestId":"x28qa0zbve","request":{"type":"get_claude_state"}}
+2026-04-20 09:42:22.458 [info] Received message from webview: {"type":"request","requestId":"kxejzqqh1q9","request":{"type":"get_current_selection"}}
+2026-04-20 09:42:22.459 [info] Received message from webview: {"type":"request","requestId":"0cos1m05z9xf","request":{"type":"get_asset_uris"}}
+2026-04-20 09:42:22.460 [info] Received message from webview: {"type":"request","requestId":"mltpfmh6bs","request":{"type":"list_sessions_request"}}
+2026-04-20 09:42:22.461 [info] Received message from webview: {"type":"request","requestId":"e7pxr2pmbwh","request":{"type":"rename_tab","title":"Claude Code","hasPendingPermissions":false,"hasUnseenCompletion":false}}
+2026-04-20 09:42:22.462 [info] Received message from webview: {"type":"request","requestId":"3tt17jxc866","request":{"type":"rename_tab","title":"Claude Code","hasPendingPermissions":false,"hasUnseenCompletion":false}}
+2026-04-20 09:42:22.463 [info] Received message from webview: {"type":"launch_claude","channelId":"m4dfgiii35a","cwd":"/home/mate/dotfiles/eww/.config/eww","permissionMode":"default","thinkingLevel":"default_on"}
+2026-04-20 09:42:22.498 [info] Launching Claude on channel: m4dfgiii35a
+2026-04-20 09:42:22.508 [info] Spawning Claude with SDK query function - cwd: /home/mate/dotfiles/eww/.config/eww, permission mode: default, version: 2.1.114, /home/mate/.vscode/extensions/anthropic.claude-code-2.1.114-linux-x64/resources/native-binary/claude, resume: undefined
+2026-04-20 09:42:22.871 [info] From claude: 2026-04-20T07:42:22.870Z [DEBUG] MDM settings load completed in 1ms
+
+2026-04-20 09:42:22.873 [info] From claude: 2026-04-20T07:42:22.872Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/.claude/settings.json
+
+2026-04-20 09:42:22.873 [info] From claude: 2026-04-20T07:42:22.873Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.json
+2026-04-20T07:42:22.873Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.local.json
+
+2026-04-20 09:42:22.873 [info] From claude: 2026-04-20T07:42:22.873Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+
+2026-04-20 09:42:22.874 [info] From claude: 2026-04-20T07:42:22.874Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+
+2026-04-20 09:42:22.876 [info] From claude: 2026-04-20T07:42:22.875Z [DEBUG] [init] configureGlobalMTLS starting
+2026-04-20T07:42:22.875Z [DEBUG] [init] configureGlobalMTLS complete
+2026-04-20T07:42:22.875Z [DEBUG] [init] configureGlobalAgents starting
+
+2026-04-20 09:42:22.876 [info] From claude: 2026-04-20T07:42:22.876Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+
+2026-04-20 09:42:22.877 [info] From claude: 2026-04-20T07:42:22.877Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+
+2026-04-20 09:42:22.884 [info] From claude: 2026-04-20T07:42:22.883Z [DEBUG] CA certs: system store returned empty
+
+2026-04-20 09:42:22.884 [info] From claude: 2026-04-20T07:42:22.884Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+
+2026-04-20 09:42:22.884 [info] From claude: 2026-04-20T07:42:22.884Z [DEBUG] [init] configureGlobalAgents complete
+
+2026-04-20 09:42:22.887 [info] From claude: 2026-04-20T07:42:22.886Z [DEBUG] Error log sink initialized
+
+2026-04-20 09:42:22.892 [info] From claude: 2026-04-20T07:42:22.892Z [DEBUG] [claudeai-mcp] No access token
+
+2026-04-20 09:42:22.894 [info] From claude: 2026-04-20T07:42:22.893Z [DEBUG] [STARTUP] Loading MCP configs...
+
+2026-04-20 09:42:22.905 [info] From claude: 2026-04-20T07:42:22.904Z [DEBUG] [STARTUP] Running setup()...
+
+2026-04-20 09:42:22.931 [info] From claude: 2026-04-20T07:42:22.931Z [DEBUG] Loading skills from: managed=/etc/claude-code/.claude/skills, user=/home/mate/.claude/skills, project=[]
+
+2026-04-20 09:42:22.932 [info] From claude: 2026-04-20T07:42:22.932Z [DEBUG] Error log sink initialized
+
+2026-04-20 09:42:22.938 [info] From claude: 2026-04-20T07:42:22.937Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+
+2026-04-20 09:42:22.938 [info] From claude: 2026-04-20T07:42:22.938Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2026-04-20T07:42:22.938Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+
+2026-04-20 09:42:22.939 [info] From claude: 2026-04-20T07:42:22.938Z [DEBUG] Registered 0 hooks from 0 plugins
+2026-04-20T07:42:22.938Z [DEBUG] Total plugin skills loaded: 0
+2026-04-20T07:42:22.938Z [DEBUG] Total plugin commands loaded: 0
+
+2026-04-20 09:42:22.939 [info] From claude: 2026-04-20T07:42:22.939Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/commands: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/commands'
+2026-04-20T07:42:22.939Z [DEBUG] Failed to stat directory /home/mate/.claude/commands: ENOENT: no such file or directory, statx '/home/mate/.claude/commands'
+
+2026-04-20 09:42:22.940 [info] From claude: 2026-04-20T07:42:22.940Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-04-20T07:42:22.940Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 10 bundled skills, 0 builtin plugin skills
+
+2026-04-20 09:42:22.947 [info] From claude: 2026-04-20T07:42:22.947Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/agents: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/agents'
+2026-04-20T07:42:22.947Z [DEBUG] Failed to stat directory /home/mate/.claude/agents: ENOENT: no such file or directory, statx '/home/mate/.claude/agents'
+
+2026-04-20 09:42:22.948 [info] From claude: 2026-04-20T07:42:22.947Z [DEBUG] Total plugin agents loaded: 0
+
+2026-04-20 09:42:22.960 [info] From claude: 2026-04-20T07:42:22.960Z [DEBUG] [STARTUP] setup() completed in 56ms
+2026-04-20T07:42:22.960Z [DEBUG] Cleared CA certificates cache
+
+2026-04-20 09:42:22.960 [info] From claude: 2026-04-20T07:42:22.960Z [DEBUG] Cleared mTLS configuration cache
+2026-04-20T07:42:22.960Z [DEBUG] Cleared proxy agent cache
+2026-04-20T07:42:22.960Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-04-20T07:42:22.960Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+2026-04-20T07:42:22.960Z [DEBUG] CA certs: system store returned empty
+
+2026-04-20 09:42:22.961 [info] From claude: 2026-04-20T07:42:22.960Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+
+2026-04-20 09:42:22.977 [info] From claude: 2026-04-20T07:42:22.977Z [DEBUG] [STARTUP] Loading commands and agents...
+
+2026-04-20 09:42:22.978 [info] From claude: 2026-04-20T07:42:22.978Z [DEBUG] [ToolSearch:optimistic] mode=tst, ENABLE_TOOL_SEARCH=undefined, result=true
+
+2026-04-20 09:42:22.980 [info] From claude: 2026-04-20T07:42:22.979Z [DEBUG] [STARTUP] Commands and agents loaded in 2ms
+
+2026-04-20 09:42:22.980 [info] From claude: 2026-04-20T07:42:22.980Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-04-20T07:42:22.980Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-04-20T07:42:22.980Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+
+2026-04-20 09:42:22.980 [info] From claude: 2026-04-20T07:42:22.980Z [DEBUG] Starting background startup prefetches
+
+2026-04-20 09:42:22.980 [info] From claude: 2026-04-20T07:42:22.980Z [DEBUG] [Bootstrap] Skipped: no usable OAuth or API key
+
+2026-04-20 09:42:22.981 [info] From claude: 2026-04-20T07:42:22.981Z [DEBUG] [STARTUP] MCP configs resolved in 45ms (awaited at +88ms)
+
+2026-04-20 09:42:22.984 [info] From claude: 2026-04-20T07:42:22.983Z [DEBUG] Total LSP servers loaded: 0
+2026-04-20T07:42:22.984Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-04-20T07:42:22.984Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-04-20T07:42:22.984Z [DEBUG] LSP manager initialized with 0 servers
+
+2026-04-20 09:42:22.984 [info] From claude: 2026-04-20T07:42:22.984Z [DEBUG] Cleared CA certificates cache
+2026-04-20T07:42:22.984Z [DEBUG] Cleared mTLS configuration cache
+2026-04-20T07:42:22.984Z [DEBUG] Cleared proxy agent cache
+2026-04-20T07:42:22.984Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+
+2026-04-20 09:42:22.984 [info] From claude: 2026-04-20T07:42:22.984Z [DEBUG] CA certs: Loaded 145 bundled root certificates
+2026-04-20T07:42:22.984Z [DEBUG] CA certs: system store returned empty
+
+2026-04-20 09:42:22.984 [info] From claude: 2026-04-20T07:42:22.984Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+
+2026-04-20 09:42:22.985 [info] From claude: 2026-04-20T07:42:22.985Z [DEBUG] LSP server manager initialized successfully
+
+2026-04-20 09:42:22.985 [info] From claude: 2026-04-20T07:42:22.985Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+
+2026-04-20 09:42:22.992 [info] From claude: 2026-04-20T07:42:22.992Z [DEBUG] Fast mode unavailable: Fast mode has been disabled by your organization
+
+2026-04-20 09:42:22.993 [info] From claude: 2026-04-20T07:42:22.992Z [DEBUG] [MCP] --mcp-config servers running fully async (MCP_CONNECTION_NONBLOCKING)
+
+2026-04-20 09:42:22.994 [info] From claude: 2026-04-20T07:42:22.993Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-04-20T07:42:22.993Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+
+2026-04-20 09:42:22.997 [info] From claude: 2026-04-20T07:42:22.996Z [DEBUG] [MCP] claude.ai connectors running fully async (MCP_CONNECTION_NONBLOCKING)
+
+2026-04-20 09:42:23.014 [info] From claude: 2026-04-20T07:42:23.013Z [DEBUG] [auto-mode] hasAutoModeOptIn=false skipAutoPermissionPrompt: user=undefined local=undefined flag=undefined policy=undefined
+2026-04-20T07:42:23.013Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=opt-in disabledBySettings=false model=claude-sonnet-4-6 modelSupported=true disableFastModeBreakerFires=false carouselAvailable=false canEnterAuto=true
+
+2026-04-20 09:42:23.018 [info] From claude: 2026-04-20T07:42:23.018Z [DEBUG] [auto-mode] verifyAutoModeGateAccess setAvailable: true -> false
+
+2026-04-20 09:42:23.035 [info] From claude: 2026-04-20T07:42:23.034Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+
+2026-04-20 09:42:23.042 [info] From claude: 2026-04-20T07:42:23.041Z [DEBUG] installPluginsForHeadless: starting
+
+2026-04-20 09:42:23.042 [info] From claude: 2026-04-20T07:42:23.041Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+
+2026-04-20 09:42:23.054 [info] From claude: 2026-04-20T07:42:23.054Z [DEBUG] Git remote URL: git@github.com:kicsirigo/dotfiles.git
+
+2026-04-20 09:42:23.054 [info] From claude: 2026-04-20T07:42:23.054Z [DEBUG] Parsed repository: github.com/kicsirigo/dotfiles from URL: git@github.com:kicsirigo/dotfiles.git
+
+2026-04-20 09:42:23.099 [info] From claude: 2026-04-20T07:42:23.098Z [DEBUG] Ripgrep first use test: PASSED (mode=embedded, path=/home/mate/.vscode/extensions/anthropic.claude-code-2.1.114-linux-x64/resources/native-binary/claude)
+
+2026-04-20 09:42:23.102 [info] From claude: 2026-04-20T07:42:23.101Z [DEBUG] "rg error (signal=undefined, code=2, stderr: rg: /home/mate/.claude/plugins/cache: IO error for operation on /home/mate/.claude/plugins/cache: No such file or directory (os error 2)\n), 0 results"
+
+2026-04-20 09:42:23.102 [info] From claude: 2026-04-20T07:42:23.102Z [DEBUG] Failed to stat directory /etc/claude-code/.claude/output-styles: ENOENT: no such file or directory, statx '/etc/claude-code/.claude/output-styles'
+2026-04-20T07:42:23.102Z [DEBUG] Failed to stat directory /home/mate/.claude/output-styles: ENOENT: no such file or directory, statx '/home/mate/.claude/output-styles'
+
+2026-04-20 09:42:23.102 [info] From claude: 2026-04-20T07:42:23.102Z [DEBUG] Total plugin output styles loaded: 0
+
+2026-04-20 09:42:23.103 [info] From claude: 2026-04-20T07:42:23.103Z [DEBUG] Fast mode unavailable: Fast mode has been disabled by your organization
+
+2026-04-20 09:42:23.107 [info] Getting authentication status
+2026-04-20 09:42:23.107 [info] No authentication found
+2026-04-20 09:42:23.107 [info] Getting authentication status
+2026-04-20 09:42:23.107 [info] No authentication found
+2026-04-20 09:42:23.107 [info] Getting authentication status
+2026-04-20 09:42:23.108 [info] No authentication found
+2026-04-20 09:42:23.108 [info] Getting authentication status
+2026-04-20 09:42:23.108 [info] No authentication found
+2026-04-20 09:42:23.111 [info] From claude: 2026-04-20T07:42:23.107Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/.claude/settings.json
+2026-04-20T07:42:23.107Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.json
+2026-04-20T07:42:23.108Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /home/mate/dotfiles/eww/.config/eww/.claude/settings.local.json
+2026-04-20T07:42:23.108Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /etc/claude-code/managed-settings.json
+
+2026-04-20 09:42:23.113 [info] Getting authentication status
+2026-04-20 09:42:23.113 [info] No authentication found
+2026-04-20 09:42:23.113 [info] Getting authentication status
+2026-04-20 09:42:23.113 [info] No authentication found
+2026-04-20 09:42:23.652 [info] From claude: 2026-04-20T07:42:23.652Z [DEBUG] [mcp-registry] Loaded 197 official MCP URLs (legacy)
+
+2026-04-20 09:42:26.336 [info] Received message from webview: {"type":"request","requestId":"ekg8dq5tym","request":{"type":"login","method":"claudeai"}}
+2026-04-20 09:42:26.337 [info] Starting OAuth login flow: method=claudeai
+2026-04-20 09:55:33.569 [info] Closing Claude on channel: m4dfgiii35a
+2026-04-20 09:55:33.581 [info] Closing Claude on channel: m4dfgiii35a
+2026-04-20 09:55:33.587 [info] From claude: 2026-04-20T07:55:33.587Z [DEBUG] LSP server manager shut down successfully
+
+2026-04-20 09:55:33.590 [info] From claude: 2026-04-20T07:55:33.590Z [DEBUG] Failed to check metrics opt-out status: Auth error: No API key available
+
+2026-04-20 09:55:33.590 [info] From claude: 2026-04-20T07:55:33.590Z [ERROR] "Error: Error: Auth error: No API key available\n    at DE9 (/$bunfs/root/src/entrypoints/cli.js:2691:34176)\n    at wa (/$bunfs/root/src/entrypoints/cli.js:421:3606)\n    at jE9 (/$bunfs/root/src/entrypoints/cli.js:2691:34445)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:131:17667)\n    at bmK (/$bunfs/root/src/entrypoints/cli.js:2691:34736)\n    at xmK (/$bunfs/root/src/entrypoints/cli.js:2691:35150)\n    at doExport (/$bunfs/root/src/entrypoints/cli.js:2691:35868)\n    at export (/$bunfs/root/src/entrypoints/cli.js:2691:35576)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:421:109618)\n    at <anonymous> (/$bunfs/root/src/entrypoints/cli.js:421:109558)"
+
+2026-04-20 09:55:33.590 [info] From claude: 2026-04-20T07:55:33.590Z [DEBUG] Metrics export disabled by organization setting
+
+2026-04-20 09:55:33.590 [info] From claude: 2026-04-20T07:55:33.590Z [DEBUG] BigQuery metrics exporter flush complete
+
+2026-04-20 09:55:33.591 [info] From claude: 2026-04-20T07:55:33.591Z [DEBUG] BigQuery metrics exporter flush complete
+2026-04-20T07:55:33.591Z [DEBUG] BigQuery metrics exporter shutdown complete
+
