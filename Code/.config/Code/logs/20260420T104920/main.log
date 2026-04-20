@@ -1,0 +1,5 @@
+2026-04-20 10:49:21.034 [info] update#setState idle
+2026-04-20 10:49:28.087 [info] Extension host with pid 277321 exited with code: 0, signal: unknown.
+2026-04-20 10:49:39.303 [info] Extension host with pid 277404 exited with code: 0, signal: unknown.
+2026-04-20 10:49:51.036 [info] update#setState checking for updates
+2026-04-20 10:49:51.083 [info] update#setState available for download

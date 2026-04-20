@@ -3,13 +3,15 @@
     "telemetry.machineId": "2f0ac64abbf2f48050e56384f2e2f9a883454cdf3486f6d5fe25b98135c23aab",
     "telemetry.devDeviceId": "53c2722f-3e8c-4bae-9f2f-9734d4a78d1b",
     "backupWorkspaces": {
-        "workspaces": [],
+        "workspaces": [
+            {
+                "id": "f7ed46ad18c45a2ba52fe0bc7ea45108",
+                "configURIPath": "file:///home/mate/.config/Code/Workspaces/1776674968700/workspace.json"
+            }
+        ],
         "folders": [
             {
                 "folderUri": "file:///home/mate/.config"
-            },
-            {
-                "folderUri": "file:///home/mate/.config/eww"
             }
         ],
         "emptyWindows": []
@@ -25,7 +27,8 @@
             "file:///usr/share/wlogout/icons": "__default__profile__",
             "file:///waybar": "__default__profile__",
             "file:///home/mate/.config/swaync": "__default__profile__",
-            "file:///home/mate/.config/eww": "__default__profile__"
+            "file:///home/mate/.config/eww": "__default__profile__",
+            "file:///home/mate/.config/Code/Workspaces/1776674968700/workspace.json": "__default__profile__"
         },
         "emptyWindows": {}
     },
@@ -53,7 +56,7 @@
             "editorPartMinWidth": 220,
             "titleBarHeight": 35,
             "activityBarWidth": 48,
-            "sideBarWidth": 261,
+            "sideBarWidth": 0,
             "auxiliaryBarWidth": 0,
             "statusBarHeight": 22,
             "windowBorder": false
@@ -61,14 +64,17 @@
     },
     "windowsState": {
         "lastActiveWindow": {
-            "folder": "file:///home/mate/.config/eww",
-            "backupPath": "/home/mate/.config/Code/Backups/64756fd367204678524c2d2954c7e606",
+            "workspaceIdentifier": {
+                "id": "f7ed46ad18c45a2ba52fe0bc7ea45108",
+                "configURIPath": "file:///home/mate/.config/Code/Workspaces/1776674968700/workspace.json"
+            },
+            "backupPath": "/home/mate/.config/Code/Backups/f7ed46ad18c45a2ba52fe0bc7ea45108",
             "uiState": {
                 "mode": 0,
                 "x": 0,
                 "y": 0,
-                "width": 1920,
-                "height": 1080
+                "width": 1910,
+                "height": 1036
             }
         },
         "openedWindows": []
@@ -120,6 +126,10 @@
                 },
                 "58b97ef723a395e06c84fe942664d066": {
                     "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                },
+                "f7ed46ad18c45a2ba52fe0bc7ea45108": {
+                    "sideBarVisible": false,
                     "auxiliaryBarVisible": false
                 }
             }

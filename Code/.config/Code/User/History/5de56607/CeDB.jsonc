@@ -1,0 +1,134 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "spacing": 4,
+    "modules-left": [
+        "group/power-menu"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "network",
+        "pulseaudio",
+        "power-profiles-daemon",
+        "backlight",
+        "battery",
+        "clock"
+    ],
+
+    "group/power-menu": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "power-item",
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "custom/power",
+            "custom/lock",
+            "custom/reboot",
+            "custom/quit"
+        ]
+    },
+
+    "custom/power": {
+        "format": "󰣇",
+        "tooltip": false,
+        "on-click": "shutdown now"
+    },
+
+    "custom/lock": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "hyprlock"
+    },
+
+    "custom/reboot": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "reboot"
+    },
+
+    "custom/quit": {
+        "format": "󰈆",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch exit"
+    },
+
+    "network": {
+        "format-wifi": "{icon} {signalStrength}%",
+        "format-ethernet": "  Wired",
+        "format-linked": "   {ifname} (No IP)",
+        "format-disconnected": "  Disconnected",
+        "tooltip-format": "{essid} - {ipaddr}/{cidr}\nGateway: {gwaddr}",
+        "format-disabled": "󰤮  Off",
+        "format-icons": ["󰤨", "󰤥", "󰤢","󰤟","󰤯"],
+        "on-click": "rofi-wifi-menu -font 'CaskaydiaCove Nerd Font 20'"  
+    },
+
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "lower": 15,
+            "critical": 5
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": " {icon}",
+        "format-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "active": "",
+            "urgent": ""
+        }
+    }
+}
