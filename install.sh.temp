@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Hiba esetén álljon le a futás
+set -e
+
+echo "--- 1. Alapvető építőeszközök telepítése ---"
+sudo pacman -S --needed --noconfirm base-devel git stow
+
+# 2. Yay telepítése (AUR támogatáshoz)
+if ! command -v yay &> /dev/null; then
+    echo "--- 2. Yay telepítése ---"
+    # Átmeneti mappába dolgozunk
+    git clone https://archlinux.org /tmp/yay
+    cd /tmp/yay
+    makepkg -si --noconfirm
+    cd -
+    rm -rf /tmp/yay
+else
+    echo "--- 2. Yay már telepítve van ---"
+fi
+
+# 3. Csomagok telepítése a listából
+if [ -f "all_package.txt" ]; then
+    echo "--- 3. Csomagok telepítése a listából ---"
+    # A --needed kihagyja, amit az archinstall már feltett
+    yay -S --needed --noconfirm - < all_package.txt
+else
+    echo "HIBA: all_package.txt nem található! (Futtasd a generáló parancsot a régi gépen!)"
+    exit 1
+fi
+
+# 4. Szolgáltatások bekapcsolása (Network, Bluetooth, stb.)
+echo "--- 4. Szolgáltatások aktiválása ---"
+sudo systemctl enable --now NetworkManager || echo "NetworkManager nem található"
+sudo systemctl enable --now bluetooth || echo "Bluetooth nem található"
+sudo systemctl enable --now systemd-resolved || echo "Systemd-resolved nem található"
+sudo systemctl enable --now fstrim.timer || echo "Fstrim nem támogatott"
+
+# 5. Stow konfigurálás - Ütközések automatikus törlésével
+echo "--- 5. Konfigurációk linkelése GNU Stow-val ---"
+# Kilistázunk minden mappát a jelenlegi könyvtárban
+for dir in */; do
+    dir=${dir%/}
+    # Kihagyjuk a speciális mappákat
+    if [[ "$dir" != "yay" && "$dir" != ".git" && "$dir" != "all_package.txt" ]]; then
+        echo "Stow-ing: $dir"
+        
+        # Ez a trükk: Megpróbáljuk szimulálni a stow-t, és ami hibát dob, azt töröljük a célhelyről ($HOME)
+        stow -n -v --adopt "$dir" 2>&1 | grep "existing target is" | awk '{print $NF}' | while read -r file; do
+            echo "Ütközés feloldása (törlés): $HOME/$file"
+            rm -rf "$HOME/$file"
+        done
+        
+        # Most már tiszta a terep a linkeléshez
+        stow -R "$dir"
+    fi
+done
+
+echo "----------------------------------------------------"
+echo " KÉSZ! Minden csomag fent van, a configok linkelve. "
+echo " Javasolt egy újraindítás: 'reboot'               "
+echo "----------------------------------------------------"
