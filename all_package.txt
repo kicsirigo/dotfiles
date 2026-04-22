@@ -46,7 +46,6 @@ networkmanager
 nwg-displays
 nwg-look
 ookla-speedtest-bin
-openssh
 pavucontrol
 pinta
 pipes.sh
@@ -79,7 +78,6 @@ unzip
 uwsm
 visual-studio-code-bin
 waybar
-wget
 wireplumber
 wl-clipboard
 wlogout
@@ -91,5 +89,4 @@ xorg-xhost
 xorg-xinit
 yay-bin
 yay-bin-debug
-yazi
 zram-generator
