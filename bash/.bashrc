@@ -10,3 +10,4 @@ PS1='[\u@\h \W]\$ '
 alias vscode='code .'
 export "MICRO_TRUECOLOR=1"
 alias spotify='spotify_player'
+fm6000 --random --color random --not-de
