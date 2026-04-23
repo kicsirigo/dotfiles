@@ -1,6 +1,0 @@
-2026-04-20 09:34:55.778 [error] #6: https://marketplace.visualstudio.com/_apis/public/gallery/vscode/ms-edgedevtools/vscode-edge-devtools/latest - error GET Canceled
-2026-04-20 09:34:55.779 [error] #7: https://marketplace.visualstudio.com/_apis/public/gallery/vscode/github/copilot/latest - error GET Canceled
-2026-04-20 09:34:55.779 [error] #8: https://marketplace.visualstudio.com/_apis/public/gallery/vscode/ms-azuretools/vscode-containers/latest - error GET Canceled
-2026-04-20 09:34:55.779 [error] #9: https://marketplace.visualstudio.com/_apis/public/gallery/vscode/christian-kohler/npm-intellisense/latest - error GET Canceled
-2026-04-20 09:34:55.780 [error] #10: https://marketplace.visualstudio.com/_apis/public/gallery/vscode/eamodio/gitlens/latest - error GET Canceled
-2026-04-20 09:34:56.396 [error] #12: https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery - error POST Canceled

@@ -1,5 +1,0 @@
-2026-04-20 09:36:16.952 [warning] Creation of workbench contribution 'workbench.contrib.chatSetup' took 22ms.
-2026-04-20 09:36:18.173 [info] Started local extension host with pid 69367.
-2026-04-20 09:36:24.940 [info] Settings Sync: Account status changed from uninitialized to unavailable
-2026-04-20 09:36:26.355 [info] [perf] Render performance baseline is 64ms
-2026-04-20 09:39:38.848 [error] [text file model] handleSaveError(10) - exit - resulted in a save error: Error: Unable to write file '/home/mate/.config/eww/eww.yuck' (Error: File Modified Since) file:///home/mate/.config/eww/eww.yuck

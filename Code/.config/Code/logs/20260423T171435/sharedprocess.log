@@ -1,7 +1,0 @@
-2026-04-23 17:14:43.288 [info] Getting Manifest... anthropic.claude-code
-2026-04-23 17:14:43.376 [info] Installing extension: anthropic.claude-code {"productVersion":{"version":"1.114.0","date":"2026-04-01T09:27:11Z"},"pinned":false,"operation":3,"isApplicationScoped":false,"profileLocation":{"$mid":1,"external":"vscode-userdata:/home/mate/.vscode/extensions/extensions.json","path":"/home/mate/.vscode/extensions/extensions.json","scheme":"vscode-userdata"}}
-2026-04-23 17:14:46.233 [info] Extension signature verification result for anthropic.claude-code: Success. Internal Code: 0. Executed: true. Duration: 1421ms.
-2026-04-23 17:14:48.296 [info] Extracted extension to file:///home/mate/.vscode/extensions/anthropic.claude-code-2.1.118-linux-x64: anthropic.claude-code
-2026-04-23 17:14:48.317 [info] Renamed to /home/mate/.vscode/extensions/anthropic.claude-code-2.1.118-linux-x64
-2026-04-23 17:14:48.342 [info] Marked extension as removed anthropic.claude-code-2.1.114-linux-x64
-2026-04-23 17:14:48.349 [info] Extension installed successfully: anthropic.claude-code vscode-userdata:/home/mate/.vscode/extensions/extensions.json

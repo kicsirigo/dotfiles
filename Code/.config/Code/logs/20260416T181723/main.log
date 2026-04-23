@@ -1,8 +1,0 @@
-2026-04-16 18:17:23.442 [info] update#setState idle
-2026-04-16 18:17:53.446 [info] update#setState checking for updates
-2026-04-16 18:18:53.586 [error] Error: Server returned 504
-    at _l (file:///opt/visual-studio-code/resources/app/out/main.js:429:21353)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-2026-04-16 18:18:53.589 [info] update#setState idle
-2026-04-16 18:20:16.546 [info] Extension host with pid 695223 exited with code: 0, signal: unknown.
-2026-04-16 18:20:16.683 [error] [UtilityProcess id: 1, type: fileWatcher, pid: 695243]: crashed with code 15 and reason 'killed'
