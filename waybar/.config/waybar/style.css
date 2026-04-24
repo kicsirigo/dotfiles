@@ -122,16 +122,20 @@ window#waybar {
 }
 
 #bluetooth.connected {
-    color: #9ece6a;
+    color: @green;
+}
+
+#bluetooth.disabled {
+    color: @red;
 }
 
 #bluetooth.warning {
-    color: #ff9e64; /* Narancssárga */
+    color: @peach;
 }
 
 #bluetooth.critical {
-    color: #f7768e; /* Piros */
-    animation-name: blink; /* Villogó effekt */
+    color: @red;
+    animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
