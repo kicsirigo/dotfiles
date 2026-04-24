@@ -45,7 +45,11 @@ window#waybar {
 #custom-power,
 #custom-lock,
 #custom-reboot,
-#custom-quit {
+#custom-quit,
+#bluetooth,
+#bluetooth.connected,
+#bluetooth.warning,
+#bluetooth.critical {
     background-color: @base;
     border-radius: 12px;
     margin: 4px;
@@ -74,6 +78,7 @@ window#waybar {
 #backlight { color: @text; }
 #pulseaudio { color: @yellow; }
 #pulseaudio.muted { color: @red; }
+#bluetooth { color: @blue; }
 
 #custom-logo { color: @blue}
 #custom-power { color: @red; }
@@ -108,3 +113,28 @@ window#waybar {
 #power-profiles-daemon.performance { color: @red; }
 #power-profiles-daemon.balanced { color: @blue; }
 #power-profiles-daemon.power-saver { color: @green; }
+
+@keyframes blink {
+    to {
+        background-color: #f7768e;
+        color: #ffffff;
+    }
+}
+
+#bluetooth.connected {
+    color: #9ece6a;
+}
+
+#bluetooth.warning {
+    color: #ff9e64; /* Narancssárga */
+}
+
+#bluetooth.critical {
+    color: #f7768e; /* Piros */
+    animation-name: blink; /* Villogó effekt */
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
