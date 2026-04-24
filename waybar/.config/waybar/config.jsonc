@@ -25,6 +25,7 @@
             "transition-left-to-right": true
         },
         "modules": [
+			"custom/logo",
             "custom/power",
             "custom/lock",
             "custom/reboot",
@@ -32,8 +33,13 @@
         ]
     },
 
-    "custom/power": {
+	"custom/logo": {
         "format": "󰣇",
+        "tooltip": false,
+    },
+
+    "custom/power": {
+        "format": "⏻",
         "tooltip": false,
         "on-click": "shutdown now"
     },

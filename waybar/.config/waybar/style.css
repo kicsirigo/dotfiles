@@ -41,6 +41,7 @@ window#waybar {
 #backlight,
 #pulseaudio,
 #power-profiles-daemon,
+#custom-logo,
 #custom-power,
 #custom-lock,
 #custom-reboot,
@@ -63,7 +64,7 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    color: @sapphire;
+    color: #2AA7D5;
 }
 
 #network { color: @sky; }
@@ -74,7 +75,8 @@ window#waybar {
 #pulseaudio { color: @yellow; }
 #pulseaudio.muted { color: @red; }
 
-#custom-power { color: @blue; }
+#custom-logo { color: @blue}
+#custom-power { color: @red; }
 #custom-lock { color: @yellow; }
 #custom-reboot { color: @green; }
 #custom-quit { color: @peach; }
