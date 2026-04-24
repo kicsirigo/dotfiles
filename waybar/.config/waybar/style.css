@@ -11,6 +11,8 @@
 @define-color sky #91d7e3;
 @define-color sapphire #7dc4e4;
 @define-color blue #8aadf4;
+@define-color blue-frappe #8caaee;
+@define-color blue-mocha #89b4fa;
 @define-color lavender #b7bdf8;
 @define-color text #cad3f5;
 @define-color subtext1 #b8c0e0;
@@ -24,6 +26,7 @@
 @define-color base #24273a;
 @define-color mantle #1e2030;
 @define-color crust #181926;
+
 
 * {
     font-family: CaskaydiaCove Nerd Font;
@@ -64,11 +67,11 @@ window#waybar {
 
 #workspaces button.focused, 
 #workspaces button.active {
-    color: @blue;
+    color: @blue-frappe;
 }
 
 #workspaces button:hover {
-    color: #2AA7D5;
+    color: @blue-mocha;
 }
 
 #network { color: @sky; }
