@@ -3,56 +3,113 @@
 # Hiba esetén álljon le a futás
 set -e
 
-echo "--- 1. Alapvető építőeszközök telepítése ---"
-sudo pacman -S --needed --noconfirm base-devel git rsync
+# Színek definíciója (Catppuccin ihlette stílus)
+CORAL='\033[38;2;244;219;214m'
+MAUVE='\033[38;2;198;160;246m'
+BLUE='\033[38;2;138;173;244m'
+GREEN='\033[38;2;166;218;149m'
+YELLOW='\033[38;2;238;212;159m'
+RED='\033[38;2;237;135;150m'
+CYAN='\033[38;2;139;213;202m'
+BOLD='\033[1m'
+NC='\033[0m' # Nincs szín
 
-# 2. Yay telepítése (AUR támogatáshoz)
+# Ikonok (Nerd Fonts támogatással)
+ICON_GEAR=""
+ICON_CHECK=""
+ICON_ARROW="➜"
+ICON_INFO=""
+ICON_WARN=""
+
+# Segédfüggvények a szép kiíráshoz
+print_header() {
+    clear
+    echo -e "${MAUVE}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
+    echo -e "${MAUVE}${BOLD}│            Arch Linux Dotfiles Telepítő          │${NC}"
+    echo -e "${MAUVE}${BOLD}╰──────────────────────────────────────────────────╯${NC}"
+    echo ""
+}
+
+print_step() {
+    local step_num=$1
+    local step_desc=$2
+    echo -e "\n${BLUE}${BOLD}[$step_num/5] ${ICON_GEAR} $step_desc${NC}"
+    echo -e "${BLUE}──────────────────────────────────────────────────${NC}"
+}
+
+print_success() {
+    echo -e "${GREEN}${ICON_CHECK} $1${NC}"
+}
+
+print_info() {
+    echo -e "${CYAN}${ICON_INFO} $1${NC}"
+}
+
+print_warn() {
+    echo -e "${YELLOW}${ICON_WARN} $1${NC}"
+}
+
+# --- Kezdőképernyő ---
+print_header
+print_info "A telepítési folyamat elindul..."
+
+# --- 1. LÉPÉS ---
+print_step "1" "Alapvető építőeszközök telepítése"
+sudo pacman -S --needed --noconfirm base-devel git rsync
+print_success "Alapeszközök sikeresen telepítve."
+
+# --- 2. LÉPÉS ---
+print_step "2" "Yay (AUR segéd) telepítése"
 if ! command -v yay &> /dev/null; then
-    echo "--- 2. Yay telepítése ---"
-    # Átmeneti mappába dolgozunk
-    git clone https://archlinux.org /tmp/yay
+    print_info "Yay nem található, telepítés elindítása az AUR-ból..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
     cd /tmp/yay
     makepkg -si --noconfirm
-    cd -
+    cd - > /dev/null
     rm -rf /tmp/yay
+    print_success "Yay sikeresen telepítve."
 else
-    echo "--- 2. Yay már telepítve van ---"
+    print_success "Yay már telepítve van, lépés kihagyása."
 fi
 
-# 3. Csomagok telepítése a listából
+# --- 3. LÉPÉS ---
+print_step "3" "Csomagok telepítése a listából"
 if [ -f "all_package.txt" ]; then
-    echo "--- 3. Csomagok telepítése a listából ---"
-    # A --needed kihagyja, amit az archinstall már feltett
+    print_info "Rendszer csomagok szinkronizálása az all_package.txt alapján..."
     yay -S --needed --noconfirm - < all_package.txt
+    print_success "Minden csomag sikeresen szinkronizálva."
 else
-    echo "HIBA: all_package.txt nem található! (Futtasd a generáló parancsot a régi gépen!)"
+    echo -e "${RED}${BOLD}HIBA: all_package.txt nem található!${NC}"
     exit 1
 fi
 
-# 4. Szolgáltatások bekapcsolása (Network, Bluetooth, stb.)
-echo "--- 4. Szolgáltatások aktiválása ---"
-sudo systemctl enable --now NetworkManager || echo "NetworkManager nem található"
-sudo systemctl enable --now bluetooth || echo "Bluetooth nem található"
-sudo systemctl enable --now systemd-resolved || echo "Systemd-resolved nem található"
-sudo systemctl enable --now fstrim.timer || echo "Fstrim nem támogatott"
+# --- 4. LÉPÉS ---
+print_step "4" "Rendszerszolgáltatások aktiválása"
+sudo systemctl enable --now NetworkManager || print_warn "NetworkManager nem érhető el"
+sudo systemctl enable --now bluetooth || print_warn "Bluetooth nem érhető el"
+sudo systemctl enable --now systemd-resolved || print_warn "Systemd-resolved nem érhető el"
+sudo systemctl enable --now fstrim.timer || print_warn "Fstrim.timer nem támogatott ezen a rendszeren"
+print_success "Rendszerszolgáltatások sikeresen konfigurálva."
 
-# 5. Fájlok másolása
-echo "--- 5. Konfigurációk másolása ---"
-
+# --- 5. LÉPÉS ---
+print_step "5" "Konfigurációs fájlok másolása"
 # Másoljuk a .config mappát
 if [ -d ".config" ]; then
-    echo "Másolás: .config/* -> $HOME/.config/"
+    print_info "Konfigurációk másolása: .config/* -> $HOME/.config/"
     mkdir -p "$HOME/.config"
     rsync -av --no-perms --no-owner --no-group .config/ "$HOME/.config/"
+    print_success ".config fájlok átmásolva."
 fi
 
 # Másoljuk a .bashrc-t
 if [ -f ".bashrc" ]; then
-    echo "Másolás: .bashrc -> $HOME/.bashrc"
+    print_info "Konfigurációk másolása: .bashrc -> $HOME/.bashrc"
     cp .bashrc "$HOME/.bashrc"
+    print_success ".bashrc fájl átmásolva."
 fi
 
-echo "----------------------------------------------------"
-echo " KÉSZ! Minden csomag fent van, a configok másolva. "
-echo " Javasolt egy újraindítás: 'reboot'               "
-echo "----------------------------------------------------"
+# --- Befejezés ---
+echo -e "\n${GREEN}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
+    echo -e "${GREEN}${BOLD}│      KÉSZ! Minden csomag és config a helyén.     │${NC}"
+    echo -e "${GREEN}${BOLD}│      Javasolt egy újraindítás: 'reboot'          │${NC}"
+    echo -e "${GREEN}${BOLD}╰──────────────────────────────────────────────────╯${NC}\n"
