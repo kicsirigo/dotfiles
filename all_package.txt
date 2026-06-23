@@ -73,7 +73,6 @@ sassc
 slurp
 smartmontools
 sof-firmware
-steam
 swaync
 system-config-printer
 thunar
