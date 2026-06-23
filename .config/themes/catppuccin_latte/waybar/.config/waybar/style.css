@@ -1,0 +1,147 @@
+@define-color rosewater #f2d5cf;
+@define-color flamingo #eebebe;
+@define-color pink #ea76cb;
+@define-color mauve #8839ef;
+@define-color red #d20f39;
+@define-color maroon #e64553;
+@define-color peach #fe640b;
+@define-color yellow #df8e1d;
+@define-color green #40a02b;
+@define-color teal #179299;
+@define-color sky #04a5e5;
+@define-color sapphire #209fb5;
+@define-color blue #1e66f5;
+@define-color blue-latte #1e66f5;
+@define-color blue-mocha #89b4fa;
+@define-color lavender #7287fd;
+@define-color text #4c4f69;
+@define-color subtext1 #5c5f77;
+@define-color subtext0 #6c6f85;
+@define-color overlay2 #7c7f93;
+@define-color overlay1 #8c8fa1;
+@define-color overlay0 #9ca0b0;
+@define-color surface2 #acb0be;
+@define-color surface1 #bcc0cc;
+@define-color surface0 #ccd0da;
+@define-color base #eff1f5;
+@define-color mantle #e6e9ef;
+@define-color crust #dce0e8;
+
+
+* {
+    font-family: CaskaydiaCove Nerd Font;
+    font-size: 15px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+#workspaces,
+#network,
+#clock,
+#battery,
+#backlight,
+#pulseaudio,
+#power-profiles-daemon,
+#custom-logo,
+#custom-power,
+#custom-lock,
+#custom-reboot,
+#custom-quit,
+#bluetooth,
+#bluetooth.connected,
+#bluetooth.warning,
+#bluetooth.critical {
+    background-color: @base;
+    border-radius: 12px;
+    margin: 4px;
+    padding: 0 10px;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: @text;
+}
+
+#workspaces button.focused, 
+#workspaces button.active {
+    color: @blue-latte;
+}
+
+#workspaces button:hover {
+    color: @blue-latte-hover;
+}
+
+#network { color: @sky; }
+#network.disconnected, #network.disabled { color: @red; }
+#clock { color: @text; }
+#battery { color: @green; }
+#backlight { color: @text; }
+#pulseaudio { color: @yellow; }
+#pulseaudio.muted { color: @red; }
+#bluetooth { color: @blue; }
+
+#custom-logo { color: @blue}
+#custom-power { color: @red; }
+#custom-lock { color: @yellow; }
+#custom-reboot { color: @green; }
+#custom-quit { color: @peach; }
+
+#custom-power:hover,
+#custom-lock:hover,
+#custom-reboot:hover,
+#custom-quit:hover {
+    background-color: @surface1;
+    color: @text;
+}
+
+@keyframes blink {
+    to {
+        background-color: @surface2;
+        color: @red;
+    }
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#power-profiles-daemon.performance { color: @red; }
+#power-profiles-daemon.balanced { color: @blue; }
+#power-profiles-daemon.power-saver { color: @green; }
+
+@keyframes blink {
+    to {
+        background-color: #d20f39;
+        color: #eff1f5;
+    }
+}
+
+#bluetooth.connected {
+    color: @green;
+}
+
+#bluetooth.disabled {
+    color: @red;
+}
+
+#bluetooth.warning {
+    color: @peach;
+}
+
+#bluetooth.critical {
+    color: @red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
