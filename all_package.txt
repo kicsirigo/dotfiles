@@ -31,7 +31,6 @@ hyprsunset
 inotify-tools
 intel-media-driver
 iwd
-kio-admin
 kitty
 libpulse
 libva-intel-driver
