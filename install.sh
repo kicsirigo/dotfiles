@@ -23,7 +23,7 @@ ICON_WARN=""
 
 # Segédfüggvények a szép kiíráshoz
 print_header() {
-    clear
+    clear 2>/dev/null || true
     echo -e "${MAUVE}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
     echo -e "${MAUVE}${BOLD}│            Arch Linux Dotfiles Telepítő          │${NC}"
     echo -e "${MAUVE}${BOLD}╰──────────────────────────────────────────────────╯${NC}"
