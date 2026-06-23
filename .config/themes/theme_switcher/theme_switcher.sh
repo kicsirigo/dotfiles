@@ -15,6 +15,9 @@ SPINNER_FRAMES='|/-\'
 mkdir -p "${SWITCHER_DIR}" "${BACKUP_ROOT}"
 
 notify() {
+  if [ -n "${TEST_SANDBOX_HOME:-}" ] || [ -n "${TEST_MODE:-}" ]; then
+    return 0
+  fi
   local title="$1"
   local body="$2"
   if command -v notify-send >/dev/null 2>&1; then
@@ -122,6 +125,30 @@ link_one_entry() {
 
   local target_path="${TARGET_CONFIG_DIR}/${entry_name}"
 
+  if [ "${entry_name}" = "gtk-3.0" ] || [ "${entry_name}" = "gtk-4.0" ]; then
+    if [ -L "${target_path}" ]; then
+      rm -f "${target_path}"
+    fi
+    if [ -f "${target_path}" ]; then
+      rm -f "${target_path}"
+    fi
+    mkdir -p "${target_path}"
+    local item
+    for item in "${source_path}"/*; do
+      [ -e "${item}" ] || continue
+      local base_item
+      base_item="$(basename "${item}")"
+      if [ "${base_item}" = "settings.ini" ]; then
+        if [ ! -e "${target_path}/${base_item}" ]; then
+          cp "${item}" "${target_path}/${base_item}"
+        fi
+      else
+        cp -r "${item}" "${target_path}/"
+      fi
+    done
+    return 0
+  fi
+
   if [ -L "${target_path}" ] || [ -f "${target_path}" ] || [ -d "${target_path}" ]; then
     if [ -L "${target_path}" ]; then
       rm -f "${target_path}"
@@ -135,6 +162,11 @@ link_one_entry() {
 }
 
 refresh_desktop() {
+  if [ -n "${TEST_SANDBOX_HOME:-}" ] || [ -n "${TEST_MODE:-}" ]; then
+    echo "Test mode detected: skipping visual transition and daemon reloads."
+    return 0
+  fi
+
   animated_step "Applying visual transition"
 
   if command -v hyprctl >/dev/null 2>&1; then
@@ -146,7 +178,8 @@ refresh_desktop() {
   fi
 
   if command -v swaync-client >/dev/null 2>&1; then
-    swaync-client -R || swaync-client -rs >/dev/null 2>&1 || true
+    swaync-client -R >/dev/null 2>&1 || true
+    swaync-client -rs >/dev/null 2>&1 || true
   fi
 
   if pgrep -x xsettingsd >/dev/null 2>&1; then
@@ -295,6 +328,76 @@ if db.exists():
 PY
 }
 
+apply_gtk_integrations() {
+  local target_theme="$1"
+  local gtk_theme=""
+
+  case "${target_theme}" in
+    catppuccin_macchiato) gtk_theme="catppuccin-macchiato-lavender-standard+default" ;;
+    catppuccin_latte) gtk_theme="catppuccin-latte-lavender-standard+default" ;;
+    nord) gtk_theme="nord-lavender-standard+default" ;;
+    *)
+      echo "Unknown theme for GTK mapping: ${target_theme}" >&2
+      exit 1
+      ;;
+  esac
+
+  # Update settings.ini files for GTK 3.0 and GTK 4.0
+  GTK_THEME="${gtk_theme}" python3 - <<'PY'
+import os
+from pathlib import Path
+
+gtk_theme = os.environ["GTK_THEME"]
+
+def update_gtk_settings(file_path):
+    path = Path(file_path).expanduser()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    
+    lines = []
+    if path.exists():
+        lines = path.read_text().splitlines()
+        
+    settings_index = -1
+    for idx, line in enumerate(lines):
+        if line.strip() == "[Settings]":
+            settings_index = idx
+            break
+            
+    theme_line_index = -1
+    for idx, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("gtk-theme-name") and "=" in stripped:
+            theme_line_index = idx
+            break
+            
+    new_line = f"gtk-theme-name = {gtk_theme}"
+    
+    if settings_index != -1:
+        if theme_line_index != -1:
+            lines[theme_line_index] = new_line
+        else:
+            lines.insert(settings_index + 1, new_line)
+    else:
+        if theme_line_index != -1:
+            lines[theme_line_index] = new_line
+        else:
+            lines.insert(0, new_line)
+        lines.insert(0, "[Settings]")
+        
+    path.write_text("\n".join(lines).strip() + "\n")
+
+update_gtk_settings("~/.config/gtk-3.0/settings.ini")
+update_gtk_settings("~/.config/gtk-4.0/settings.ini")
+PY
+
+  # Update active session via gsettings
+  if command -v gsettings >/dev/null 2>&1; then
+    gsettings set org.gnome.desktop.interface gtk-theme "${gtk_theme}" || true
+  else
+    echo "gsettings not available, skipping session theme update" >&2
+  fi
+}
+
 switch_theme() {
   local target_theme="$1"
   local source_root
@@ -325,6 +428,7 @@ switch_theme() {
 
   echo "${target_theme}" > "${STATE_FILE}"
   apply_app_integrations "${target_theme}"
+  apply_gtk_integrations "${target_theme}"
 
   # Update wallpaper symlink
   local theme_wallpaper="${source_root}/wallpaper_arch.png"
