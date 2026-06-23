@@ -4,7 +4,7 @@
 set -e
 
 echo "--- 1. Alapvető építőeszközök telepítése ---"
-sudo pacman -S --needed --noconfirm base-devel git stow
+sudo pacman -S --needed --noconfirm base-devel git rsync
 
 # 2. Yay telepítése (AUR támogatáshoz)
 if ! command -v yay &> /dev/null; then
@@ -36,27 +36,23 @@ sudo systemctl enable --now bluetooth || echo "Bluetooth nem található"
 sudo systemctl enable --now systemd-resolved || echo "Systemd-resolved nem található"
 sudo systemctl enable --now fstrim.timer || echo "Fstrim nem támogatott"
 
-# 5. Stow konfigurálás - Ütközések automatikus törlésével
-echo "--- 5. Konfigurációk linkelése GNU Stow-val ---"
-# Kilistázunk minden mappát a jelenlegi könyvtárban
-for dir in */; do
-    dir=${dir%/}
-    # Kihagyjuk a speciális mappákat
-    if [[ "$dir" != "yay" && "$dir" != ".git" && "$dir" != "all_package.txt" ]]; then
-        echo "Stow-ing: $dir"
-        
-        # Ez a trükk: Megpróbáljuk szimulálni a stow-t, és ami hibát dob, azt töröljük a célhelyről ($HOME)
-        stow -n -v --adopt "$dir" 2>&1 | grep "existing target is" | awk '{print $NF}' | while read -r file; do
-            echo "Ütközés feloldása (törlés): $HOME/$file"
-            rm -rf "$HOME/$file"
-        done
-        
-        # Most már tiszta a terep a linkeléshez
-        stow -R "$dir"
-    fi
-done
+# 5. Fájlok másolása
+echo "--- 5. Konfigurációk másolása ---"
+
+# Másoljuk a .config mappát
+if [ -d ".config" ]; then
+    echo "Másolás: .config/* -> $HOME/.config/"
+    mkdir -p "$HOME/.config"
+    rsync -av --no-perms --no-owner --no-group .config/ "$HOME/.config/"
+fi
+
+# Másoljuk a .bashrc-t
+if [ -f ".bashrc" ]; then
+    echo "Másolás: .bashrc -> $HOME/.bashrc"
+    cp .bashrc "$HOME/.bashrc"
+fi
 
 echo "----------------------------------------------------"
-echo " KÉSZ! Minden csomag fent van, a configok linkelve. "
+echo " KÉSZ! Minden csomag fent van, a configok másolva. "
 echo " Javasolt egy újraindítás: 'reboot'               "
 echo "----------------------------------------------------"
