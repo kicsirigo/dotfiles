@@ -76,7 +76,7 @@ fi
 print_step "3" "Csomagok telepítése a listából"
 if [ -f "all_package.txt" ]; then
     print_info "Rendszer csomagok szinkronizálása az all_package.txt alapján..."
-    yay -S --needed --noconfirm - < all_package.txt
+    yay -S --needed --noconfirm --nodiffmenu --nocleanmenu --noeditmenu - < all_package.txt
     print_success "Minden csomag sikeresen szinkronizálva."
 else
     echo -e "${RED}${BOLD}HIBA: all_package.txt nem található!${NC}"
