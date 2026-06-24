@@ -178,6 +178,9 @@ run_pretty "Clearing Bluetooth cache" "sudo rm -rf /var/lib/bluetooth/* && sudo 
 
 run_pretty "Enabling systemd-resolved and fstrim" "sudo systemctl enable --now systemd-resolved && sudo systemctl enable --now fstrim.timer"
 
+run_pretty "Enabling udisks2 and usbmuxd services" "sudo systemctl enable --now udisks2.service && sudo systemctl enable --now usbmuxd.service"
+
+
 run_pretty "Configuring Plymouth hooks and Early KMS" "bash -c '
 if [ -f \"/etc/mkinitcpio.conf\" ]; then
     if ! grep -q \"plymouth\" /etc/mkinitcpio.conf; then
