@@ -298,6 +298,10 @@ class WifiWidget(Gtk.Window):
     def apply_css(self, theme_name):
         colors = THEME_COLORS[theme_name]
         css = f"""
+        * {{
+            font-family: 'CaskaydiaCove Nerd Font', sans-serif;
+        }}
+        
         window {{
             background-color: {colors['base']};
             color: {colors['text']};
@@ -791,8 +795,9 @@ class WifiWidget(Gtk.Window):
             self.expand_row(row, row.details_box, row.chevron)
 
     def expand_row(self, row, details_box, chevron):
-        details_box.set_visible(True)
+        details_box.set_no_show_all(False)
         details_box.show_all()
+        details_box.set_no_show_all(True)
         chevron.set_text("")
         
         # Focus on entry if secure
