@@ -39,4 +39,8 @@ chmod +x install.sh
 2. Installs `yay` (if not already installed).
 3. Installs all packages listed in `all_package.txt`.
 4. Enables essential services (NetworkManager, Bluetooth, systemd-resolved, fstrim).
-5. Copies configurations from `.config/` to `~/.config/` and `.bashrc` to `~/.bashrc`.
+5. Configures Plymouth boot splash (detects GPU for Early KMS and sets the Catppuccin theme).
+6. Installs the Catppuccin GRUB theme.
+7. Disables conflicting display managers and enables Ly display manager on TTY1.
+8. Copies configurations from `.config/` to `~/.config/` and `.bashrc` to `~/.bashrc`.
+9. Sets Fish shell as the default shell (if installed).
