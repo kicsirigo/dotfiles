@@ -282,7 +282,7 @@ if command -v fish &>/dev/null; then
         echo \"\${FISH_PATH}\" | sudo tee -a /etc/shells >/dev/null
     fi
     if [ \"\$(getent passwd \"\$USER\" | cut -d: -f7)\" != \"\${FISH_PATH}\" ]; then
-        chsh -s \"\${FISH_PATH}\"
+        sudo chsh -s \"\${FISH_PATH}\" \"\$USER\"
     fi
 fi
 '"
