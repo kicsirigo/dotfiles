@@ -162,7 +162,7 @@ class WifiWidget(Gtk.Window):
         
         # Close events with a grace period to prevent immediate closing before cursor enters
         self.focus_close_enabled = False
-        self.connect("focus-out-event", self.on_focus_out)
+        self.connect("button-press-event", self.on_button_press)
         self.connect("key-press-event", self.on_key_press)
         GLib.timeout_add(500, self.enable_focus_close)
         GLib.timeout_add(100, self.start_grab)
@@ -229,11 +229,32 @@ class WifiWidget(Gtk.Window):
         self.wifi_sub.get_style_context().add_class("tile-sub")
         wifi_box.pack_start(self.wifi_sub, False, False, 0)
         
+        # Bluetooth Button
+        self.bt_btn = Gtk.Button()
+        self.bt_btn.get_style_context().add_class("tile-btn")
+        self.bt_btn.connect("clicked", self.on_bt_toggle_clicked)
+        grid.attach(self.bt_btn, 1, 0, 1, 1)
+        
+        bt_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        self.bt_btn.add(bt_box)
+        
+        self.bt_icon = Gtk.Label(label="󰂯")
+        self.bt_icon.get_style_context().add_class("tile-icon")
+        bt_box.pack_start(self.bt_icon, False, False, 0)
+        
+        bt_lbl = Gtk.Label(label="Bluetooth")
+        bt_lbl.get_style_context().add_class("tile-title")
+        bt_box.pack_start(bt_lbl, False, False, 0)
+        
+        self.bt_sub = Gtk.Label(label="Off")
+        self.bt_sub.get_style_context().add_class("tile-sub")
+        bt_box.pack_start(self.bt_sub, False, False, 0)
+        
         # Airplane Mode Button
         self.airplane_btn = Gtk.Button()
         self.airplane_btn.get_style_context().add_class("tile-btn")
         self.airplane_btn.connect("clicked", self.on_airplane_toggle_clicked)
-        grid.attach(self.airplane_btn, 1, 0, 1, 1)
+        grid.attach(self.airplane_btn, 2, 0, 1, 1)
         
         airplane_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         self.airplane_btn.add(airplane_box)
@@ -284,9 +305,13 @@ class WifiWidget(Gtk.Window):
         self.focus_close_enabled = True
         return False
 
-    def on_focus_out(self, widget, event):
-        if self.focus_close_enabled:
+    def on_button_press(self, widget, event):
+        if not self.focus_close_enabled:
+            return False
+        alloc = self.get_allocation()
+        if event.x < 0 or event.x > alloc.width or event.y < 0 or event.y > alloc.height:
             Gtk.main_quit()
+            return True
         return False
 
     def get_current_theme(self):
@@ -532,7 +557,7 @@ class WifiWidget(Gtk.Window):
             status = seat.grab(
                 win,
                 Gdk.SeatCapabilities.ALL,
-                True,
+                False, # owner_events = False to capture all click outside events
                 None,
                 None,
                 None
@@ -557,9 +582,12 @@ class WifiWidget(Gtk.Window):
         self.wifi_enabled = wifi_enabled
         self.bt_enabled = bt_enabled
         
-        # Airplane mode is active if both are disabled
-        self.airplane_mode = not wifi_enabled and not bt_enabled
-        
+        # Airplane mode is active only if both are disabled
+        if wifi_enabled or bt_enabled:
+            self.airplane_mode = False
+        else:
+            self.airplane_mode = True
+            
         self.update_ui_states()
 
     def update_ui_states(self):
@@ -576,6 +604,16 @@ class WifiWidget(Gtk.Window):
             self.wifi_btn.get_style_context().remove_class("active")
             self.wifi_icon.set_text("󰤮")
             self.wifi_sub.set_text("Off")
+            
+        # Update Bluetooth tile
+        if self.bt_enabled:
+            self.bt_btn.get_style_context().add_class("active")
+            self.bt_icon.set_text("󰂯")
+            self.bt_sub.set_text("On")
+        else:
+            self.bt_btn.get_style_context().remove_class("active")
+            self.bt_icon.set_text("󰂰")
+            self.bt_sub.set_text("Off")
             
         # Update Airplane Mode tile
         if self.airplane_mode:
@@ -855,7 +893,27 @@ class WifiWidget(Gtk.Window):
         new_state = not self.wifi_enabled
         
         def task():
-            subprocess.run(["nmcli", "radio", "wifi", "on" if new_state else "off"])
+            if new_state:
+                subprocess.run(["rfkill", "unblock", "wlan"])
+                subprocess.run(["nmcli", "radio", "wifi", "on"])
+            else:
+                subprocess.run(["nmcli", "radio", "wifi", "off"])
+                subprocess.run(["rfkill", "block", "wlan"])
+            GLib.idle_add(self.on_toggle_done, btn)
+            
+        run_in_thread(task)
+
+    def on_bt_toggle_clicked(self, btn):
+        btn.set_sensitive(False)
+        new_state = not self.bt_enabled
+        
+        def task():
+            if new_state:
+                subprocess.run(["rfkill", "unblock", "bluetooth"])
+                subprocess.run(["bluetoothctl", "power", "on"])
+            else:
+                subprocess.run(["bluetoothctl", "power", "off"])
+                subprocess.run(["rfkill", "block", "bluetooth"])
             GLib.idle_add(self.on_toggle_done, btn)
             
         run_in_thread(task)
@@ -867,9 +925,13 @@ class WifiWidget(Gtk.Window):
         def task():
             if new_state:
                 subprocess.run(["nmcli", "radio", "wifi", "off"])
+                subprocess.run(["rfkill", "block", "wlan"])
                 subprocess.run(["bluetoothctl", "power", "off"])
+                subprocess.run(["rfkill", "block", "bluetooth"])
             else:
+                subprocess.run(["rfkill", "unblock", "wlan"])
                 subprocess.run(["nmcli", "radio", "wifi", "on"])
+                subprocess.run(["rfkill", "unblock", "bluetooth"])
                 subprocess.run(["bluetoothctl", "power", "on"])
             GLib.idle_add(self.on_toggle_done, btn)
             
