@@ -165,6 +165,7 @@ class WifiWidget(Gtk.Window):
         self.connect("focus-out-event", self.on_focus_out)
         self.connect("key-press-event", self.on_key_press)
         GLib.timeout_add(500, self.enable_focus_close)
+        GLib.timeout_add(100, self.start_grab)
         
         # States
         self.wifi_enabled = False
@@ -188,6 +189,11 @@ class WifiWidget(Gtk.Window):
         self.spinner = Gtk.Spinner()
         self.spinner.set_visible(False)
         header_box.pack_end(self.spinner, False, False, 8)
+        
+        close_btn = Gtk.Button(label="󰅖")
+        close_btn.get_style_context().add_class("header-btn")
+        close_btn.connect("clicked", lambda b: Gtk.main_quit())
+        header_box.pack_end(close_btn, False, False, 0)
         
         refresh_btn = Gtk.Button(label="󰑐")
         refresh_btn.get_style_context().add_class("header-btn")
@@ -515,6 +521,22 @@ class WifiWidget(Gtk.Window):
         # Repeat up to 10 times to catch the window mapping
         if self.position_attempts < 10:
             return True
+        return False
+
+    def start_grab(self):
+        win = self.get_window()
+        if win is None:
+            return True
+        seat = Gdk.Display.get_default().get_default_seat()
+        if seat:
+            status = seat.grab(
+                win,
+                Gdk.SeatCapabilities.ALL,
+                True,
+                None,
+                None,
+                None
+            )
         return False
 
     def check_status(self):
