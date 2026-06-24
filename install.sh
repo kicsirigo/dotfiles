@@ -51,6 +51,15 @@ print_warn() {
 
 # --- Welcome Screen ---
 print_header
+
+# Request sudo credentials upfront and keep them refreshed in the background
+print_info "This script requires administrative privileges for system-wide configuration."
+print_info "Prompting for sudo password upfront..."
+sudo -v
+
+# Background loop to keep sudo session alive
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 print_info "Starting the installation process..."
 
 # --- STEP 1 ---
