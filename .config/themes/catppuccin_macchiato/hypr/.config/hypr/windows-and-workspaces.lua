@@ -52,6 +52,18 @@ hl.window_rule({
     center = true,
 })
 
+hl.window_rule({
+    name = "wifi-widget-floating",
+    match = {
+        class = "^(wifi-widget)$",
+    },
+    float = true,
+    size = "360 450",
+    pin = true,
+    move = "1200 38",
+    stay_focused = true,
+})
+
 hl.layer_rule({
     name = "swaync-rules",
     match = {
