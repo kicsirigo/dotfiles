@@ -688,6 +688,8 @@ class WifiWidget(Gtk.Window):
         
         status_lbl = Gtk.Label(label="")
         status_lbl.set_alignment(0, 0.5)
+        status_lbl.set_line_wrap(True)
+        status_lbl.set_max_width_chars(38)
         status_lbl.set_no_show_all(True)
         status_lbl.set_visible(False)
         details_box.pack_start(status_lbl, False, False, 0)
