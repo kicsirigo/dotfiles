@@ -6,7 +6,7 @@ A lightweight, simple dotfiles configuration for an Arch Linux system powered by
 
 This repository contains configurations for the following tools:
 
-- **Window Manager / Desktop Environment**: [Hyprland](.config/hypr)
+- **Window Manager / Desktop Environment**: [Hyprland](.config/hypr) (configured using **Lua** for Hyprland v0.55+)
 - **Status Bar**: [Waybar](.config/waybar)
 - **Terminal Emulator**: [Kitty](.config/kitty)
 - **Application Launcher**: [Rofi](.config/rofi)
@@ -44,3 +44,15 @@ chmod +x install.sh
 7. Disables conflicting display managers and enables Ly display manager on TTY1.
 8. Copies configurations from `.config/` to `~/.config/` and `.bashrc` to `~/.bashrc`.
 9. Sets Fish shell as the default shell (if installed).
+
+## Hyprland Configuration (Lua)
+
+Starting with Hyprland v0.55+, configurations are written in Lua. This setup uses a modular design loaded via `hyprland.lua`:
+
+- **[hyprland.lua](.config/hypr/hyprland.lua)**: The main entry point configuration.
+- **[binds.lua](.config/hypr/binds.lua)**: Keybindings and window actions.
+- **[lookandfeel.lua](.config/hypr/lookandfeel.lua)**: Theme, window decorations, animations, and layouts.
+- **[monitors.lua](.config/hypr/monitors.lua)**: Multi-monitor positioning and scaling.
+- **[autostart.lua](.config/hypr/autostart.lua)**: Background daemons and initial processes.
+- Other modular configurations include `aliases.lua`, `enviroment-variables.lua`, `permissions.lua`, `windows-and-workspaces.lua`, and `workspaces.lua`.
+
