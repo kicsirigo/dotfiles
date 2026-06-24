@@ -1,0 +1,50 @@
+@import "/home/mate/.config/rofi/catppuccin-default.rasi"
+
+window {
+    width:            850px;
+    height:           320px;
+    border:           3px;
+    border-color:     @blue;
+    border-radius:    24px;
+    background-color: @base;
+    padding:          30px;
+}
+
+mainbox {
+    children: [ "listview" ];
+}
+
+listview {
+    columns:      3;
+    lines:        1;
+    spacing:      20px;
+    scrollbar:    false;
+    cycle:        true;
+    dynamic:      true;
+}
+
+element {
+    orientation:      vertical;
+    padding:          20px;
+    border-radius:    16px;
+    background-color: @surface0;
+    border:           2px;
+    border-color:     @surface1;
+}
+
+element selected.normal {
+    background-color: @surface1;
+    border-color:     @blue;
+    text-color:       @pink;
+}
+
+element-icon {
+    size:             160px;
+    horizontal-align: 0.5;
+}
+
+element-text {
+    horizontal-align: 0.5;
+    vertical-align:   0.5;
+    text-color:       @text;
+}

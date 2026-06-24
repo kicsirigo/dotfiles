@@ -448,7 +448,17 @@ menu_select_theme() {
   local selected=""
 
   if command -v rofi >/dev/null 2>&1; then
-    selected="$(printf "catppuccin_macchiato\ncatppuccin_latte\nnord\n" | rofi -dmenu -i -p "${prompt}")"
+    local macchiato_img="${HOME}/.config/themes/catppuccin_macchiato/misc-config/.config/wallpaper_arch.png"
+    local latte_img="${HOME}/.config/themes/catppuccin_latte/misc-config/.config/arch_pink.png"
+    local nord_img="${HOME}/.config/themes/nord/archlinux.png"
+
+    # Format the inputs for rofi dmenu with icons
+    local rofi_input=""
+    rofi_input+="Catppuccin Macchiato\x00icon\x1f${macchiato_img}\n"
+    rofi_input+="Catppuccin Latte\x00icon\x1f${latte_img}\n"
+    rofi_input+="Nord\x00icon\x1f${nord_img}\n"
+
+    selected="$(echo -en "${rofi_input}" | rofi -dmenu -i -p "${prompt}" -show-icons -theme "${HOME}/.config/themes/theme_switcher/theme-menu.rasi" -hover-select -me-select-entry '' -me-accept-entry MousePrimary)"
   elif command -v fuzzel >/dev/null 2>&1; then
     selected="$(printf "catppuccin_macchiato\ncatppuccin_latte\nnord\n" | fuzzel --dmenu -p "${prompt}")"
   elif command -v wofi >/dev/null 2>&1; then
@@ -459,8 +469,15 @@ menu_select_theme() {
   fi
 
   case "${selected}" in
-    catppuccin_macchiato|catppuccin_latte|nord) switch_theme "${selected}" ;;
-    *) echo "Selection cancelled." ;;
+    "Catppuccin Macchiato"*) switch_theme "catppuccin_macchiato" ;;
+    "Catppuccin Latte"*) switch_theme "catppuccin_latte" ;;
+    "Nord"*) switch_theme "nord" ;;
+    *)
+      case "${selected}" in
+        catppuccin_macchiato|catppuccin_latte|nord) switch_theme "${selected}" ;;
+        *) echo "Selection cancelled: '${selected}'" ;;
+      esac
+      ;;
   esac
 }
 
