@@ -33,7 +33,7 @@ print_header() {
 print_step() {
     local step_num=$1
     local step_desc=$2
-    echo -e "\n${BLUE}${BOLD}[$step_num/5] ${ICON_GEAR} $step_desc${NC}"
+    echo -e "\n${BLUE}${BOLD}[$step_num/6] ${ICON_GEAR} $step_desc${NC}"
     echo -e "${BLUE}──────────────────────────────────────────────────${NC}"
 }
 
@@ -89,6 +89,13 @@ sudo systemctl enable --now NetworkManager || print_warn "NetworkManager nem ér
 sudo systemctl enable --now bluetooth || print_warn "Bluetooth nem érhető el"
 sudo systemctl enable --now systemd-resolved || print_warn "Systemd-resolved nem érhető el"
 sudo systemctl enable --now fstrim.timer || print_warn "Fstrim.timer nem támogatott ezen a rendszeren"
+
+# Disable SDDM, enable Ly as the default greeter
+print_info "Greeter beállítása: ly aktiválása, sddm letiltása..."
+sudo systemctl disable sddm || print_warn "SDDM nem volt engedélyezve"
+sudo systemctl enable ly || print_warn "Ly nem érhető el"
+sudo systemctl set-default graphical.target || print_warn "graphical.target nem állítható be"
+
 print_success "Rendszerszolgáltatások sikeresen konfigurálva."
 
 # --- 5. LÉPÉS ---
@@ -106,6 +113,23 @@ if [ -f ".bashrc" ]; then
     print_info "Konfigurációk másolása: .bashrc -> $HOME/.bashrc"
     cp .bashrc "$HOME/.bashrc"
     print_success ".bashrc fájl átmásolva."
+fi
+
+# --- 6. LÉPÉS ---
+print_step "6" "Fish shell beállítása alapértelmezettként"
+if command -v fish &>/dev/null; then
+    FISH_PATH="$(command -v fish)"
+    if ! grep -q "${FISH_PATH}" /etc/shells; then
+        echo "${FISH_PATH}" | sudo tee -a /etc/shells
+    fi
+    if [ "$(getent passwd "$USER" | cut -d: -f7)" != "${FISH_PATH}" ]; then
+        chsh -s "${FISH_PATH}"
+        print_success "Fish shell beállítva alapértelmezettként: ${FISH_PATH}"
+    else
+        print_success "Fish shell már alapértelmezett."
+    fi
+else
+    print_warn "Fish shell nem található, csomag telepítés ellenőrzendő."
 fi
 
 # --- Befejezés ---
