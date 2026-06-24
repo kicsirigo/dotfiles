@@ -11,6 +11,10 @@ import signal
 import threading
 import time
 
+# Set program name for Wayland app_id mapping
+GLib.set_prgname("wifi-widget")
+GLib.set_application_name("wifi-widget")
+
 # --- SINGLE INSTANCE CHECK ---
 # Clicking the Waybar widget again should close the open window.
 def single_instance_check():
@@ -153,9 +157,11 @@ class WifiWidget(Gtk.Window):
         self.theme = self.get_current_theme()
         self.apply_css(self.theme)
         
-        # Close events
-        self.connect("focus-out-event", lambda w, e: Gtk.main_quit())
+        # Close events with a grace period to prevent immediate closing before cursor enters
+        self.focus_close_enabled = False
+        self.connect("focus-out-event", self.on_focus_out)
         self.connect("key-press-event", self.on_key_press)
+        GLib.timeout_add(500, self.enable_focus_close)
         
         # States
         self.wifi_enabled = False
@@ -255,13 +261,23 @@ class WifiWidget(Gtk.Window):
         self.check_status()
         self.show_all()
         
-        # Align position to cursor
-        GLib.timeout_add(30, self.position_window)
+        # Align position to cursor (try multiple times as the window maps)
+        self.position_attempts = 0
+        GLib.timeout_add(50, self.position_window)
 
     def on_key_press(self, widget, event):
         if event.keyval == Gdk.KEY_Escape:
             Gtk.main_quit()
             return True
+        return False
+
+    def enable_focus_close(self):
+        self.focus_close_enabled = True
+        return False
+
+    def on_focus_out(self, widget, event):
+        if self.focus_close_enabled:
+            Gtk.main_quit()
         return False
 
     def get_current_theme(self):
@@ -471,6 +487,7 @@ class WifiWidget(Gtk.Window):
         )
 
     def position_window(self):
+        self.position_attempts += 1
         try:
             res = subprocess.run(["hyprctl", "cursorpos"], capture_output=True, text=True)
             cursor_x, cursor_y = map(int, res.stdout.strip().split(","))
@@ -487,6 +504,10 @@ class WifiWidget(Gtk.Window):
         y = 38 # Align just under Waybar (height is 32px + 6px gap)
         
         subprocess.run(["hyprctl", "dispatch", "movewindowpixel", f"exact {x} {y},class:wifi-widget"])
+        
+        # Repeat up to 10 times to catch the window mapping
+        if self.position_attempts < 10:
+            return True
         return False
 
     def check_status(self):
