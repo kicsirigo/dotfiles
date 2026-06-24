@@ -3,14 +3,14 @@
 # Exit on error
 set -e
 
-# Color definitions (Catppuccin inspired style)
-CORAL='\033[38;2;244;219;214m'
-MAUVE='\033[38;2;198;160;246m'
-BLUE='\033[38;2;138;173;244m'
-GREEN='\033[38;2;166;218;149m'
-YELLOW='\033[38;2;238;212;159m'
-RED='\033[38;2;237;135;150m'
-CYAN='\033[38;2;139;213;202m'
+# Color definitions (High-intensity 16-color ANSI escape sequences for minimal CLI/TTY support)
+CORAL='\033[91m'   # Light Red
+MAUVE='\033[95m'   # Light Magenta
+BLUE='\033[94m'    # Light Blue
+GREEN='\033[92m'   # Light Green
+YELLOW='\033[93m'  # Light Yellow
+RED='\033[31m'     # Standard Red
+CYAN='\033[96m'    # Light Cyan
 BOLD='\033[1m'
 NC='\033[0m' # No color
 
@@ -68,6 +68,7 @@ run_pretty() {
     local frame_idx=0
     local color_idx=0
     local last_line_count=0
+    local verbose_lines_printed=0
     
     while kill -0 "$pid" 2>/dev/null; do
         local key=""
@@ -76,6 +77,11 @@ run_pretty() {
             if [ "$key" = "." ]; then
                 if [ "$VERBOSE" = true ]; then
                     VERBOSE=false
+                    # Erase all verbose lines printed in the current step session
+                    while [ "$verbose_lines_printed" -gt 0 ]; do
+                        printf "\033[1A\033[2K"
+                        verbose_lines_printed=$((verbose_lines_printed - 1))
+                    done
                     printf "\r\033[K" # Clear current line
                     echo -e "${YELLOW}➜ Toggled verbose mode OFF. Returning to loading animation...${NC}"
                 else
@@ -83,6 +89,7 @@ run_pretty() {
                     printf "\r\033[K"
                     echo -e "${CYAN}➜ Toggled verbose mode ON. Showing output details...${NC}"
                     last_line_count=0
+                    verbose_lines_printed=0
                 fi
             fi
         fi
@@ -90,7 +97,12 @@ run_pretty() {
         if [ "$VERBOSE" = true ]; then
             local current_line_count=$(wc -l < "$log_file")
             if [ "$current_line_count" -gt "$last_line_count" ]; then
-                tail -n +"$((last_line_count + 1))" "$log_file"
+                local lines_to_print=$(tail -n +"$((last_line_count + 1))" "$log_file")
+                if [ -n "$lines_to_print" ]; then
+                    echo "$lines_to_print"
+                    local new_lines=$(echo "$lines_to_print" | wc -l)
+                    verbose_lines_printed=$((verbose_lines_printed + new_lines))
+                fi
                 last_line_count=$current_line_count
             fi
         else
