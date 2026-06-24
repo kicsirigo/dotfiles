@@ -33,7 +33,7 @@ print_header() {
 print_step() {
     local step_num=$1
     local step_desc=$2
-    echo -e "\n${BLUE}${BOLD}[$step_num/7] ${ICON_GEAR} $step_desc${NC}"
+    echo -e "\n${BLUE}${BOLD}[$step_num/8] ${ICON_GEAR} $step_desc${NC}"
     echo -e "${BLUE}──────────────────────────────────────────────────${NC}"
 }
 
@@ -304,6 +304,11 @@ if [ -d \"\$HOME/.local/share/themes\" ]; then
     done
 fi
 '"
+
+# --- STEP 8 ---
+print_step "8" "Initializing default theme"
+run_pretty "Making theme switcher scripts executable" "chmod +x \$HOME/.config/themes/theme_switcher/*.sh"
+run_pretty "Setting default theme to Catppuccin Macchiato" "\$HOME/.config/themes/theme_switcher/theme_switcher.sh catppuccin_macchiato"
 
 # --- Finish ---
 echo -e "\n${GREEN}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
