@@ -335,7 +335,7 @@ apply_gtk_integrations() {
   case "${target_theme}" in
     catppuccin_macchiato) gtk_theme="catppuccin-macchiato-lavender-standard+default" ;;
     catppuccin_latte) gtk_theme="catppuccin-latte-lavender-standard+default" ;;
-    nord) gtk_theme="nord-lavender-standard+default" ;;
+    nord) gtk_theme="Nordic" ;;
     *)
       echo "Unknown theme for GTK mapping: ${target_theme}" >&2
       exit 1
