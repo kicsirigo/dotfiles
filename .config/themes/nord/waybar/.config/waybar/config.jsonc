@@ -84,7 +84,7 @@
         "tooltip-format": "{essid} - {ipaddr}/{cidr}\nGateway: {gwaddr}",
         "format-disabled": "󰤮  Off",
         "format-icons": ["󰤯", "󰤟", "󰤢","󰤥","󰤨"],
-        "on-click": "rofi-wifi-menu -font 'CaskaydiaCove Nerd Font 20'"  
+        "on-click": "python3 /home/mate/.config/themes/theme_switcher/wifi-widget.py"  
     },
 
     "clock": {
