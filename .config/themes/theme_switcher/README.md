@@ -11,7 +11,6 @@ All switcher files live in `~/.config/themes/theme_switcher`.
 ## Files
 
 - `theme_switcher.sh` - main script
-- `theme_menu.sh` - launcher helper (opens menu)
 - `current_theme` - state file created automatically
 - `backups/` - backups of non-symlink config files replaced during switch
 

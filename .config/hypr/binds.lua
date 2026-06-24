@@ -83,5 +83,5 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -n2 set 5%-"), {
 -- bindl = , XF86AudioPrev, exec, playerctl previous
 
 -- Theme switcher
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_menu.sh"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh menu"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh toggle"))
