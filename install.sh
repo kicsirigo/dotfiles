@@ -49,6 +49,80 @@ print_warn() {
     echo -e "${YELLOW}${ICON_WARN} $1${NC}"
 }
 
+# --- Pretty Execution Helper with Verbose Toggle ---
+VERBOSE=false
+
+run_pretty() {
+    local step_desc="$1"
+    shift
+    local cmd="$*"
+    
+    local log_file=$(mktemp)
+    
+    # Run the command in the background, redirecting output
+    eval "$cmd" > "$log_file" 2>&1 &
+    local pid=$!
+    
+    local spinner_frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+    local spinner_colors=("$MAUVE" "$BLUE" "$CYAN" "$GREEN" "$YELLOW" "$CORAL")
+    local frame_idx=0
+    local color_idx=0
+    local last_line_count=0
+    
+    while kill -0 "$pid" 2>/dev/null; do
+        local key=""
+        # Non-blocking silent read from terminal tty
+        if read -s -t 0.08 -n 1 key < /dev/tty 2>/dev/null; then
+            if [ "$key" = "." ]; then
+                if [ "$VERBOSE" = true ]; then
+                    VERBOSE=false
+                    printf "\r\033[K" # Clear current line
+                    echo -e "${YELLOW}➜ Toggled verbose mode OFF. Returning to loading animation...${NC}"
+                else
+                    VERBOSE=true
+                    printf "\r\033[K"
+                    echo -e "${CYAN}➜ Toggled verbose mode ON. Showing output details...${NC}"
+                    last_line_count=0
+                fi
+            fi
+        fi
+        
+        if [ "$VERBOSE" = true ]; then
+            local current_line_count=$(wc -l < "$log_file")
+            if [ "$current_line_count" -gt "$last_line_count" ]; then
+                tail -n +"$((last_line_count + 1))" "$log_file"
+                last_line_count=$current_line_count
+            fi
+        else
+            local frame="${spinner_frames[frame_idx]}"
+            local color="${spinner_colors[color_idx]}"
+            printf "\r${color}%s${NC} %s... [Press '.' to show details]" "$frame" "$step_desc"
+            
+            frame_idx=$(( (frame_idx + 1) % ${#spinner_frames[@]} ))
+            color_idx=$(( (color_idx + 1) % ${#spinner_colors[@]} ))
+        fi
+    done
+    
+    # Wait for the background process to finish and get exit code
+    wait "$pid"
+    local exit_status=$?
+    
+    # Clear the spinner line
+    printf "\r\033[K"
+    
+    if [ "$exit_status" -eq 0 ]; then
+        print_success "$step_desc completed successfully."
+    else
+        echo -e "${RED}${BOLD}ERROR: $step_desc failed (Exit code: $exit_status).${NC}"
+        echo -e "${RED}Last 15 lines of output:${NC}"
+        tail -n 15 "$log_file"
+        rm -f "$log_file"
+        exit 1
+    fi
+    
+    rm -f "$log_file"
+}
+
 # --- Welcome Screen ---
 print_header
 
@@ -64,29 +138,20 @@ print_info "Starting the installation process..."
 
 # --- STEP 1 ---
 print_step "1" "Installing basic build tools"
-sudo pacman -S --needed --noconfirm base-devel git rsync
-print_success "Basic tools installed successfully."
+run_pretty "Installing base-devel, git, and rsync" sudo pacman -S --needed --noconfirm base-devel git rsync
 
 # --- STEP 2 ---
 print_step "2" "Installing Yay (AUR helper)"
 if ! command -v yay &> /dev/null; then
-    print_info "Yay not found, starting installation from AUR..."
-    git clone https://aur.archlinux.org/yay.git /tmp/yay
-    cd /tmp/yay
-    makepkg -si --noconfirm
-    cd - > /dev/null
-    rm -rf /tmp/yay
-    print_success "Yay installed successfully."
+    run_pretty "Building and installing Yay from AUR" "git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm && rm -rf /tmp/yay"
 else
-    print_success "Yay is already installed, skipping step."
+    print_success "Yay is already installed, skipping build."
 fi
 
 # --- STEP 3 ---
 print_step "3" "Installing packages from list"
 if [ -f "all_package.txt" ]; then
-    print_info "Syncing system packages based on all_package.txt..."
-    yay -S --needed --noconfirm $(cat all_package.txt)
-    print_success "All packages synced successfully."
+    run_pretty "Installing system packages via Yay" yay -S --needed --noconfirm $(cat all_package.txt)
 else
     echo -e "${RED}${BOLD}ERROR: all_package.txt not found!${NC}"
     exit 1
@@ -94,154 +159,139 @@ fi
 
 # --- STEP 4 ---
 print_step "4" "Configuring system services and Plymouth"
-sudo systemctl enable --now NetworkManager || print_warn "NetworkManager is not available"
-sudo systemctl enable --now bluetooth || print_warn "Bluetooth is not available"
-# Clear stale Bluetooth device cache to prevent blueman from hanging on scan
-print_info "Clearing Bluetooth device cache (blueman fix)..."
-sudo rm -rf /var/lib/bluetooth/*
-sudo systemctl restart bluetooth || print_warn "Failed to restart Bluetooth"
-print_success "Bluetooth cache cleared and service restarted."
-sudo systemctl enable --now systemd-resolved || print_warn "Systemd-resolved is not available"
-sudo systemctl enable --now fstrim.timer || print_warn "Fstrim.timer is not supported on this system"
+run_pretty "Enabling NetworkManager and Bluetooth" "sudo systemctl enable --now NetworkManager && sudo systemctl enable --now bluetooth"
 
-# Plymouth configuration
-print_info "Configuring Plymouth..."
-if [ -f "/etc/mkinitcpio.conf" ]; then
-    # Add Plymouth hook
-    if ! grep -q "plymouth" /etc/mkinitcpio.conf; then
-        print_info "Adding Plymouth hook to /etc/mkinitcpio.conf..."
-        sudo sed -i 's/\(HOOKS=(.*udev\)/\1 plymouth/' /etc/mkinitcpio.conf
+print_info "Clearing Bluetooth device cache (blueman fix)..."
+run_pretty "Clearing Bluetooth cache" "sudo rm -rf /var/lib/bluetooth/* && sudo systemctl restart bluetooth"
+
+run_pretty "Enabling systemd-resolved and fstrim" "sudo systemctl enable --now systemd-resolved && sudo systemctl enable --now fstrim.timer"
+
+run_pretty "Configuring Plymouth hooks and Early KMS" "bash -c '
+if [ -f \"/etc/mkinitcpio.conf\" ]; then
+    if ! grep -q \"plymouth\" /etc/mkinitcpio.conf; then
+        sudo sed -i \"s/\\(HOOKS=(.*udev\\)/\\1 plymouth/\" /etc/mkinitcpio.conf
     fi
-    # Early KMS (Adding GPU modules to MODULES array)
-    gpu_module=""
-    if lspci | grep -qi "intel"; then
-        gpu_module="i915"
-    elif lspci | grep -qi "amd"; then
-        gpu_module="amdgpu"
-    elif lspci | grep -qi "nvidia"; then
-        gpu_module="nouveau"
+    gpu_module=\"\"
+    if lspci | grep -qi \"intel\"; then
+        gpu_module=\"i915\"
+    elif lspci | grep -qi \"amd\"; then
+        gpu_module=\"amdgpu\"
+    elif lspci | grep -qi \"nvidia\"; then
+        gpu_module=\"nouveau\"
     fi
-    if [ -n "$gpu_module" ]; then
-        if ! grep -q "MODULES=(\([^)]* \)*$gpu_module\([ )]\|$\)" /etc/mkinitcpio.conf; then
-            print_info "Setting up early KMS: adding $gpu_module module to mkinitcpio..."
-            sudo sed -i "s/MODULES=(\([^)]*\))/MODULES=(\1 $gpu_module)/" /etc/mkinitcpio.conf
-            sudo sed -i "s/MODULES=(\s*/MODULES=(/" /etc/mkinitcpio.conf
+    if [ -n \"\$gpu_module\" ]; then
+        if ! grep -q \"MODULES=(\\([^)]* \\)*\$gpu_module\\([ )]\\|\$\\)\" /etc/mkinitcpio.conf; then
+            sudo sed -i \"s/MODULES=(\\([^)]*\\))/MODULES=(\\1 \$gpu_module)/\" /etc/mkinitcpio.conf
+            sudo sed -i \"s/MODULES=(\\s*/MODULES=(/\" /etc/mkinitcpio.conf
         fi
     fi
 fi
+'"
 
-# Set kernel parameters (GRUB and UKI /etc/kernel/cmdline as well)
-if [ -f "/etc/default/grub" ]; then
-    if ! grep -q "splash" /etc/default/grub; then
-        print_info "Adding splash kernel parameter to /etc/default/grub..."
-        sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
+run_pretty "Adding kernel parameters (splash/quiet)" "bash -c '
+if [ -f \"/etc/default/grub\" ]; then
+    if ! grep -q \"splash\" /etc/default/grub; then
+        sudo sed -i \"s/GRUB_CMDLINE_LINUX_DEFAULT=\"\\(.*\\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\\1 splash\"/\" /etc/default/grub
     fi
 fi
-if [ -f "/etc/kernel/cmdline" ]; then
-    if ! grep -q "splash" /etc/kernel/cmdline; then
-        print_info "Adding splash and quiet kernel parameters to /etc/kernel/cmdline..."
-        sudo sed -i 's/$/ quiet splash/' /etc/kernel/cmdline
+if [ -f \"/etc/kernel/cmdline\" ]; then
+    if ! grep -q \"splash\" /etc/kernel/cmdline; then
+        sudo sed -i \"s/\$/ quiet splash/\" /etc/kernel/cmdline
     fi
 fi
+'"
 
-# Set Plymouth theme
+run_pretty "Setting Plymouth Catppuccin theme" "bash -c '
 if command -v plymouth-set-default-theme &>/dev/null; then
-    print_info "Setting Catppuccin Plymouth theme..."
-    sudo plymouth-set-default-theme -R catppuccin-macchiato || print_warn "Failed to set Plymouth theme"
+    sudo plymouth-set-default-theme -R catppuccin-macchiato
 fi
+'"
 
-# Set GRUB theme and regenerate config
+run_pretty "Installing Catppuccin GRUB theme" "bash -c '
 if command -v grub-mkconfig &>/dev/null; then
-    if [ ! -d "/usr/share/grub/themes/catppuccin-macchiato" ]; then
-        print_info "Downloading and setting Catppuccin GRUB theme..."
-        git clone https://github.com/catppuccin/grub.git /tmp/grub_theme_repo || print_warn "Failed to download GRUB theme"
-        if [ -d "/tmp/grub_theme_repo" ]; then
+    if [ ! -d \"/usr/share/grub/themes/catppuccin-macchiato\" ]; then
+        git clone https://github.com/catppuccin/grub.git /tmp/grub_theme_repo
+        if [ -d \"/tmp/grub_theme_repo\" ]; then
             sudo mkdir -p /usr/share/grub/themes
             sudo cp -r /tmp/grub_theme_repo/src/catppuccin-macchiato-grub-theme /usr/share/grub/themes/catppuccin-macchiato
             rm -rf /tmp/grub_theme_repo
         fi
     fi
-    if [ -d "/usr/share/grub/themes/catppuccin-macchiato" ]; then
-        if grep -q "GRUB_THEME=" /etc/default/grub; then
-            sudo sed -i 's|^#\?GRUB_THEME=.*|GRUB_THEME="/usr/share/grub/themes/catppuccin-macchiato/theme.txt"|' /etc/default/grub
+    if [ -d \"/usr/share/grub/themes/catppuccin-macchiato\" ]; then
+        if grep -q \"GRUB_THEME=\" /etc/default/grub; then
+            sudo sed -i \"s|^#\\?GRUB_THEME=.*|GRUB_THEME=\\\"/usr/share/grub/themes/catppuccin-macchiato/theme.txt\\\"|\" /etc/default/grub
         else
-            echo 'GRUB_THEME="/usr/share/grub/themes/catppuccin-macchiato/theme.txt"' | sudo tee -a /etc/default/grub >/dev/null
+            echo \"GRUB_THEME=\\\"/usr/share/grub/themes/catppuccin-macchiato/theme.txt\\\"\" | sudo tee -a /etc/default/grub >/dev/null
         fi
     fi
-    print_info "Regenerating GRUB configuration..."
-    sudo grub-mkconfig -o /boot/grub/grub.cfg || print_warn "Failed to regenerate GRUB configuration"
 fi
-if [ -f "/etc/kernel/cmdline" ] || [ -d "/boot/EFI/Linux" ]; then
-    print_info "Regenerating UKI / initramfs (mkinitcpio -P)..."
-    sudo mkinitcpio -P || print_warn "Failed to run mkinitcpio"
+'"
+
+run_pretty "Regenerating boot configs and initramfs" "bash -c '
+if command -v grub-mkconfig &>/dev/null; then
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
 fi
+if [ -f \"/etc/kernel/cmdline\" ] || [ -d \"/boot/EFI/Linux\" ]; then
+    sudo mkinitcpio -P
+fi
+'"
 
-# Disable SDDM, enable Ly as the default greeter
-print_info "Configuring greeter: enabling ly@tty1, disabling sddm..."
-sudo systemctl disable sddm || print_warn "SDDM was not enabled"
-sudo systemctl disable getty@tty1.service || print_warn "getty@tty1 could not be disabled"
-sudo systemctl enable ly@tty1.service || print_warn "Ly is not available"
-sudo systemctl set-default graphical.target || print_warn "graphical.target could not be set"
-
-print_success "System services and Plymouth configured successfully."
+run_pretty "Enabling Ly greeter" "bash -c '
+sudo systemctl disable sddm || true
+sudo systemctl disable getty@tty1.service || true
+sudo systemctl enable ly@tty1.service || true
+sudo systemctl set-default graphical.target || true
+'"
 
 # --- STEP 5 ---
 print_step "5" "Copying configuration files"
-# Copy .config directory
-if [ -d ".config" ]; then
-    print_info "Copying configs: .config/* -> $HOME/.config/"
-    mkdir -p "$HOME/.config"
-    rsync -av --no-perms --no-owner --no-group .config/ "$HOME/.config/"
-    print_success ".config files copied."
+run_pretty "Copying user .config directory" "bash -c '
+if [ -d \".config\" ]; then
+    mkdir -p \"\$HOME/.config\"
+    rsync -av --no-perms --no-owner --no-group .config/ \"\$HOME/.config/\"
 fi
+'"
 
-# Copy .bashrc
-if [ -f ".bashrc" ]; then
-    print_info "Copying config: .bashrc -> $HOME/.bashrc"
-    cp .bashrc "$HOME/.bashrc"
-    print_success ".bashrc file copied."
+run_pretty "Copying .bashrc file" "bash -c '
+if [ -f \".bashrc\" ]; then
+    cp .bashrc \"\$HOME/.bashrc\"
 fi
+'"
 
 # --- STEP 6 ---
 print_step "6" "Setting Fish shell as default"
+run_pretty "Configuring Fish as default login shell" "bash -c '
 if command -v fish &>/dev/null; then
-    FISH_PATH="$(command -v fish)"
-    if ! grep -q "${FISH_PATH}" /etc/shells; then
-        echo "${FISH_PATH}" | sudo tee -a /etc/shells
+    FISH_PATH=\"\$(command -v fish)\"
+    if ! grep -q \"\${FISH_PATH}\" /etc/shells; then
+        echo \"\${FISH_PATH}\" | sudo tee -a /etc/shells >/dev/null
     fi
-    if [ "$(getent passwd "$USER" | cut -d: -f7)" != "${FISH_PATH}" ]; then
-        chsh -s "${FISH_PATH}"
-        print_success "Fish shell set as default: ${FISH_PATH}"
-    else
-        print_success "Fish shell is already default."
+    if [ \"\$(getent passwd \"\$USER\" | cut -d: -f7)\" != \"\${FISH_PATH}\" ]; then
+        chsh -s \"\${FISH_PATH}\"
     fi
-else
-    print_warn "Fish shell not found, please check package installation."
 fi
+'"
 
 # --- STEP 7 ---
 print_step "7" "Cleaning up unused GTK theme variants"
-# Clean up unused Catppuccin Macchiato themes under /usr/share/themes
-print_info "Cleaning up unused Catppuccin Macchiato variants from /usr/share/themes/..."
+run_pretty "Cleaning system and local theme variants" "bash -c '
 for dir in /usr/share/themes/catppuccin-macchiato-*; do
-    if [ -d "${dir}" ] && [[ "${dir}" != *"-lavender-"* ]]; then
-        sudo rm -rf "${dir}"
+    if [ -d \"\${dir}\" ] && [[ \"\${dir}\" != *\"-lavender-\"* ]]; then
+        sudo rm -rf \"\${dir}\"
     fi
 done
 
-# Clean up unused Nordic themes under ~/.local/share/themes
-if [ -d "$HOME/.local/share/themes" ]; then
-    print_info "Cleaning up unused Nordic variants from $HOME/.local/share/themes/..."
-    for dir in "$HOME/.local/share/themes"/Nordic-*; do
-        if [ -d "${dir}" ]; then
-            rm -rf "${dir}"
+if [ -d \"\$HOME/.local/share/themes\" ]; then
+    for dir in \"\$HOME/.local/share/themes\"/Nordic-*; do
+        if [ -d \"\${dir}\" ]; then
+            rm -rf \"\${dir}\"
         fi
     done
 fi
-print_success "Unused GTK theme variants cleaned up."
+'"
 
 # --- Finish ---
 echo -e "\n${GREEN}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
-    echo -e "${GREEN}${BOLD}│      DONE! All packages and configs in place.   │${NC}"
-    echo -e "${GREEN}${BOLD}│      A system reboot is recommended: 'reboot'    │${NC}"
-    echo -e "${GREEN}${BOLD}╰──────────────────────────────────────────────────╯${NC}\n"
+echo -e "${GREEN}${BOLD}│      DONE! All packages and configs in place.   │${NC}"
+echo -e "${GREEN}${BOLD}│      A system reboot is recommended: 'reboot'    │${NC}"
+echo -e "${GREEN}${BOLD}╰──────────────────────────────────────────────────╯${NC}\n"
