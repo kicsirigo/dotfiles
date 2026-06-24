@@ -16,3 +16,10 @@ hl.monitor({
     scale = "1.0",
 })
 
+
+hl.monitor({
+    output = "desc:Chimei Innolux Corporation 0x15E7",
+    mode = "1920x1080@60.0",
+    position = "0x0",
+    scale = "1.25",
+})
