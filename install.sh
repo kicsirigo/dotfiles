@@ -33,7 +33,7 @@ print_header() {
 print_step() {
     local step_num=$1
     local step_desc=$2
-    echo -e "\n${BLUE}${BOLD}[$step_num/6] ${ICON_GEAR} $step_desc${NC}"
+    echo -e "\n${BLUE}${BOLD}[$step_num/7] ${ICON_GEAR} $step_desc${NC}"
     echo -e "${BLUE}──────────────────────────────────────────────────${NC}"
 }
 
@@ -209,6 +209,27 @@ if command -v fish &>/dev/null; then
 else
     print_warn "Fish shell not found, please check package installation."
 fi
+
+# --- STEP 7 ---
+print_step "7" "Cleaning up unused GTK theme variants"
+# Clean up unused Catppuccin Macchiato themes under /usr/share/themes
+print_info "Cleaning up unused Catppuccin Macchiato variants from /usr/share/themes/..."
+for dir in /usr/share/themes/catppuccin-macchiato-*; do
+    if [ -d "${dir}" ] && [[ "${dir}" != *"-lavender-"* ]]; then
+        sudo rm -rf "${dir}"
+    fi
+done
+
+# Clean up unused Nordic themes under ~/.local/share/themes
+if [ -d "$HOME/.local/share/themes" ]; then
+    print_info "Cleaning up unused Nordic variants from $HOME/.local/share/themes/..."
+    for dir in "$HOME/.local/share/themes"/Nordic-*; do
+        if [ -d "${dir}" ]; then
+            rm -rf "${dir}"
+        fi
+    done
+fi
+print_success "Unused GTK theme variants cleaned up."
 
 # --- Finish ---
 echo -e "\n${GREEN}${BOLD}╭──────────────────────────────────────────────────╮${NC}"
