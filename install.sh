@@ -99,7 +99,7 @@ if [ -f "/etc/mkinitcpio.conf" ]; then
         sudo sed -i 's/\(HOOKS=(.*udev\)/\1 plymouth/' /etc/mkinitcpio.conf
     fi
     # Korai KMS (GPU modulok hozzáadása a MODULES tömbhöz)
-    local gpu_module=""
+    gpu_module=""
     if lspci | grep -qi "intel"; then
         gpu_module="i915"
     elif lspci | grep -qi "amd"; then
