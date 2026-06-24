@@ -91,9 +91,12 @@ def run_in_thread(target, *args, **kwargs):
 def get_wifi_networks():
     try:
         res = subprocess.run(
-            ["nmcli", "-t", "-f", "IN-USE,SSID,BSSID,SIGNAL,BARS,SECURITY", "device wifi list"],
-            capture_output=True, text=True, check=True
+            ["nmcli", "-t", "-f", "IN-USE,SSID,BSSID,SIGNAL,BARS,SECURITY", "device", "wifi", "list"],
+            capture_output=True, text=True
         )
+        if res.returncode != 0:
+            print("nmcli device wifi list error:", res.stderr.strip())
+            return []
         lines = res.stdout.strip().split("\n")
         networks = []
         seen_ssids = set()
@@ -561,14 +564,17 @@ class WifiWidget(Gtk.Window):
     def get_active_ssid(self):
         try:
             res = subprocess.run(
-                ["nmcli", "-t", "-f", "ACTIVE,SSID", "dev", "wifi"],
+                ["nmcli", "-t", "-f", "DEVICE,TYPE,CONNECTION", "device"],
                 capture_output=True, text=True
             )
             for line in res.stdout.strip().split("\n"):
-                if line.startswith("yes:"):
-                    return line.split(":")[1].strip()
-        except Exception:
-            pass
+                parts = line.split(":")
+                if len(parts) >= 3 and parts[1] == "wifi":
+                    conn = parts[2].strip()
+                    if conn and conn != "--":
+                        return conn
+        except Exception as e:
+            print("Error getting active SSID:", e)
         return None
 
     def refresh_list(self):
