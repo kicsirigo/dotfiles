@@ -65,6 +65,7 @@ swaync
 thunar
 thunar-volman
 ttf-cascadia-code-nerd
+udiskie
 unrar
 unzip
 usbmuxd
