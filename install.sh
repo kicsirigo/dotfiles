@@ -3,9 +3,27 @@
 # Exit on error
 set -e
 
+# Recursively terminate all child processes
+kill_children() {
+    local parent_pid=$1
+    local child_pids
+    child_pids=$(pgrep -P "$parent_pid" 2>/dev/null) || true
+    for child in $child_pids; do
+        kill_children "$child"
+        kill -TERM "$child" 2>/dev/null || true
+    done
+}
+
 # Cleanup handler for clean exit/termination
 cleanup() {
     local exit_code=$?
+    
+    # Terminate all child processes spawned by this script to prevent locked files/orphans
+    kill_children "$$"
+    
+    # Move out of any directory that we might be deleting
+    cd /tmp 2>/dev/null || true
+    
     # Clean up askpass helper and wrappers
     if [ -n "${SUDO_ASKPASS:-}" ]; then
         rm -f "$SUDO_ASKPASS"
@@ -13,8 +31,10 @@ cleanup() {
     if [ -n "${WRAPPER_DIR:-}" ]; then
         rm -rf "$WRAPPER_DIR"
     fi
+    
     # Clean up residual /tmp directories to prevent state conflicts
     rm -rf /tmp/yay /tmp/grub_theme_repo
+    
     exit $exit_code
 }
 trap cleanup EXIT INT TERM
