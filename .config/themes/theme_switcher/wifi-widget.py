@@ -10,6 +10,7 @@ import re
 import signal
 import threading
 import time
+import json
 
 # Set program name for Wayland app_id mapping
 GLib.set_prgname("wifi-widget")
@@ -155,20 +156,11 @@ class WifiWidget(Gtk.Window):
         self.set_decorated(False)
         self.set_resizable(False)
         
-        # Get monitor size dynamically
-        display = Gdk.Display.get_default()
-        monitor = display.get_primary_monitor()
-        if monitor:
-            geometry = monitor.get_geometry()
-            self.monitor_width = geometry.width
-            self.monitor_height = geometry.height
-        else:
-            self.monitor_width = 1920
-            self.monitor_height = 1080
-            
-        self.set_default_size(self.monitor_width, self.monitor_height)
+        self.monitor_width = 360
+        self.monitor_height = 450
+        self.set_default_size(360, 450)
         
-        # Transparent visual for parent fullscreen window
+        # Transparent visual for parent window
         screen = self.get_screen()
         visual = screen.get_rgba_visual()
         if visual and screen.is_composited():
@@ -178,10 +170,11 @@ class WifiWidget(Gtk.Window):
         self.theme = self.get_current_theme()
         self.apply_css(self.theme)
         
-        # Close events with a grace period to prevent immediate closing before cursor enters
+        # Close events
         self.focus_close_enabled = False
         self.connect("button-press-event", self.on_button_press)
         self.connect("key-press-event", self.on_key_press)
+        self.connect("focus-out-event", self.on_focus_out)
         GLib.timeout_add(500, self.enable_focus_close)
         
         # States
@@ -326,6 +319,10 @@ class WifiWidget(Gtk.Window):
     def enable_focus_close(self):
         self.focus_close_enabled = True
         return False
+
+    def on_focus_out(self, widget, event):
+        Gtk.main_quit()
+        return True
 
     def on_button_press(self, widget, event):
         if not self.focus_close_enabled:
@@ -556,26 +553,55 @@ class WifiWidget(Gtk.Window):
 
     def position_window(self):
         self.position_attempts += 1
+        
+        # Default fallback coordinates
+        monitor_x = 0
+        monitor_width = self.monitor_width
+        reserved = [0, 30, 0, 0] # default to 30px top reserve
+        
         try:
             res = subprocess.run(["hyprctl", "cursorpos"], capture_output=True, text=True)
             cursor_x, cursor_y = map(int, res.stdout.strip().split(","))
         except Exception:
             cursor_x, cursor_y = 1200, 32
+
+        # Fetch active monitor info from hyprctl
+        try:
+            m_res = subprocess.run(["hyprctl", "monitors", "-j"], capture_output=True, text=True)
+            monitors = json.loads(m_res.stdout)
+            for m in monitors:
+                scale = m.get("scale", 1.0)
+                mx = m.get("x", 0)
+                my = m.get("y", 0)
+                mw = m.get("width", 1920) / scale
+                mh = m.get("height", 1080) / scale
+                if mx <= cursor_x <= mx + mw and my <= cursor_y <= my + mh:
+                    monitor_x = mx
+                    monitor_width = mw
+                    reserved = m.get("reserved", [0, 30, 0, 0])
+                    break
+            else:
+                # Fallback to focused monitor
+                for m in monitors:
+                    if m.get("focused", False):
+                        scale = m.get("scale", 1.0)
+                        monitor_x = m.get("x", 0)
+                        monitor_width = m.get("width", 1920) / scale
+                        reserved = m.get("reserved", [0, 30, 0, 0])
+                        break
+        except Exception as e:
+            print("Error parsing monitors:", e)
+
+        # Get actual allocated window width dynamically
+        width, height = self.get_size()
+        if width < 360:
+            width = 405 # fallback to measured size if not yet fully allocated
             
-        width = 360
-        # Align widget's left edge to cursor position, offset slightly to center
-        x = cursor_x - 60
-        if x + width > self.monitor_width - 10:
-            x = self.monitor_width - 10 - width
-        if x < 10:
-            x = 10
-        y = 38 # Align just under Waybar (height is 32px + 6px gap)
+        x = monitor_x + monitor_width - width - 10
+        y = reserved[1] + 14 if reserved[1] > 0 else 44
         
-        self.fixed.move(self.main_box, x, y)
-        
-        # Position the fullscreen transparent window at 0, 0 and resize it to cover the screen
-        subprocess.run(["hyprctl", "dispatch", "movewindowpixel", "exact 0 0,class:wifi-widget"])
-        subprocess.run(["hyprctl", "dispatch", "resizewindowpixel", f"exact {self.monitor_width} {self.monitor_height},class:wifi-widget"])
+        # Position the window using correct Hyprland Lua dispatcher syntax
+        subprocess.run(["hyprctl", "dispatch", f'hl.dsp.window.move({{ x = {int(x)}, y = {int(y)}, window = "class:wifi-widget" }})'])
         
         # Repeat up to 10 times to catch the window mapping
         if self.position_attempts < 10:

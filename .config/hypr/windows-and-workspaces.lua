@@ -52,3 +52,15 @@ hl.window_rule({
     center = true,
 })
 
+hl.window_rule({
+    name = "wifi-widget-floating",
+    match = {
+        class = "^(wifi-widget)$",
+    },
+    float = true,
+    size = "360 450",
+    pin = true,
+    move = "100%-370 44",
+    stay_focused = true,
+})
+

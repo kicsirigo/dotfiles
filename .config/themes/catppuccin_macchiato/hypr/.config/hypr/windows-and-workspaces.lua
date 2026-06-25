@@ -60,7 +60,6 @@ hl.window_rule({
     float = true,
     size = "360 450",
     pin = true,
-    move = "1200 38",
     stay_focused = true,
 })
 
