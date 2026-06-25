@@ -151,11 +151,29 @@ class WifiWidget(Gtk.Window):
         self.set_title("Wi-Fi Connections")
         self.set_wmclass("wifi-widget", "wifi-widget")
         self.set_role("wifi-widget")
-        self.set_default_size(360, 450)
         self.set_keep_above(True)
         self.set_decorated(False)
         self.set_resizable(False)
         
+        # Get monitor size dynamically
+        display = Gdk.Display.get_default()
+        monitor = display.get_primary_monitor()
+        if monitor:
+            geometry = monitor.get_geometry()
+            self.monitor_width = geometry.width
+            self.monitor_height = geometry.height
+        else:
+            self.monitor_width = 1920
+            self.monitor_height = 1080
+            
+        self.set_default_size(self.monitor_width, self.monitor_height)
+        
+        # Transparent visual for parent fullscreen window
+        screen = self.get_screen()
+        visual = screen.get_rgba_visual()
+        if visual and screen.is_composited():
+            self.set_visual(visual)
+            
         # Load theme
         self.theme = self.get_current_theme()
         self.apply_css(self.theme)
@@ -165,21 +183,25 @@ class WifiWidget(Gtk.Window):
         self.connect("button-press-event", self.on_button_press)
         self.connect("key-press-event", self.on_key_press)
         GLib.timeout_add(500, self.enable_focus_close)
-        GLib.timeout_add(100, self.start_grab)
         
         # States
         self.wifi_enabled = False
         self.bt_enabled = False
         self.airplane_mode = False
         
-        # Layout container
-        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.add(main_box)
+        # Fixed layout container to allow pixel-exact positioning of the inner box
+        self.fixed = Gtk.Fixed()
+        self.add(self.fixed)
+        
+        self.main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.main_box.set_size_request(360, 450)
+        self.main_box.get_style_context().add_class("main-container")
+        self.fixed.put(self.main_box, 0, 0)
         
         # 1. Header
         header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         header_box.get_style_context().add_class("header")
-        main_box.pack_start(header_box, False, False, 0)
+        self.main_box.pack_start(header_box, False, False, 0)
         
         title_lbl = Gtk.Label()
         title_lbl.set_markup("<b>Quick Settings</b>")
@@ -206,7 +228,7 @@ class WifiWidget(Gtk.Window):
         grid.set_column_spacing(12)
         grid.set_row_spacing(12)
         grid.set_column_homogeneous(True)
-        main_box.pack_start(grid, False, False, 0)
+        self.main_box.pack_start(grid, False, False, 0)
         
         # Wi-Fi Button
         self.wifi_btn = Gtk.Button()
@@ -275,12 +297,12 @@ class WifiWidget(Gtk.Window):
         section_lbl = Gtk.Label(label="Available networks")
         section_lbl.get_style_context().add_class("section-title")
         section_lbl.set_alignment(0, 0.5)
-        main_box.pack_start(section_lbl, False, False, 0)
+        self.main_box.pack_start(section_lbl, False, False, 0)
         
         # 4. Scrollable wifi list
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        main_box.pack_start(scroll, True, True, 0)
+        self.main_box.pack_start(scroll, True, True, 0)
         
         self.list_box = Gtk.ListBox()
         self.list_box.get_style_context().add_class("network-list")
@@ -308,10 +330,13 @@ class WifiWidget(Gtk.Window):
     def on_button_press(self, widget, event):
         if not self.focus_close_enabled:
             return False
-        alloc = self.get_allocation()
-        if event.x < 0 or event.x > alloc.width or event.y < 0 or event.y > alloc.height:
-            Gtk.main_quit()
-            return True
+        coords = self.main_box.translate_coordinates(self, 0, 0)
+        if coords is not None:
+            x, y = coords
+            alloc = self.main_box.get_allocation()
+            if event.x < x or event.x > x + alloc.width or event.y < y or event.y > y + alloc.height:
+                Gtk.main_quit()
+                return True
         return False
 
     def get_current_theme(self):
@@ -334,6 +359,11 @@ class WifiWidget(Gtk.Window):
         }}
         
         window {{
+            background-color: transparent;
+            border: none;
+        }}
+        
+        .main-container {{
             background-color: {colors['base']};
             color: {colors['text']};
             border: 1px solid {colors['border']};
@@ -535,33 +565,21 @@ class WifiWidget(Gtk.Window):
         width = 360
         # Align widget's left edge to cursor position, offset slightly to center
         x = cursor_x - 60
-        if x + width > 1590:
-            x = 1590 - width
+        if x + width > self.monitor_width - 10:
+            x = self.monitor_width - 10 - width
         if x < 10:
             x = 10
         y = 38 # Align just under Waybar (height is 32px + 6px gap)
         
-        subprocess.run(["hyprctl", "dispatch", "movewindowpixel", f"exact {x} {y},class:wifi-widget"])
+        self.fixed.move(self.main_box, x, y)
+        
+        # Position the fullscreen transparent window at 0, 0 and resize it to cover the screen
+        subprocess.run(["hyprctl", "dispatch", "movewindowpixel", "exact 0 0,class:wifi-widget"])
+        subprocess.run(["hyprctl", "dispatch", "resizewindowpixel", f"exact {self.monitor_width} {self.monitor_height},class:wifi-widget"])
         
         # Repeat up to 10 times to catch the window mapping
         if self.position_attempts < 10:
             return True
-        return False
-
-    def start_grab(self):
-        win = self.get_window()
-        if win is None:
-            return True
-        seat = Gdk.Display.get_default().get_default_seat()
-        if seat:
-            status = seat.grab(
-                win,
-                Gdk.SeatCapabilities.ALL,
-                False, # owner_events = False to capture all click outside events
-                None,
-                None,
-                None
-            )
         return False
 
     def check_status(self):
@@ -877,7 +895,14 @@ class WifiWidget(Gtk.Window):
             status_lbl.set_text("Connected successfully!")
             GLib.timeout_add(1000, self.reload_data)
         else:
-            status_lbl.set_text(f"Failed to connect:\n{err_msg}")
+            err_lower = err_msg.lower()
+            if any(k in err_lower for k in ["secrets were required", "no credentials", "private key"]):
+                display_err = "Incorrect password. Please try again."
+            else:
+                display_err = err_msg
+                if len(display_err) > 80:
+                    display_err = display_err[:77] + "..."
+            status_lbl.set_text(f"Failed to connect:\n{display_err}")
             btn_conn.set_sensitive(True)
             btn_cancel.set_sensitive(True)
             if entry_pass:
