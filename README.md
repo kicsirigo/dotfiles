@@ -10,7 +10,7 @@ This repository contains configurations for the following tools:
 - **Status Bar**: [Waybar](.config/waybar)
 - **Terminal Emulator**: [Kitty](.config/kitty)
 - **Application Launcher**: [Rofi](.config/rofi)
-- **Text Editor**: [Micro](.config/micro)
+- **Text Editors**: [Micro](.config/micro) & [Neovim](.config/nvim) (Neovim behaves like Micro with familiar keybindings, file tree, and fuzzy finding)
 - **System Monitor**: [Btop](.config/btop)
 - **Clipboard Manager**: [Clipse](.config/clipse)
 - **Logout Menu**: [Wlogout](.config/wlogout)
@@ -58,5 +58,15 @@ Starting with Hyprland v0.55+, configurations are written in Lua. This setup use
 
 > [!NOTE]
 > All legacy `.conf` configuration files for Hyprland have been completely removed from this repository in favor of native `.lua` configuration. The configuration parameters (like `terminal`, `fileManager`, and `menu`) are defined globally in `aliases.lua` to be dynamically referenced as Lua variables inside keybindings (`binds.lua`).
+
+## Neovim Configuration (Micro-like)
+
+The Neovim configuration in [.config/nvim](.config/nvim) is preconfigured to mimic the intuitive keybindings and workflow of the Micro editor, while keeping all the power of Neovim under the hood.
+
+- **Familiar Keybindings**: Standard shortcuts for save (`Ctrl+S`), quit (`Ctrl+Q`), open file (`Ctrl+O`), search (`Ctrl+F`), selection (`Shift+Arrows`, `Ctrl+A`), clipboard (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), tabs (`Ctrl+T` new buffer, `Ctrl+W` close buffer, `Alt+,`/`Alt+.` switch buffers), and terminal (`Ctrl+B`).
+- **File Explorer Sidebar**: Press `Ctrl+H` to toggle the Neo-tree sidebar.
+- **Fuzzy Finder**: Press `Ctrl+O` to search files in the workspace via Telescope.
+- **Visuals**: Uses the Catppuccin Macchiato colorscheme by default to match the overall system style, paired with `lualine` for status bar info.
+
 
 
