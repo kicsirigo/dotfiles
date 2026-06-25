@@ -1,1 +1,3 @@
 .config/themes/theme_switcher/backups/
+**/__pycache__/
+*.pyc
