@@ -10,7 +10,7 @@ This repository contains configurations for the following tools:
 - **Status Bar**: [Waybar](.config/waybar)
 - **Terminal Emulator**: [Kitty](.config/kitty)
 - **Application Launcher**: [Rofi](.config/rofi)
-- **Text Editors**: [Micro](.config/micro) & [Neovim](.config/nvim) (Neovim behaves like Micro with familiar keybindings, file tree, and fuzzy finding)
+- **Text Editors**: [Micro](.config/micro) & [Neovim](.config/nvim)
 - **System Monitor**: [Btop](.config/btop)
 - **Clipboard Manager**: [Clipse](.config/clipse)
 - **Logout Menu**: [Wlogout](.config/wlogout)
