@@ -155,7 +155,7 @@ run_pretty "Installing base-devel, git, and rsync" sudo pacman -S --needed --noc
 # --- STEP 2 ---
 print_step "2" "Installing Yay (AUR helper)"
 if ! command -v yay &> /dev/null; then
-    run_pretty "Building and installing Yay from AUR" "git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm && rm -rf /tmp/yay"
+    run_pretty "Building and installing Yay from AUR" "rm -rf /tmp/yay && git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm && rm -rf /tmp/yay"
 else
     print_success "Yay is already installed, skipping build."
 fi
@@ -225,7 +225,7 @@ fi
 run_pretty "Installing Catppuccin GRUB theme" "bash -c '
 if command -v grub-mkconfig &>/dev/null; then
     if [ ! -d \"/usr/share/grub/themes/catppuccin-macchiato\" ]; then
-        git clone https://github.com/catppuccin/grub.git /tmp/grub_theme_repo
+        rm -rf /tmp/grub_theme_repo && git clone https://github.com/catppuccin/grub.git /tmp/grub_theme_repo
         if [ -d \"/tmp/grub_theme_repo\" ]; then
             sudo mkdir -p /usr/share/grub/themes
             sudo cp -r /tmp/grub_theme_repo/src/catppuccin-macchiato-grub-theme /usr/share/grub/themes/catppuccin-macchiato
