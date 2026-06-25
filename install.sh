@@ -6,15 +6,19 @@ set -e
 # Cleanup handler for clean exit/termination
 cleanup() {
     local exit_code=$?
-    # Terminate background sudo refresher if running
-    if [ -n "${SUDO_PID:-}" ]; then
-        kill "$SUDO_PID" 2>/dev/null || true
+    # Clean up askpass helper and wrappers
+    if [ -n "${SUDO_ASKPASS:-}" ]; then
+        rm -f "$SUDO_ASKPASS"
+    fi
+    if [ -n "${WRAPPER_DIR:-}" ]; then
+        rm -rf "$WRAPPER_DIR"
     fi
     # Clean up residual /tmp directories to prevent state conflicts
     rm -rf /tmp/yay /tmp/grub_theme_repo
     exit $exit_code
 }
 trap cleanup EXIT INT TERM
+
 
 # Color definitions (High-intensity 16-color ANSI escape sequences for minimal CLI/TTY support)
 CORAL='\033[91m'   # Light Red
@@ -99,14 +103,39 @@ run_pretty() {
 # --- Welcome Screen ---
 print_header
 
-# Request sudo credentials upfront and keep them refreshed in the background
+# Request sudo credentials upfront and save them to an askpass helper
 print_info "This script requires administrative privileges for system-wide configuration."
 print_info "Prompting for sudo password upfront..."
-sudo -v
+if [ -t 0 ]; then
+    read -rs -p "[sudo] password for $USER: " SUDO_PASS
+    echo ""
+else
+    read -rs -p "[sudo] password for $USER: " SUDO_PASS < /dev/tty
+    echo ""
+fi
 
-# Background loop to keep sudo session alive
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-SUDO_PID=$!
+# Create askpass helper script safely handling special characters
+export SUDO_ASKPASS=$(mktemp)
+echo '#!/bin/bash' > "$SUDO_ASKPASS"
+echo "cat <<'EOF'" >> "$SUDO_ASKPASS"
+printf '%s\n' "$SUDO_PASS" >> "$SUDO_ASKPASS"
+echo "EOF" >> "$SUDO_ASKPASS"
+chmod 700 "$SUDO_ASKPASS"
+
+# Verify password correctness
+if ! /usr/bin/sudo -A -v &>/dev/null; then
+    echo -e "${RED}${BOLD}ERROR: Incorrect password.${NC}"
+    exit 1
+fi
+
+# Set up a PATH wrapper for sudo to ensure all sub-commands use the askpass helper
+export WRAPPER_DIR=$(mktemp -d)
+cat <<EOF > "$WRAPPER_DIR/sudo"
+#!/bin/bash
+exec /usr/bin/sudo -A "\$@"
+EOF
+chmod +x "$WRAPPER_DIR/sudo"
+export PATH="$WRAPPER_DIR:$PATH"
 
 print_info "Starting the installation process..."
 
