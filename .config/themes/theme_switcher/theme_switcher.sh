@@ -27,17 +27,7 @@ notify() {
 
 animated_step() {
   local message="$1"
-  local duration_ms="${2:-420}"
-  local frame_count="${#SPINNER_FRAMES}"
-  local iterations=$(( duration_ms / 60 ))
-  local i=0
-  while [ "${i}" -lt "${iterations}" ]; do
-    local idx=$(( i % frame_count ))
-    printf "\r[%c] %s" "${SPINNER_FRAMES:${idx}:1}" "${message}"
-    sleep 0.06
-    i=$(( i + 1 ))
-  done
-  printf "\r[+] %s\n" "${message}"
+  echo "[+] ${message}"
 }
 
 theme_root_for() {
@@ -164,11 +154,6 @@ link_one_entry() {
 refresh_desktop() {
   if [ -n "${TEST_SANDBOX_HOME:-}" ] || [ -n "${TEST_MODE:-}" ]; then
     echo "Test mode detected: skipping visual transition and daemon reloads."
-    return 0
-  fi
-
-  if [ -z "${WAYLAND_DISPLAY:-}" ]; then
-    echo "No Wayland session active: skipping visual transitions."
     return 0
   fi
 

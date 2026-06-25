@@ -42,6 +42,10 @@ ly
 micro
 mtpfs
 networkmanager
+neovim
+fzf
+lazygit
+xclip
 nwg-displays
 nwg-look
 ookla-speedtest-bin
