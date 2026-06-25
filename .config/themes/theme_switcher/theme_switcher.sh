@@ -200,26 +200,17 @@ refresh_desktop() {
 
 apply_app_integrations() {
   local target_theme="$1"
-  local code_theme code_icon firefox_theme_id firefox_content_theme darkreader_enabled
+  local code_theme code_icon
 
   if [ "${target_theme}" = "catppuccin_latte" ]; then
     code_theme="Catppuccin Latte"
     code_icon="catppuccin-latte"
-    firefox_theme_id="firefox-compact-light@mozilla.org"
-    firefox_content_theme=1
-    darkreader_enabled="false"
   elif [ "${target_theme}" = "nord" ]; then
     code_theme="Nord"
     code_icon="catppuccin-macchiato"
-    firefox_theme_id="firefox-compact-dark@mozilla.org"
-    firefox_content_theme=0
-    darkreader_enabled="true"
   else
     code_theme="Catppuccin Macchiato"
     code_icon="catppuccin-macchiato"
-    firefox_theme_id="{15cb5e64-94bd-41aa-91cf-751bb1a84972}"
-    firefox_content_theme=0
-    darkreader_enabled="true"
   fi
 
   CODE_THEME="${code_theme}" CODE_ICON="${code_icon}" python3 - <<'PY'
@@ -245,87 +236,6 @@ for p in [
     data["workbench.iconTheme"] = icon
     p.write_text(json.dumps(data, indent=4) + "\n")
 PY
-
-  FIREFOX_THEME_ID="${firefox_theme_id}" FIREFOX_CONTENT_THEME="${firefox_content_theme}" DARKREADER_ENABLED="${darkreader_enabled}" python3 - <<'PY'
-import configparser
-import json
-import os
-import re
-import sqlite3
-from pathlib import Path
-
-home = Path.home()
-profiles_ini = home / ".config/mozilla/firefox/profiles.ini"
-if not profiles_ini.exists():
-    raise SystemExit(0)
-
-cfg = configparser.ConfigParser()
-cfg.read(profiles_ini)
-profile_rel = None
-for section in cfg.sections():
-    if section.startswith("Install") and cfg.get(section, "Default", fallback=""):
-        profile_rel = cfg.get(section, "Default")
-        break
-if profile_rel is None:
-    for section in cfg.sections():
-        if section.startswith("Profile") and cfg.get(section, "Default", fallback="0") == "1":
-            profile_rel = cfg.get(section, "Path", fallback=None)
-            break
-if not profile_rel:
-    raise SystemExit(0)
-
-profile = home / ".config/mozilla/firefox" / profile_rel
-if not profile.exists():
-    raise SystemExit(0)
-
-theme_id = os.environ["FIREFOX_THEME_ID"]
-content_theme = os.environ["FIREFOX_CONTENT_THEME"]
-darkreader_enabled = os.environ["DARKREADER_ENABLED"].lower() == "true"
-
-# Persist desired Firefox theme via user.js so it survives running instance writes.
-user_js = profile / "user.js"
-existing = user_js.read_text() if user_js.exists() else ""
-lines = [ln for ln in existing.splitlines() if not re.match(r'user_pref\("(extensions.activeThemeID|browser.theme.content-theme|browser.theme.toolbar-theme)"', ln)]
-lines.append(f'user_pref("extensions.activeThemeID", "{theme_id}");')
-lines.append(f'user_pref("browser.theme.content-theme", {content_theme});')
-lines.append(f'user_pref("browser.theme.toolbar-theme", {content_theme});')
-user_js.write_text("\n".join(lines).strip() + "\n")
-
-# Also patch prefs.js for immediate effect when Firefox is not running.
-prefs_js = profile / "prefs.js"
-if prefs_js.exists():
-    prefs_text = prefs_js.read_text()
-    for key, value in [
-        ("extensions.activeThemeID", f'"{theme_id}"'),
-        ("browser.theme.content-theme", content_theme),
-        ("browser.theme.toolbar-theme", content_theme),
-    ]:
-        pattern = rf'user_pref\("{re.escape(key)}",\s*.*?\);'
-        replacement = f'user_pref("{key}", {value});'
-        if re.search(pattern, prefs_text):
-            prefs_text = re.sub(pattern, replacement, prefs_text)
-        else:
-            prefs_text += "\n" + replacement
-    prefs_js.write_text(prefs_text)
-
-# Update Dark Reader global enabled state in extension sync storage.
-db = profile / "storage-sync-v2.sqlite"
-if db.exists():
-    conn = sqlite3.connect(db)
-    try:
-        row = conn.execute("SELECT data FROM storage_sync_data WHERE ext_id = ?", ("addon@darkreader.org",)).fetchone()
-        if row and row[0]:
-            data = json.loads(row[0])
-            data["enabled"] = darkreader_enabled
-            data["enabledByDefault"] = darkreader_enabled
-            conn.execute(
-                "UPDATE storage_sync_data SET data = ?, sync_change_counter = sync_change_counter + 1 WHERE ext_id = ?",
-                (json.dumps(data, separators=(",", ":")), "addon@darkreader.org"),
-            )
-            conn.commit()
-    finally:
-        conn.close()
-PY
 }
 
 apply_gtk_integrations() {
@@ -343,52 +253,19 @@ apply_gtk_integrations() {
   esac
 
   # Update settings.ini files for GTK 3.0 and GTK 4.0
-  GTK_THEME="${gtk_theme}" python3 - <<'PY'
-import os
-from pathlib import Path
-
-gtk_theme = os.environ["GTK_THEME"]
-
-def update_gtk_settings(file_path):
-    path = Path(file_path).expanduser()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    
-    lines = []
-    if path.exists():
-        lines = path.read_text().splitlines()
-        
-    settings_index = -1
-    for idx, line in enumerate(lines):
-        if line.strip() == "[Settings]":
-            settings_index = idx
-            break
-            
-    theme_line_index = -1
-    for idx, line in enumerate(lines):
-        stripped = line.strip()
-        if stripped.startswith("gtk-theme-name") and "=" in stripped:
-            theme_line_index = idx
-            break
-            
-    new_line = f"gtk-theme-name = {gtk_theme}"
-    
-    if settings_index != -1:
-        if theme_line_index != -1:
-            lines[theme_line_index] = new_line
-        else:
-            lines.insert(settings_index + 1, new_line)
-    else:
-        if theme_line_index != -1:
-            lines[theme_line_index] = new_line
-        else:
-            lines.insert(0, new_line)
-        lines.insert(0, "[Settings]")
-        
-    path.write_text("\n".join(lines).strip() + "\n")
-
-update_gtk_settings("~/.config/gtk-3.0/settings.ini")
-update_gtk_settings("~/.config/gtk-4.0/settings.ini")
-PY
+  update_gtk_settings() {
+    local file_path="${HOME}/${1}"
+    mkdir -p "$(dirname "${file_path}")"
+    if [ ! -f "${file_path}" ]; then
+      echo -e "[Settings]\ngtk-theme-name = ${gtk_theme}" > "${file_path}"
+    elif grep -q "gtk-theme-name" "${file_path}"; then
+      sed -i "s/^gtk-theme-name.*/gtk-theme-name = ${gtk_theme}/" "${file_path}"
+    else
+      sed -i "/\[Settings\]/a gtk-theme-name = ${gtk_theme}" "${file_path}"
+    fi
+  }
+  update_gtk_settings ".config/gtk-3.0/settings.ini"
+  update_gtk_settings ".config/gtk-4.0/settings.ini"
 
   # Update active session via gsettings
   if command -v gsettings >/dev/null 2>&1; then
