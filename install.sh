@@ -86,6 +86,9 @@ print_warn() {
     echo -e "${YELLOW}${ICON_WARN} $1${NC}"
 }
 
+# --- Pretty Execution Helper with Verbose Toggle ---
+VERBOSE=false
+
 run_pretty() {
     local step_desc="$1"
     shift
@@ -96,16 +99,62 @@ run_pretty() {
     local pid=$!
     
     local spinner_frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+    local spinner_colors=("$MAUVE" "$BLUE" "$CYAN" "$GREEN" "$YELLOW" "$CORAL")
     local frame_idx=0
+    local color_idx=0
+    local last_line_count=0
+    local verbose_lines_printed=0
     
     while kill -0 "$pid" 2>/dev/null; do
-        printf "\r${MAUVE}%s${NC} %s..." "${spinner_frames[frame_idx]}" "$step_desc"
-        frame_idx=$(( (frame_idx + 1) % 10 ))
-        sleep 0.1
+        local key=""
+        # Non-blocking silent read from terminal tty
+        if read -s -t 0.08 -n 1 key < /dev/tty 2>/dev/null; then
+            if [ "$key" = "." ]; then
+                if [ "$VERBOSE" = true ]; then
+                    VERBOSE=false
+                    # Erase all verbose lines printed in the current step session
+                    while [ "$verbose_lines_printed" -gt 0 ]; do
+                        printf "\033[1A\033[2K"
+                        verbose_lines_printed=$((verbose_lines_printed - 1))
+                    done
+                    printf "\r\033[K" # Clear current line
+                    echo -e "${YELLOW}➜ Toggled verbose mode OFF. Returning to loading animation...${NC}"
+                else
+                    VERBOSE=true
+                    printf "\r\033[K"
+                    echo -e "${CYAN}➜ Toggled verbose mode ON. Showing output details...${NC}"
+                    last_line_count=0
+                    verbose_lines_printed=0
+                fi
+            fi
+        fi
+        
+        if [ "$VERBOSE" = true ]; then
+            local current_line_count=$(wc -l < "$log_file")
+            if [ "$current_line_count" -gt "$last_line_count" ]; then
+                local lines_to_print=$(tail -n +"$((last_line_count + 1))" "$log_file")
+                if [ -n "$lines_to_print" ]; then
+                    echo "$lines_to_print"
+                    local new_lines=$(echo "$lines_to_print" | wc -l)
+                    verbose_lines_printed=$((verbose_lines_printed + new_lines))
+                fi
+                last_line_count=$current_line_count
+            fi
+        else
+            local frame="${spinner_frames[frame_idx]}"
+            local color="${spinner_colors[color_idx]}"
+            printf "\r${color}%s${NC} %s... [Press '.' to show details]" "$frame" "$step_desc"
+            
+            frame_idx=$(( (frame_idx + 1) % ${#spinner_frames[@]} ))
+            color_idx=$(( (color_idx + 1) % ${#spinner_colors[@]} ))
+        fi
     done
     
+    # Wait for the background process to finish and get exit code
     wait "$pid"
     local exit_status=$?
+    
+    # Clear the spinner line
     printf "\r\033[K"
     
     if [ "$exit_status" -eq 0 ]; then
@@ -117,6 +166,7 @@ run_pretty() {
         rm -f "$log_file"
         exit 1
     fi
+    
     rm -f "$log_file"
 }
 
