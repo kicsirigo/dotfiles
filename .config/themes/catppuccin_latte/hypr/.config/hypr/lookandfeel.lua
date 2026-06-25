@@ -149,7 +149,7 @@ hl.config({
     },
     -- https://wiki.hypr.land/Configuring/Variables/#animations
     animations = {
-        enabled = "yes, please :)",
+        enabled = true,
         -- Default curves, see https://wiki.hypr.land/Configuring/Animations/#curves
         --        NAME,           X0,   Y0,   X1,   Y1
         -- Default animations, see https://wiki.hypr.land/Configuring/Animations/
