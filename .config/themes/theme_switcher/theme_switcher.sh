@@ -167,6 +167,11 @@ refresh_desktop() {
     return 0
   fi
 
+  if [ -z "${WAYLAND_DISPLAY:-}" ]; then
+    echo "No Wayland session active: skipping visual transitions."
+    return 0
+  fi
+
   animated_step "Applying visual transition"
 
   if command -v hyprctl >/dev/null 2>&1; then
