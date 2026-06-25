@@ -18,7 +18,45 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim and plugins
 require("lazy").setup({
   -- Catppuccin and Nord themes
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        color_overrides = {
+          latte = {
+            base = "#1c1917",
+            mantle = "#141210",
+            crust = "#0c0a09",
+            text = "#e6dfd5",
+            surface0 = "#3e3835",
+            surface1 = "#4a443f",
+            surface2 = "#5a524e",
+            overlay0 = "#6c7086",
+            overlay1 = "#7f849c",
+            overlay2 = "#9399b2",
+            subtext0 = "#bac2de",
+            subtext1 = "#a6adc8",
+            red = "#f38ba8",
+            green = "#a6e3a1",
+            yellow = "#f9e2af",
+            blue = "#89b4fa",
+            pink = "#f5c2e7",
+            teal = "#94e2d5",
+            peach = "#fe640b",
+            rosewater = "#f5e0dc",
+            flamingo = "#f2cdcd",
+            mauve = "#cba6f7",
+            maroon = "#eba0ac",
+            sky = "#89dceb",
+            sapphire = "#74c7ec",
+            lavender = "#b4befe",
+          },
+        },
+      })
+    end
+  },
   { "shaunsingh/nord.nvim", lazy = false, priority = 1000 },
 
   -- File Tree (Neo-tree)
