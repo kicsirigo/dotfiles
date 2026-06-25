@@ -3,6 +3,19 @@
 # Exit on error
 set -e
 
+# Cleanup handler for clean exit/termination
+cleanup() {
+    local exit_code=$?
+    # Terminate background sudo refresher if running
+    if [ -n "${SUDO_PID:-}" ]; then
+        kill "$SUDO_PID" 2>/dev/null || true
+    fi
+    # Clean up residual /tmp directories to prevent state conflicts
+    rm -rf /tmp/yay /tmp/grub_theme_repo
+    exit $exit_code
+}
+trap cleanup EXIT INT TERM
+
 # Color definitions (High-intensity 16-color ANSI escape sequences for minimal CLI/TTY support)
 CORAL='\033[91m'   # Light Red
 MAUVE='\033[95m'   # Light Magenta
@@ -145,6 +158,7 @@ sudo -v
 
 # Background loop to keep sudo session alive
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+SUDO_PID=$!
 
 print_info "Starting the installation process..."
 
