@@ -14,6 +14,8 @@ dunst
 firefox
 fish
 fm6000
+gammastep
+gnome-keyring
 grim
 gst-plugin-pipewire
 gst-plugins-bad
@@ -32,6 +34,7 @@ inotify-tools
 intel-media-driver
 iwd
 kitty
+libnotify
 libpulse
 libva-intel-driver
 linux-headers
@@ -53,6 +56,9 @@ plymouth-theme-catppuccin-macchiato-git
 polkit-gnome
 polkit-kde-agent
 power-profiles-daemon
+python
+python-gobject
+qbittorrent
 qt5-wayland
 qt6-wayland
 rofi

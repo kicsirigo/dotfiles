@@ -307,7 +307,7 @@ fi
 
 # --- STEP 8 ---
 print_step "8" "Initializing default theme"
-run_pretty "Making theme switcher scripts executable" "chmod +x \$HOME/.config/themes/theme_switcher/*.sh"
+run_pretty "Making theme switcher scripts executable" "chmod +x \$HOME/.config/themes/theme_switcher/*.sh \$HOME/.config/themes/theme_switcher/*.py"
 run_pretty "Setting default theme to Catppuccin Macchiato" "\$HOME/.config/themes/theme_switcher/theme_switcher.sh catppuccin_macchiato"
 
 # --- Finish ---
