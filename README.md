@@ -56,3 +56,7 @@ Starting with Hyprland v0.55+, configurations are written in Lua. This setup use
 - **[autostart.lua](.config/hypr/autostart.lua)**: Background daemons and initial processes.
 - Other modular configurations include `aliases.lua`, `enviroment-variables.lua`, `permissions.lua`, `windows-and-workspaces.lua`, and `workspaces.lua`.
 
+> [!NOTE]
+> All legacy `.conf` configuration files for Hyprland have been completely removed from this repository in favor of native `.lua` configuration. The configuration parameters (like `terminal`, `fileManager`, and `menu`) are defined globally in `aliases.lua` to be dynamically referenced as Lua variables inside keybindings (`binds.lua`).
+
+
