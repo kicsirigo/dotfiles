@@ -168,8 +168,8 @@ refresh_desktop() {
   fi
 
   if command -v swaync-client >/dev/null 2>&1; then
-    swaync-client -R >/dev/null 2>&1 || true
-    swaync-client -rs >/dev/null 2>&1 || true
+    timeout 2 swaync-client -R >/dev/null 2>&1 || true
+    timeout 2 swaync-client -rs >/dev/null 2>&1 || true
   fi
 
   if pgrep -x xsettingsd >/dev/null 2>&1; then
@@ -182,7 +182,7 @@ refresh_desktop() {
       awww-daemon >/dev/null 2>&1 &
       sleep 0.2
     fi
-    awww img "${wallpaper_link}" \
+    timeout 3 awww img "${wallpaper_link}" \
       --transition-type grow \
       --transition-pos 0.5,0.5 >/dev/null 2>&1 || true
   fi
