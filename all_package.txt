@@ -42,6 +42,7 @@ ly
 micro
 mtpfs
 networkmanager
+nordic-theme
 neovim
 fzf
 lazygit

@@ -2,7 +2,7 @@
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("awww-daemon")
-    hl.exec_cmd("hyprctl setcursor nord-dark-cursors 24")
+    hl.exec_cmd("hyprctl setcursor default 24")
     hl.exec_cmd("waybar")
     hl.exec_cmd("swaync")
     hl.exec_cmd("clipse --listen")
