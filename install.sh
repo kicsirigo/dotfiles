@@ -241,8 +241,17 @@ run_pretty "Enabling systemd-resolved and fstrim" "sudo systemctl enable --now s
 
 run_pretty "Enabling udisks2 and usbmuxd services" "sudo systemctl enable --now udisks2.service && sudo systemctl enable --now usbmuxd.service"
 
+run_pretty "Configuring local hostname resolution in /etc/hosts" "bash -c '
+if [ -f /etc/hostname ]; then
+    hostname=\$(cat /etc/hostname)
+    if ! grep -q \"\$hostname\" /etc/hosts; then
+        echo -e \"127.0.1.1\\t\$hostname\" | sudo tee -a /etc/hosts >/dev/null
+    fi
+fi
+'"
 
 run_pretty "Configuring Plymouth hooks and Early KMS" "bash -c '
+
 if [ -f \"/etc/mkinitcpio.conf\" ]; then
     if ! grep -q \"plymouth\" /etc/mkinitcpio.conf; then
         sudo sed -i \"s/\\(HOOKS=(.*udev\\)/\\1 plymouth/\" /etc/mkinitcpio.conf
