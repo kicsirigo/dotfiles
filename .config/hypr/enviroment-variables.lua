@@ -7,3 +7,6 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- Steam natív, pixelmentes 1.25-ös skálázásának kényszerítése
+hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "1.25")
