@@ -36,6 +36,9 @@ iwd
 kitty
 libnotify
 libpulse
+lib32-vulkan-intel
+lib32-vulkan-nouveau
+lib32-vulkan-radeon
 libva-intel-driver
 linux-headers
 ly
