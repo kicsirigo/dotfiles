@@ -232,7 +232,9 @@ fi
 
 # --- STEP 4 ---
 print_step "4" "Configuring system services and Plymouth"
-run_pretty "Enabling NetworkManager and Bluetooth" "sudo systemctl enable --now NetworkManager && sudo systemctl enable --now bluetooth"
+run_pretty "Enabling NetworkManager, iwd and Bluetooth" "sudo systemctl enable --now NetworkManager && sudo systemctl enable --now iwd && sudo systemctl enable --now bluetooth"
+run_pretty "Disabling conflicting networking services" "sudo systemctl disable --now wpa_supplicant && sudo systemctl mask wpa_supplicant && sudo systemctl disable --now systemd-networkd systemd-networkd-varlink-metrics.socket systemd-networkd.socket systemd-networkd-varlink.socket systemd-networkd-resolve-hook.socket"
+run_pretty "Configuring NetworkManager to use iwd backend" "bash -c 'sudo mkdir -p /etc/NetworkManager/conf.d && echo -e \"[device]\nwifi.backend=iwd\" | sudo tee /etc/NetworkManager/conf.d/wifi-backend.conf >/dev/null'"
 
 print_info "Clearing Bluetooth device cache (blueman fix)..."
 run_pretty "Clearing Bluetooth cache" "sudo rm -rf /var/lib/bluetooth/* && sudo systemctl restart bluetooth"
