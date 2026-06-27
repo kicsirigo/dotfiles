@@ -75,7 +75,6 @@ sassc
 slurp
 smartmontools
 sof-firmware
-swaync
 thunar
 thunar-volman
 ttf-cascadia-code-nerd

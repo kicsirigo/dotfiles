@@ -62,13 +62,3 @@ hl.window_rule({
     pin = true,
     stay_focused = true,
 })
-
-hl.layer_rule({
-    name = "swaync-rules",
-    match = {
-        namespace = "swaync",
-    },
-    blur = true,
-    ignore_alpha = 0.0,
-})
-

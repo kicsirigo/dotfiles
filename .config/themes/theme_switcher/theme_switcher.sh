@@ -167,9 +167,10 @@ refresh_desktop() {
     pkill -SIGUSR2 waybar >/dev/null 2>&1 || true
   fi
 
-  if command -v swaync-client >/dev/null 2>&1; then
-    timeout 2 swaync-client -R >/dev/null 2>&1 || true
-    timeout 2 swaync-client -rs >/dev/null 2>&1 || true
+
+
+  if command -v dunst >/dev/null 2>&1; then
+    systemctl --user restart dunst.service >/dev/null 2>&1 || true
   fi
 
   if pgrep -x xsettingsd >/dev/null 2>&1; then

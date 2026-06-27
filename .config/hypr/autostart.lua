@@ -5,7 +5,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sleep 0.5 && awww img ~/.config/wallpaper_arch.png --transition-type grow --transition-pos 0.5,0.5")
     hl.exec_cmd("hyprctl setcursor catppuccin-macchiato-dark-cursors 24")
     hl.exec_cmd("waybar")
-    hl.exec_cmd("swaync")
+    hl.exec_cmd("dunst")
     hl.exec_cmd("clipse --listen")
 end)
 
