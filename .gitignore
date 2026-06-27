@@ -1,3 +1,11 @@
 .config/themes/theme_switcher/backups/
 **/__pycache__/
 *.pyc
+
+# Ignore compiled Hyprland configurations
+.config/hypr/*.conf
+.config/themes/*/hypr/.config/hypr/*.conf
+!**/hyprlock.conf
+!**/hypridle.conf
+!**/hyprsunset.conf
+!**/screenoff.conf
