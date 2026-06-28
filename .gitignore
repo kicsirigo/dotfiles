@@ -9,3 +9,5 @@
 !**/hypridle.conf
 !**/hyprsunset.conf
 !**/screenoff.conf
+# Auto-generated PulseAudio session cookie
+**/pulse/cookie

@@ -12,23 +12,12 @@ if [ "$EUID" -eq 0 ]; then
     exit 1
 fi
 
-# Recursively terminate all child processes
-kill_children() {
-    local parent_pid=$1
-    local child_pids
-    child_pids=$(pgrep -P "$parent_pid" 2>/dev/null) || true
-    for child in $child_pids; do
-        kill_children "$child"
-        kill -TERM "$child" 2>/dev/null || true
-    done
-}
-
 # Cleanup handler for clean exit/termination
 cleanup() {
     local exit_code=$?
     
     # Terminate all child processes spawned by this script to prevent locked files/orphans
-    kill_children "$$"
+    pkill -P "$$" 2>/dev/null || true
     
     # Move out of any directory that we might be deleting
     cd /tmp 2>/dev/null || true
