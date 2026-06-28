@@ -15,6 +15,7 @@ This repository contains configurations for the following tools:
 - **Clipboard Manager**: [Clipse](.config/clipse)
 - **Logout Menu**: [Wlogout](.config/wlogout)
 - **Theme/Appearance Manager**: [nwg-look](.config/nwg-look) & [nwg-displays](.config/nwg-displays)
+- **Audio Equalizer**: [EasyEffects](.config/easyeffects) (configured with 89 Peace EQ presets)
 - **Shell**: Bash (via [.bashrc](.bashrc))
 
 ## Package List

@@ -11,6 +11,7 @@ catppuccin-gtk-theme-macchiato
 clipse
 clipse-gui
 dunst
+easyeffects
 firefox
 fish
 fm6000
@@ -41,6 +42,7 @@ lib32-vulkan-nouveau
 lib32-vulkan-radeon
 libva-intel-driver
 linux-headers
+lsp-plugins
 ly
 micro
 mtpfs
