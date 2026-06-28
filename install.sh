@@ -3,6 +3,15 @@
 # Exit on error
 set -e
 
+# Ensure we run from the script's own directory
+cd "$(dirname "$0")"
+
+# Prevent running directly as root (makepkg will fail)
+if [ "$EUID" -eq 0 ]; then
+    echo -e "\\033[91m\\033[1mERROR: Do not run as root. Run as a normal user.\\033[0m"
+    exit 1
+fi
+
 # Recursively terminate all child processes
 kill_children() {
     local parent_pid=$1
@@ -224,7 +233,7 @@ fi
 # --- STEP 3 ---
 print_step "3" "Installing packages from list"
 if [ -f "all_package.txt" ]; then
-    run_pretty "Installing system packages via Yay" yay -S --needed --noconfirm $(cat all_package.txt)
+    run_pretty "Installing system packages via Yay" "grep -v '^#' all_package.txt | grep -v '^\.\*[[:space:]]*$' | tr -d '\r' | xargs yay -S --needed --noconfirm"
 else
     echo -e "${RED}${BOLD}ERROR: all_package.txt not found!${NC}"
     exit 1
@@ -233,7 +242,7 @@ fi
 # --- STEP 4 ---
 print_step "4" "Configuring system services and Plymouth"
 run_pretty "Enabling NetworkManager, iwd and Bluetooth" "sudo systemctl enable --now NetworkManager && sudo systemctl enable --now iwd && sudo systemctl enable --now bluetooth"
-run_pretty "Disabling conflicting networking services" "sudo systemctl disable --now wpa_supplicant && sudo systemctl mask wpa_supplicant && sudo systemctl disable --now systemd-networkd systemd-networkd-varlink-metrics.socket systemd-networkd.socket systemd-networkd-varlink.socket systemd-networkd-resolve-hook.socket"
+run_pretty "Disabling conflicting networking services" "sudo systemctl disable --now wpa_supplicant 2>/dev/null || true && sudo systemctl mask wpa_supplicant 2>/dev/null || true && sudo systemctl disable --now systemd-networkd systemd-networkd-varlink-metrics.socket systemd-networkd.socket systemd-networkd-varlink.socket systemd-networkd-resolve-hook.socket"
 run_pretty "Configuring NetworkManager to use iwd backend" "bash -c 'sudo mkdir -p /etc/NetworkManager/conf.d && echo -e \"[device]\nwifi.backend=iwd\" | sudo tee /etc/NetworkManager/conf.d/wifi-backend.conf >/dev/null'"
 
 print_info "Clearing Bluetooth device cache (blueman fix)..."
@@ -318,7 +327,7 @@ run_pretty "Regenerating boot configs and initramfs" "bash -c '
 if command -v grub-mkconfig &>/dev/null; then
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 fi
-if [ -f \"/etc/kernel/cmdline\" ] || [ -d \"/boot/EFI/Linux\" ]; then
+if command -v mkinitcpio &>/dev/null; then
     sudo mkinitcpio -P
 fi
 '"
