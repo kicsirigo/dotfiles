@@ -177,6 +177,36 @@ refresh_desktop() {
     pkill -HUP xsettingsd >/dev/null 2>&1 || true
   fi
 
+  # Handle music pause, EasyEffects restart, and resume to apply theme dynamically
+  local was_playing=false
+  if command -v playerctl >/dev/null 2>&1 && [ "$(playerctl status 2>/dev/null)" = "Playing" ]; then
+    was_playing=true
+    playerctl pause || true
+    sleep 0.5
+  fi
+
+  if pgrep -x easyeffects >/dev/null 2>&1; then
+    easyeffects -q || pkill -x easyeffects || true
+    # Wait up to 3 seconds for the old process to exit
+    for i in {1..15}; do
+      pgrep -x easyeffects >/dev/null 2>&1 || break
+      sleep 0.2
+    done
+    # Force kill if still running
+    if pgrep -x easyeffects >/dev/null 2>&1; then
+      pkill -9 -x easyeffects || true
+      sleep 0.2
+    fi
+    # Launch new instance detached
+    setsid easyeffects --service-mode >/dev/null 2>&1 &
+    # Wait for EasyEffects to initialize before resuming audio
+    sleep 1.5
+  fi
+
+  if [ "${was_playing}" = "true" ]; then
+    playerctl play || true
+  fi
+
   local wallpaper_link="${TARGET_CONFIG_DIR}/wallpaper_arch.png"
   if command -v awww >/dev/null 2>&1 && [ -e "${wallpaper_link}" ]; then
     if ! pgrep -x awww-daemon >/dev/null 2>&1 && command -v awww-daemon >/dev/null 2>&1; then
