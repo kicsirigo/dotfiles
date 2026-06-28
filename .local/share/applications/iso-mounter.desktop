@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ISO Mounter
+Comment=Mount ISO image files
+Exec=/home/mate/.local/bin/iso-mounter mount %f
+Icon=media-optical
+Terminal=false
+MimeType=application/x-cd-image;application/x-iso9660-image;
+Categories=System;Utility;
+NoDisplay=true

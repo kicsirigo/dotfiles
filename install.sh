@@ -339,6 +339,23 @@ if [ -d \".config\" ]; then
 fi
 '"
 
+run_pretty "Copying user .local directory" "bash -c '
+if [ -d \".local\" ]; then
+    mkdir -p \"\$HOME/.local\"
+    rsync -av --no-perms --no-owner --no-group .local/ \"\$HOME/.local/\"
+    chmod +x \"\$HOME/.local/bin\"/* 2>/dev/null || true
+fi
+'"
+
+run_pretty "Registering custom MIME applications and desktop files" "bash -c '
+if command -v update-desktop-database &>/dev/null; then
+    update-desktop-database \"\$HOME/.local/share/applications\" 2>/dev/null || true
+fi
+if command -v xdg-mime &>/dev/null; then
+    xdg-mime default iso-mounter.desktop application/x-cd-image application/x-iso9660-image 2>/dev/null || true
+fi
+'"
+
 run_pretty "Copying .bashrc file" "bash -c '
 if [ -f \".bashrc\" ]; then
     cp .bashrc \"\$HOME/.bashrc\"

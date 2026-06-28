@@ -1,0 +1,87 @@
+#!/bin/bash
+# ISO Mounter Script for Thunar / XFCE
+# Uses udisksctl (no root required) for safe, user-level mounting.
+
+set -e
+
+ACTION="$1"
+ISO_PATH="$2"
+
+if [ -z "$ACTION" ] || [ -z "$ISO_PATH" ]; then
+    zenity --error --text="Usage: iso-mounter [mount|unmount] <file.iso>"
+    exit 1
+fi
+
+ISO_ABS=$(readlink -f "$ISO_PATH")
+if [ ! -f "$ISO_ABS" ]; then
+    zenity --error --text="File does not exist: $ISO_PATH"
+    exit 1
+fi
+
+ISO_NAME=$(basename "$ISO_ABS")
+
+if [ "$ACTION" = "mount" ]; then
+    # Find existing loop device associated with this file
+    EXISTING_LOOP=$(losetup -j "$ISO_ABS" | cut -d: -f1 | head -n1)
+
+    DEV=""
+    if [ -n "$EXISTING_LOOP" ]; then
+        DEV="$EXISTING_LOOP"
+    else
+        # Setup new loop device via udisksctl
+        LOOP_OUTPUT=$(udisksctl loop-setup -f "$ISO_ABS" 2>&1)
+        LOOP_REGEX="(/dev/loop[0-9]+)"
+        if [[ "$LOOP_OUTPUT" =~ $LOOP_REGEX ]]; then
+            DEV="${BASH_REMATCH[1]}"
+        else
+            zenity --error --text="Failed to setup loop device for $ISO_NAME:\n$LOOP_OUTPUT"
+            exit 1
+        fi
+    fi
+
+    # Find if it is already mounted
+    MOUNT_PATH=$(findmnt -n -o TARGET -S "$DEV" || true)
+
+    if [ -z "$MOUNT_PATH" ]; then
+        # Not mounted yet, mount it
+        MOUNT_OUTPUT=$(udisksctl mount -b "$DEV" 2>&1)
+        MOUNT_REGEX="Mounted [^ ]+ at (.*)\."
+        if [[ "$MOUNT_OUTPUT" =~ $MOUNT_REGEX ]]; then
+            MOUNT_PATH="${BASH_REMATCH[1]}"
+            notify-send -i media-optical "ISO Mounted" "Successfully mounted $ISO_NAME to $MOUNT_PATH"
+        else
+            zenity --error --text="Failed to mount $DEV:\n$MOUNT_OUTPUT"
+            exit 1
+        fi
+    else
+        notify-send -i media-optical "ISO Already Mounted" "$ISO_NAME is already mounted at $MOUNT_PATH"
+    fi
+
+    # Open the mount path in Thunar
+    if [ -n "$MOUNT_PATH" ] && [ -d "$MOUNT_PATH" ]; then
+        thunar "$MOUNT_PATH" &
+    fi
+
+elif [ "$ACTION" = "unmount" ]; then
+    # Find existing loop device associated with this file
+    EXISTING_LOOP=$(losetup -j "$ISO_ABS" | cut -d: -f1 | head -n1)
+
+    if [ -z "$EXISTING_LOOP" ]; then
+        zenity --info --text="$ISO_NAME is not currently mounted/associated with a loop device."
+        exit 0
+    fi
+
+    # Check if it is mounted, if so unmount it
+    MOUNT_PATH=$(findmnt -n -o TARGET -S "$EXISTING_LOOP" || true)
+    if [ -n "$MOUNT_PATH" ]; then
+        udisksctl unmount -b "$EXISTING_LOOP"
+    fi
+    
+    # Delete loop device
+    udisksctl loop-delete -b "$EXISTING_LOOP"
+    
+    notify-send -i media-optical "ISO Unmounted" "Successfully unmounted and detached $ISO_NAME"
+else
+    zenity --error --text="Invalid action: $ACTION. Must be 'mount' or 'unmount'."
+    exit 1
+fi
