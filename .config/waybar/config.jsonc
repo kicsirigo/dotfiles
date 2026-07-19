@@ -84,7 +84,7 @@
         "tooltip-format": "{essid} - {ipaddr}/{cidr}\nGateway: {gwaddr}",
         "format-disabled": "󰤮  Off",
         "format-icons": ["󰤯", "󰤟", "󰤢","󰤥","󰤨"],
-        "on-click": "rofi-wifi-menu -font 'CaskaydiaCove Nerd Font 20'"  
+        "on-click": "python3 /home/mate/.config/themes/theme_switcher/wifi-widget.py"  
     },
 
     "clock": {
@@ -98,17 +98,18 @@
     },
 
     "battery": {
+        "interval": 5,
         "states": {
             "warning": 30,
-            "lower": 15,
-            "critical": 5
+            "critical": 15
         },
         "format": "{capacity}% {icon}",
         "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
+        "format-charging": "{capacity}% ⚡",
         "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", ""]
+        "format-alt": "{time} ({power:.1f}W) {icon}",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "Töltöttség: {capacity}%\nHátralévő idő: {time}\nFogyasztás: {power:.2f}W\nAkku egészség: {health}%"
     },
 
     "power-profiles-daemon": {
