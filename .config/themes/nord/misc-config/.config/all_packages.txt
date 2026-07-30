@@ -42,7 +42,7 @@ slurp
 smartmontools
 sof-firmware
 stow
-dunst
+swaync
 thunar
 timeshift
 ttf-cascadia-code-nerd

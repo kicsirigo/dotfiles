@@ -11,3 +11,9 @@
 !**/screenoff.conf
 # Auto-generated PulseAudio session cookie
 **/pulse/cookie
+
+# Clipse runtime logs and temporary files
+*.log
+**/clipse/tmp_files/
+**/clipse/clipse.log
+**/clipse/clipboard_history.json

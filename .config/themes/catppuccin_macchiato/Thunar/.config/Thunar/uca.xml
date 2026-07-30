@@ -12,4 +12,28 @@
 	<startup-notify/>
 	<directories/>
 </action>
+<action>
+	<icon>media-optical</icon>
+	<name>Mount ISO</name>
+	<submenu></submenu>
+	<unique-id>iso-mounter-mount</unique-id>
+	<command>/home/mate/.local/bin/iso-mounter mount %f</command>
+	<description>Mount the selected ISO or IMG file using udisksctl</description>
+	<range></range>
+	<patterns>*.iso;*.ISO;*.img;*.IMG</patterns>
+	<startup-notify/>
+	<other-files/>
+</action>
+<action>
+	<icon>media-optical</icon>
+	<name>Unmount ISO</name>
+	<submenu></submenu>
+	<unique-id>iso-mounter-unmount</unique-id>
+	<command>/home/mate/.local/bin/iso-mounter unmount %f</command>
+	<description>Unmount and detach the selected ISO or IMG file</description>
+	<range></range>
+	<patterns>*.iso;*.ISO;*.img;*.IMG</patterns>
+	<startup-notify/>
+	<other-files/>
+</action>
 </actions>

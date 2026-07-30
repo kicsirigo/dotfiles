@@ -73,7 +73,7 @@
     "custom/quit": {
         "format": "󰈆",
         "tooltip": false,
-        "on-click": "hyprctl dispatch exit"
+        "on-click": "hyprctl dispatch 'hl.dsp.exit()'"
     },
 
     "network": {
