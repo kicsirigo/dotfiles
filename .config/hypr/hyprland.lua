@@ -6,6 +6,7 @@ require("monitors")
 require("aliases")
 -- Source: ~/.config/hypr/autostart.conf — convert this file to Lua and ensure it is on Lua's package.path.
 require("autostart")
+require("hyprsunset")
 -- Source: ~/.config/hypr/enviroment-variables.conf — convert this file to Lua and ensure it is on Lua's package.path.
 require("enviroment-variables")
 -- Source: ~/.config/hypr/permissions.conf — convert this file to Lua and ensure it is on Lua's package.path.
@@ -18,3 +19,10 @@ require("input")
 require("binds")
 -- Source: ~/.config/hypr/windows-and-workspaces.conf — convert this file to Lua and ensure it is on Lua's package.path.
 require("windows-and-workspaces")
+
+hl.config({
+    xwayland = {
+        force_zero_scaling = true,
+    },
+})
+

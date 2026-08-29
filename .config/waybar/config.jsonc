@@ -73,7 +73,7 @@
     "custom/quit": {
         "format": "󰈆",
         "tooltip": false,
-        "on-click": "hyprctl dispatch exit"
+        "on-click": "uwsm stop"
     },
 
     "network": {
@@ -98,18 +98,17 @@
     },
 
     "battery": {
-        "interval": 5,
         "states": {
             "warning": 30,
-            "critical": 15
+            "lower": 15,
+            "critical": 5
         },
         "format": "{capacity}% {icon}",
         "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ⚡",
+        "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
-        "format-alt": "{time} ({power:.1f}W) {icon}",
-        "format-icons": ["", "", "", "", ""],
-        "tooltip-format": "Töltöttség: {capacity}%\nHátralévő idő: {time}\nFogyasztás: {power:.2f}W\nAkku egészség: {health}%"
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
     },
 
     "power-profiles-daemon": {

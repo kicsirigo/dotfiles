@@ -121,8 +121,8 @@ hl.config({
         gaps_out = 5,
         border_size = 2,
         col = {
-            active_border = { colors = { "rgba(88c0d0ee)", "rgba(81a1c1ee)" }, angle = 90 },
-            inactive_border = "rgba(3b4252aa)",
+            active_border = { colors = { "rgba(7dc4e4ee)", "rgba(c6a0f6ee)" }, angle = 90 },
+            inactive_border = "rgba(24273aaa)",
         },
         resize_on_border = true,
         allow_tearing = false,
@@ -139,7 +139,7 @@ hl.config({
             render_power = 3,
             color = "rgba(1a1a1aee)",
         },
-        -- https://hypr.land
+        -- https://wiki.hypr.land/Configuring/Variables/#blur
         blur = {
             enabled = true,
             size = 3,
@@ -147,15 +147,15 @@ hl.config({
             vibrancy = 0.1696,
         },
     },
-    -- https://hypr.land
+    -- https://wiki.hypr.land/Configuring/Variables/#animations
     animations = {
         enabled = true,
-        -- Default curves, see https://hypr.land
+        -- Default curves, see https://wiki.hypr.land/Configuring/Animations/#curves
         --        NAME,           X0,   Y0,   X1,   Y1
-        -- Default animations, see https://hypr.land
+        -- Default animations, see https://wiki.hypr.land/Configuring/Animations/
         --           NAME,          ONOFF, SPEED, CURVE,        [STYLE]
     },
-    -- Ref https://hypr.land
+    -- Ref https://wiki.hypr.land/Configuring/Workspace-Rules/
     -- "Smart gaps" / "No gaps when only"
     -- uncomment all if you wish to use that.
     -- workspace = w[tv1], gapsout:0, gapsin:0
@@ -177,23 +177,20 @@ hl.config({
     --     border_size = 0
     --     rounding = 0
     -- }
-    -- See https://hypr.land for more
+    -- See https://wiki.hypr.land/Configuring/Dwindle-Layout/ for more
     dwindle = {
         preserve_split = true, -- You probably want this
     },
-    -- See https://hypr.land for more
+    -- See https://wiki.hypr.land/Configuring/Master-Layout/ for more
     master = {
         new_status = "master",
     },
-    -- https://hypr.land
+    -- https://wiki.hypr.land/Configuring/Variables/#misc
     misc = {
         force_default_wallpaper = -1, -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo = false, -- If true disables the random hyprland logo / anime girl background. :(
         mouse_move_enables_dpms = true,
         key_press_enables_dpms = true,
     },
-    -- Sikerült beilleszteni: Letiltja az Xwayland automatikus átméretezését, így a Steam nem lesz homályos
-    xwayland = {
-        force_zero_scaling = true,
-    },
 })
+

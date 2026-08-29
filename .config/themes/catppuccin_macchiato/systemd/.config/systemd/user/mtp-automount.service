@@ -1,0 +1,13 @@
+[Unit]
+Description=MTP Device Auto-mounter Daemon
+After=dbus.service gvfs-daemon.service
+Wants=gvfs-daemon.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/mate/.local/bin/mtp-automount.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

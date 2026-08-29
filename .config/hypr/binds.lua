@@ -4,16 +4,18 @@ local mainMod = "SUPER"
 
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || uwsm stop"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + Y", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 hl.bind(mainMod .. " + A", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
-hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("kitty -T monitor-switcher -e hyprmode"))
-hl.bind("SUPER + SHIFT + V", hl.dsp.exec_cmd("hyprshot -m region"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("kitty -T monitor-switcher -e hyprmode"))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
-hl.bind("SUPER + V", hl.dsp.exec_cmd("clipse-gui"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("clipse-gui"))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("bash -lc \"sleep 0.4; hyprctl dispatch 'hl.dsp.dpms({ action = \\\"disable\\\" })'\""))
+hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh menu"))
 
 -- Move focus
 
@@ -24,10 +26,10 @@ hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
 -- Move windows
 
-hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
-hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
-hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
 
 -- Switch workspaces
 
@@ -77,11 +79,8 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl  -n2 set 5%+"), { 
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -n2 set 5%-"), { locked = true, repeating = true })
 
 -- Requires playerctl
+
 -- bindl = , XF86AudioNext, exec, playerctl next
 -- bindl = , XF86AudioPause, exec, playerctl play-pause
 -- bindl = , XF86AudioPlay, exec, playerctl play-pause
 -- bindl = , XF86AudioPrev, exec, playerctl previous
-
--- Theme switcher
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh menu"))
-hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh toggle"))

@@ -63,4 +63,3 @@ hl.window_rule({
     move = "100%-370 44",
     stay_focused = true,
 })
-
