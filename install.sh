@@ -333,6 +333,7 @@ print_step "5" "Copying configuration files"
 run_pretty "Copying user .config directory" "bash -c '
 if [ -d \".config\" ]; then
     mkdir -p \"\$HOME/.config\"
+    rm -f \"\$HOME/.config/hypr\"/*.conf 2>/dev/null || true
     rsync -av --no-perms --no-owner --no-group .config/ \"\$HOME/.config/\"
 fi
 '"
