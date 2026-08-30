@@ -14,7 +14,7 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("kitty -T monitor-switcher -e
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("clipse-gui"))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("bash -lc \"sleep 0.4; hyprctl dispatch dpms off\""))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch 'hl.dsp.dpms(\"off\")'"))
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.config/themes/theme_switcher/theme_switcher.sh menu"))
 
 -- Move focus
